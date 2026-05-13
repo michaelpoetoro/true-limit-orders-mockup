@@ -93,7 +93,7 @@ button { font-family:inherit;border:none;cursor:pointer;background:none;color:in
 .top-bar {
   flex-shrink:0;
   display:flex;align-items:center;justify-content:space-between;
-  padding:12px 20px 4px;
+  padding:10px 20px 2px;
 }
 .back-btn {
   width:36px;height:36px;border-radius:50%;
@@ -113,7 +113,7 @@ button { font-family:inherit;border:none;cursor:pointer;background:none;color:in
 .asset-strip {
   flex-shrink:0;
   display:flex;align-items:center;justify-content:center;
-  gap:6px;padding:2px 20px 8px;
+  gap:6px;padding:0 20px 6px;
 }
 .asset-ico {
   width:20px;height:20px;border-radius:5px;
@@ -127,12 +127,11 @@ button { font-family:inherit;border:none;cursor:pointer;background:none;color:in
 
 /* ── Amount ── */
 .amount-area {
-  flex:1;min-height:0;
+  flex-shrink:0;
   display:flex;flex-direction:column;align-items:center;
-  padding:4px 20px 4px;
-  justify-content:flex-start;
+  padding:12px 20px 0;
 }
-.amount-row{display:flex;align-items:flex-start;gap:1px;margin-bottom:10px;}
+.amount-row{display:flex;align-items:flex-start;gap:1px;margin-bottom:8px;}
 .amt-sym{
   font-size:24px;font-weight:500;color:var(--t1);
   padding-top:12px;font-family:'Roboto',sans-serif;
@@ -148,7 +147,7 @@ button { font-family:inherit;border:none;cursor:pointer;background:none;color:in
   display:flex;align-items:center;gap:5px;
   padding:7px 16px;border-radius:28px;background:var(--pill);
   font-size:13px;font-weight:500;color:var(--t1);
-  margin-bottom:7px;
+  margin-bottom:6px;
 }
 .qty-pill .rf{opacity:.5;font-size:12px;}
 .avail{font-size:13px;color:var(--t2);}
@@ -209,16 +208,16 @@ button { font-family:inherit;border:none;cursor:pointer;background:none;color:in
 .sht-handle{
   width:40px;height:4px;border-radius:2px;
   background:rgba(255,255,255,.22);
-  margin:14px auto 14px;flex-shrink:0;
+  margin:10px auto 12px;flex-shrink:0;
 }
 .sht-title{
   font-size:18px;font-weight:700;color:var(--t1);
-  text-align:center;margin-bottom:3px;flex-shrink:0;
+  text-align:center;margin-bottom:2px;flex-shrink:0;
   font-family:'eToroNum','Inter',sans-serif;
 }
 .sht-sub{
   font-size:13px;color:var(--t2);
-  text-align:center;margin-bottom:12px;flex-shrink:0;
+  text-align:center;margin-bottom:10px;flex-shrink:0;
 }
 .sht-num{
   font-size:58px;font-weight:400;color:var(--t1);
@@ -227,13 +226,13 @@ button { font-family:inherit;border:none;cursor:pointer;background:none;color:in
   font-feature-settings:'ss06' 1,'lnum' 1,'tnum' 1;
   letter-spacing:0;line-height:66px;
   font-family:'eToroNum','Inter',sans-serif;
-  min-height:68px;padding:0 20px;
+  min-height:64px;padding:0 20px;
   flex-shrink:0;
 }
 .sht-val{
   font-size:11px;color:var(--ok);
-  text-align:center;min-height:15px;
-  margin-bottom:8px;flex-shrink:0;
+  text-align:center;min-height:14px;
+  margin-bottom:6px;flex-shrink:0;
 }
 .sht-val.err{color:var(--err);}
 .sht-kp{
@@ -242,7 +241,7 @@ button { font-family:inherit;border:none;cursor:pointer;background:none;color:in
 }
 .sht-kp .k{height:60px;font-size:24px;}
 .sht-kp .k:active{background:rgba(255,255,255,.07);}
-.sht-cta{padding:8px 20px 20px;flex-shrink:0;}
+.sht-cta{padding:6px 20px 16px;flex-shrink:0;}
 .sht-set-btn{
   width:100%;height:54px;border-radius:28px;
   background:var(--grn);color:#fff;
