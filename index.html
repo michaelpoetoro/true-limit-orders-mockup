@@ -1,0 +1,1752 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="light">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>eToro — True Limit Orders Mockup</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:ital,opsz,wght@0,14..32,300..900;1,14..32,300..900&display=swap" rel="stylesheet">
+<style>
+/* ============================================================
+   eToro Design System v2.0 — True Limit Orders Mockup
+   Michael P. PRD · Sep 2024
+   ============================================================ */
+:root {
+  --color-bg:               #F5F7FA;
+  --color-bg-secondary:     #ECEEF4;
+  --color-surface:          #FFFFFF;
+  --color-surface-elevated: #FFFFFF;
+  --color-surface-inset:    #F0F2F7;
+  --color-text-primary:     #1A1C24;
+  --color-text-secondary:   #5A6178;
+  --color-text-muted:       #9299AE;
+  --color-text-inverse:     #FFFFFF;
+  --color-border:           #DFE3EE;
+  --color-border-strong:    #C4CAD9;
+  --color-brand:            #0EB12E;
+  --color-brand-hover:      #0A9824;
+  --color-brand-bg:         #E7F7EB;
+  --color-negative:         #F23D40;
+  --color-negative-hover:   #D8353A;
+  --color-negative-bg:      #FDECEC;
+  --color-warning:          #F4A100;
+  --color-warning-bg:       #FEF3D9;
+  --color-blue:             #2A84F7;
+  --color-blue-bg:          #E8F1FE;
+  --color-purple:           #8B5CF6;
+  --color-purple-bg:        #F0EBFE;
+
+  --x1:4px; --x2:8px; --x3:12px; --x4:16px; --x5:20px;
+  --x6:24px; --x7:28px; --x8:32px; --x10:40px; --x12:48px;
+
+  --radius-xs: 4px;
+  --radius-sm: 8px;
+  --radius-md: 12px;
+  --radius-lg: 16px;
+  --radius-xl: 20px;
+  --radius-full: 9999px;
+
+  --shadow-1: 0 1px 2px rgba(16,24,40,.06), 0 1px 3px rgba(16,24,40,.04);
+  --shadow-2: 0 4px 8px -2px rgba(16,24,40,.08), 0 2px 4px -2px rgba(16,24,40,.04);
+  --shadow-3: 0 12px 24px -4px rgba(16,24,40,.10), 0 4px 8px -2px rgba(16,24,40,.06);
+  --shadow-brand: 0 0 0 3px rgba(14,177,46,.18);
+
+  --font: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+}
+
+[data-theme="dark"] {
+  --color-bg:               #0E1014;
+  --color-bg-secondary:     #0A0C10;
+  --color-surface:          #16191F;
+  --color-surface-elevated: #1E2330;
+  --color-surface-inset:    #0E1014;
+  --color-text-primary:     #FFFFFF;
+  --color-text-secondary:   #B8BDCC;
+  --color-text-muted:       #717890;
+  --color-text-inverse:     #16191F;
+  --color-border:           #2A2F3E;
+  --color-border-strong:    #424966;
+  --color-brand:            #2ECC4E;
+  --color-brand-hover:      #26B545;
+  --color-brand-bg:         rgba(46,204,78,.13);
+  --color-negative:         #E95550;
+  --color-negative-hover:   #D2504B;
+  --color-negative-bg:      rgba(233,85,80,.13);
+  --color-warning:          #FFB832;
+  --color-warning-bg:       rgba(255,184,50,.12);
+  --color-blue:             #5AA3FF;
+  --color-blue-bg:          rgba(90,163,255,.13);
+  --color-purple:           #A78BFA;
+  --color-purple-bg:        rgba(167,139,250,.13);
+}
+
+*, *::before, *::after { margin:0; padding:0; box-sizing:border-box; }
+html { font-size:16px; scroll-behavior:smooth; }
+body {
+  font-family: var(--font);
+  background: var(--color-bg);
+  color: var(--color-text-primary);
+  min-height: 100vh;
+  -webkit-font-smoothing: antialiased;
+}
+button { font-family: inherit; border: none; background: none; cursor: pointer; }
+input { font-family: inherit; }
+a { text-decoration: none; color: inherit; }
+
+/* ============================================================
+   LAYOUT
+   ============================================================ */
+.page-header {
+  position: sticky; top: 0; z-index: 100;
+  background: var(--color-surface);
+  border-bottom: 1px solid var(--color-border);
+  padding: 0 var(--x6);
+  display: flex; align-items: center; gap: var(--x6);
+  height: 56px;
+}
+.logo {
+  display: flex; align-items: center; gap: var(--x2);
+  font-weight: 700; font-size: 18px; color: var(--color-text-primary);
+}
+.logo-mark {
+  width: 28px; height: 28px; border-radius: 6px;
+  background: var(--color-brand);
+  display: flex; align-items: center; justify-content: center;
+  color: #fff; font-weight: 900; font-size: 14px; letter-spacing: -1px;
+}
+.nav-pills {
+  display: flex; gap: var(--x1);
+  flex: 1;
+}
+.nav-pill {
+  padding: 6px var(--x3); border-radius: var(--radius-full);
+  font-size: 13px; font-weight: 500; color: var(--color-text-secondary);
+  cursor: pointer; transition: all .15s;
+}
+.nav-pill:hover { background: var(--color-surface-inset); color: var(--color-text-primary); }
+.nav-pill.active { background: var(--color-surface-inset); color: var(--color-text-primary); font-weight: 600; }
+.header-actions { display: flex; align-items: center; gap: var(--x3); margin-left: auto; }
+.theme-toggle {
+  width: 32px; height: 32px; border-radius: var(--radius-full);
+  display: flex; align-items: center; justify-content: center;
+  background: var(--color-surface-inset); cursor: pointer;
+  transition: background .15s; font-size: 16px;
+}
+.theme-toggle:hover { background: var(--color-border); }
+.prd-badge {
+  padding: 4px 10px; border-radius: var(--radius-full);
+  font-size: 11px; font-weight: 600; letter-spacing: .3px;
+  background: var(--color-warning-bg); color: var(--color-warning);
+  border: 1px solid color-mix(in srgb, var(--color-warning) 20%, transparent);
+}
+
+.page-content {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: var(--x6) var(--x6) var(--x12);
+}
+.section-header {
+  margin-bottom: var(--x6);
+}
+.section-title {
+  font-size: 22px; font-weight: 700; letter-spacing: -.4px;
+  color: var(--color-text-primary);
+  display: flex; align-items: center; gap: var(--x3);
+}
+.section-subtitle {
+  font-size: 13px; color: var(--color-text-secondary);
+  margin-top: var(--x1);
+}
+.section-divider {
+  height: 1px; background: var(--color-border);
+  margin: var(--x10) 0;
+}
+
+/* Screen label */
+.screen-label {
+  display: inline-flex; align-items: center; gap: 6px;
+  padding: 3px 10px; border-radius: var(--radius-full);
+  font-size: 11px; font-weight: 600; letter-spacing: .4px; text-transform: uppercase;
+  background: var(--color-blue-bg); color: var(--color-blue);
+  margin-bottom: var(--x3);
+}
+
+/* ============================================================
+   PHONE FRAME
+   ============================================================ */
+.phone-grid {
+  display: flex; gap: var(--x8); align-items: flex-start;
+  flex-wrap: wrap;
+}
+.phone-frame {
+  flex-shrink: 0;
+  width: 375px;
+  background: var(--color-surface);
+  border-radius: 44px;
+  border: 8px solid var(--color-text-primary);
+  box-shadow: var(--shadow-3), 0 0 0 1px var(--color-border);
+  overflow: hidden;
+  position: relative;
+}
+.phone-notch {
+  width: 120px; height: 32px;
+  background: var(--color-text-primary);
+  border-radius: 0 0 18px 18px;
+  margin: 0 auto;
+  display: flex; align-items: center; justify-content: center;
+  gap: 6px;
+}
+.notch-dot { width: 8px; height: 8px; border-radius: 50%; background: var(--color-bg); }
+.notch-bar { width: 50px; height: 5px; border-radius: 3px; background: var(--color-bg); }
+.phone-inner {
+  padding: 0 0 var(--x8);
+  overflow: hidden;
+  background: var(--color-bg);
+}
+.phone-annotation {
+  flex: 1; min-width: 280px;
+  align-self: flex-start;
+}
+.annotation-title {
+  font-size: 16px; font-weight: 700;
+  color: var(--color-text-primary);
+  margin-bottom: var(--x3);
+}
+.annotation-list {
+  list-style: none;
+  display: flex; flex-direction: column; gap: var(--x3);
+}
+.annotation-list li {
+  display: flex; gap: var(--x3); align-items: flex-start;
+  font-size: 13px; color: var(--color-text-secondary); line-height: 1.6;
+}
+.ann-num {
+  flex-shrink: 0;
+  width: 20px; height: 20px; border-radius: 50%;
+  background: var(--color-brand); color: #fff;
+  font-size: 10px; font-weight: 700;
+  display: flex; align-items: center; justify-content: center;
+  margin-top: 2px;
+}
+.ann-req {
+  flex-shrink: 0;
+  width: 20px; height: 20px; border-radius: 50%;
+  background: var(--color-blue-bg); color: var(--color-blue);
+  font-size: 10px; font-weight: 700;
+  display: flex; align-items: center; justify-content: center;
+  margin-top: 2px;
+}
+.ann-warn {
+  flex-shrink: 0;
+  width: 20px; height: 20px; border-radius: 50%;
+  background: var(--color-warning-bg); color: var(--color-warning);
+  font-size: 10px; font-weight: 700;
+  display: flex; align-items: center; justify-content: center;
+  margin-top: 2px;
+}
+
+/* ============================================================
+   MOBILE APP UI COMPONENTS
+   ============================================================ */
+
+/* App Bar */
+.app-bar {
+  background: var(--color-surface);
+  padding: var(--x3) var(--x4);
+  display: flex; align-items: center;
+  border-bottom: 1px solid var(--color-border);
+  gap: var(--x3);
+}
+.app-bar-back {
+  width: 32px; height: 32px; border-radius: var(--radius-full);
+  display: flex; align-items: center; justify-content: center;
+  background: var(--color-surface-inset);
+  font-size: 14px; color: var(--color-text-secondary);
+  flex-shrink: 0;
+}
+.app-bar-title { font-size: 15px; font-weight: 700; flex: 1; }
+.app-bar-subtitle { font-size: 11px; color: var(--color-text-secondary); }
+.app-bar-right { display: flex; gap: var(--x2); align-items: center; }
+.icon-btn {
+  width: 32px; height: 32px; border-radius: var(--radius-full);
+  background: var(--color-surface-inset);
+  display: flex; align-items: center; justify-content: center;
+  font-size: 14px; cursor: pointer; flex-shrink: 0;
+}
+
+/* Asset header */
+.asset-header {
+  padding: var(--x4) var(--x4) var(--x3);
+  background: var(--color-surface);
+  display: flex; align-items: center; gap: var(--x3);
+}
+.asset-logo {
+  width: 40px; height: 40px; border-radius: 50%;
+  background: linear-gradient(135deg, #0052b4, #0095e8);
+  display: flex; align-items: center; justify-content: center;
+  font-size: 13px; font-weight: 800; color: #fff; flex-shrink: 0;
+}
+.asset-name { font-size: 16px; font-weight: 700; }
+.asset-sub { font-size: 11px; color: var(--color-text-secondary); }
+.asset-price-col { margin-left: auto; text-align: right; }
+.asset-price { font-size: 18px; font-weight: 700; font-variant-numeric: tabular-nums; }
+.asset-change { font-size: 12px; font-weight: 600; }
+.asset-change.up { color: var(--color-brand); }
+.asset-change.down { color: var(--color-negative); }
+
+/* Segmented control */
+.seg-wrap { padding: var(--x3) var(--x4); background: var(--color-surface); }
+.seg {
+  display: flex; background: var(--color-surface-inset);
+  border-radius: var(--radius-md); padding: 3px; gap: 2px;
+}
+.seg button {
+  flex: 1; padding: 8px var(--x2); border-radius: 9px;
+  font-size: 13px; font-weight: 500; color: var(--color-text-secondary);
+  transition: all .15s;
+}
+.seg button.active {
+  background: var(--color-surface);
+  color: var(--color-text-primary);
+  font-weight: 600;
+  box-shadow: var(--shadow-1);
+}
+
+/* Order type tabs */
+.order-tabs-wrap {
+  padding: var(--x3) var(--x4);
+  background: var(--color-surface);
+  border-bottom: 1px solid var(--color-border);
+}
+.order-tabs {
+  display: flex; gap: 0;
+  border-radius: var(--radius-sm);
+  background: var(--color-surface-inset);
+  padding: 3px; gap: 2px;
+}
+.order-tab {
+  flex: 1; padding: 7px var(--x2);
+  border-radius: 7px;
+  font-size: 13px; font-weight: 500; color: var(--color-text-secondary);
+  text-align: center; cursor: pointer; transition: all .15s;
+  display: flex; flex-direction: column; align-items: center; gap: 2px;
+}
+.order-tab.active {
+  background: var(--color-surface);
+  color: var(--color-text-primary); font-weight: 600;
+  box-shadow: var(--shadow-1);
+}
+.order-tab-label { font-size: 12px; font-weight: 600; }
+.order-tab-hint { font-size: 10px; color: var(--color-text-muted); }
+.order-tab.active .order-tab-hint { color: var(--color-text-muted); }
+.true-limit-tab.active {
+  background: var(--color-brand-bg);
+  color: var(--color-brand);
+  box-shadow: none;
+}
+.true-limit-tab.active .order-tab-hint { color: color-mix(in srgb, var(--color-brand) 70%, transparent); }
+
+/* TLO Badge */
+.tlo-badge {
+  display: inline-flex; align-items: center; gap: 5px;
+  padding: 4px 10px; border-radius: var(--radius-full);
+  font-size: 11px; font-weight: 700; letter-spacing: .4px;
+  background: var(--color-brand-bg); color: var(--color-brand);
+  border: 1px solid color-mix(in srgb, var(--color-brand) 25%, transparent);
+}
+.tlo-dot {
+  width: 6px; height: 6px; border-radius: 50%;
+  background: var(--color-brand); flex-shrink: 0;
+}
+
+/* Form section */
+.form-section {
+  background: var(--color-surface);
+  padding: var(--x4);
+  margin-top: 1px;
+}
+.form-row {
+  margin-bottom: var(--x4);
+}
+.form-label {
+  font-size: 11px; font-weight: 600; color: var(--color-text-secondary);
+  text-transform: uppercase; letter-spacing: .5px;
+  margin-bottom: var(--x2);
+  display: flex; align-items: center; justify-content: space-between;
+}
+.form-label-hint { font-size: 11px; color: var(--color-text-muted); text-transform: none; letter-spacing: 0; font-weight: 400; }
+.input-wrap {
+  position: relative;
+}
+.input-field {
+  width: 100%; height: 48px;
+  border: 1.5px solid var(--color-border);
+  border-radius: var(--radius-sm); background: var(--color-surface);
+  font-size: 16px; font-weight: 600; color: var(--color-text-primary);
+  padding: 0 var(--x3) 0 var(--x10);
+  outline: none; transition: border-color .15s, box-shadow .15s;
+  font-variant-numeric: tabular-nums;
+}
+.input-field:focus { border-color: var(--color-brand); box-shadow: var(--shadow-brand); }
+.input-prefix {
+  position: absolute; left: var(--x3); top: 50%; transform: translateY(-50%);
+  font-size: 14px; font-weight: 500; color: var(--color-text-muted);
+  pointer-events: none;
+}
+.input-suffix {
+  position: absolute; right: var(--x3); top: 50%; transform: translateY(-50%);
+  font-size: 12px; font-weight: 600; color: var(--color-text-muted);
+  pointer-events: none;
+}
+.input-field.shares { padding-left: var(--x4); }
+.input-field.price { padding-left: 28px; }
+
+/* Price pill shortcuts */
+.price-shortcuts {
+  display: flex; gap: var(--x2); margin-top: var(--x2); flex-wrap: wrap;
+}
+.price-chip {
+  padding: 4px 10px; border-radius: var(--radius-full);
+  font-size: 11px; font-weight: 600;
+  background: var(--color-surface-inset);
+  border: 1px solid var(--color-border);
+  color: var(--color-text-secondary); cursor: pointer;
+  transition: all .12s;
+}
+.price-chip:hover { border-color: var(--color-brand); color: var(--color-brand); background: var(--color-brand-bg); }
+.price-chip.active { border-color: var(--color-brand); color: var(--color-brand); background: var(--color-brand-bg); }
+
+/* Validation banner */
+.validation-banner {
+  border-radius: var(--radius-sm); padding: var(--x3);
+  display: flex; gap: var(--x2); align-items: flex-start;
+  font-size: 12px; line-height: 1.5;
+  margin-bottom: var(--x3);
+}
+.validation-banner.warning {
+  background: var(--color-warning-bg);
+  border: 1px solid color-mix(in srgb, var(--color-warning) 25%, transparent);
+  color: var(--color-warning);
+}
+.validation-banner.error {
+  background: var(--color-negative-bg);
+  border: 1px solid color-mix(in srgb, var(--color-negative) 25%, transparent);
+  color: var(--color-negative);
+}
+.validation-banner.info {
+  background: var(--color-blue-bg);
+  border: 1px solid color-mix(in srgb, var(--color-blue) 25%, transparent);
+  color: var(--color-blue);
+}
+.validation-banner.success {
+  background: var(--color-brand-bg);
+  border: 1px solid color-mix(in srgb, var(--color-brand) 25%, transparent);
+  color: var(--color-brand);
+}
+.val-icon { flex-shrink: 0; font-size: 14px; margin-top: -1px; }
+.val-text b { font-weight: 700; display: block; }
+
+/* Market data strip */
+.market-strip {
+  background: var(--color-surface-inset);
+  border-radius: var(--radius-sm); padding: var(--x3);
+  display: flex; gap: var(--x4); margin-bottom: var(--x3);
+}
+.mkt-item { flex: 1; text-align: center; }
+.mkt-label { font-size: 10px; color: var(--color-text-muted); font-weight: 500; text-transform: uppercase; letter-spacing: .3px; }
+.mkt-value { font-size: 13px; font-weight: 700; font-variant-numeric: tabular-nums; margin-top: 2px; }
+.mkt-value.ask { color: var(--color-brand); }
+.mkt-value.bid { color: var(--color-negative); }
+
+/* Order summary */
+.order-summary {
+  background: var(--color-surface-inset);
+  border-radius: var(--radius-sm);
+  border: 1px solid var(--color-border);
+  overflow: hidden;
+  margin-bottom: var(--x4);
+}
+.summary-row {
+  display: flex; justify-content: space-between; align-items: center;
+  padding: var(--x3) var(--x3);
+  border-bottom: 1px solid var(--color-border);
+}
+.summary-row:last-child { border-bottom: none; }
+.summary-key { font-size: 12px; color: var(--color-text-secondary); }
+.summary-val { font-size: 13px; font-weight: 600; font-variant-numeric: tabular-nums; }
+.summary-val.highlight { color: var(--color-brand); }
+.summary-val.tlo { color: var(--color-brand); }
+
+/* CTA buttons */
+.cta-row {
+  display: flex; gap: var(--x2);
+  padding: var(--x3) var(--x4);
+  background: var(--color-surface);
+  border-top: 1px solid var(--color-border);
+}
+.btn-buy, .btn-sell, .btn-cancel {
+  flex: 1; height: 48px; border-radius: var(--radius-md);
+  font-size: 15px; font-weight: 700; cursor: pointer;
+  border: none; transition: all .15s;
+}
+.btn-buy {
+  background: var(--color-brand); color: #fff;
+}
+.btn-buy:hover { background: var(--color-brand-hover); }
+.btn-sell { background: var(--color-negative); color: #fff; }
+.btn-sell:hover { background: var(--color-negative-hover); }
+.btn-cancel {
+  background: var(--color-surface-inset);
+  color: var(--color-text-primary);
+  border: 1.5px solid var(--color-border);
+}
+
+/* TLO banner in form */
+.tlo-info-bar {
+  background: var(--color-brand-bg);
+  border: 1px solid color-mix(in srgb, var(--color-brand) 22%, transparent);
+  border-radius: var(--radius-sm);
+  padding: var(--x3);
+  display: flex; gap: var(--x2); align-items: flex-start;
+  margin-bottom: var(--x3);
+}
+.tlo-info-icon { font-size: 16px; flex-shrink: 0; }
+.tlo-info-text { font-size: 12px; color: var(--color-brand); line-height: 1.5; }
+.tlo-info-text b { font-weight: 700; display: block; font-size: 12px; }
+
+/* Tick size note */
+.tick-note {
+  font-size: 11px; color: var(--color-text-muted);
+  margin-top: var(--x1);
+  display: flex; align-items: center; gap: 4px;
+}
+.tick-dot { width: 4px; height: 4px; border-radius: 50%; background: var(--color-text-muted); flex-shrink: 0; }
+
+/* ============================================================
+   PORTFOLIO SCREEN
+   ============================================================ */
+.portfolio-header {
+  background: var(--color-surface);
+  padding: var(--x4);
+  border-bottom: 1px solid var(--color-border);
+}
+.port-title { font-size: 18px; font-weight: 700; }
+.port-sub { font-size: 12px; color: var(--color-text-secondary); margin-top: 2px; }
+.port-summary {
+  display: flex; gap: var(--x5); margin-top: var(--x3);
+}
+.port-stat .k { font-size: 10px; color: var(--color-text-muted); font-weight: 500; text-transform: uppercase; letter-spacing: .4px; }
+.port-stat .v { font-size: 15px; font-weight: 700; margin-top: 2px; font-variant-numeric: tabular-nums; }
+.port-stat .v.pos { color: var(--color-brand); }
+.port-stat .v.neg { color: var(--color-negative); }
+
+.filter-row {
+  padding: var(--x3) var(--x4);
+  display: flex; gap: var(--x2); overflow-x: auto;
+  background: var(--color-surface);
+  border-bottom: 1px solid var(--color-border);
+}
+.filter-row::-webkit-scrollbar { display: none; }
+.filter-chip {
+  padding: 5px 12px; border-radius: var(--radius-full);
+  font-size: 12px; font-weight: 500; flex-shrink: 0;
+  background: var(--color-surface-inset);
+  border: 1px solid var(--color-border);
+  color: var(--color-text-secondary); cursor: pointer;
+  transition: all .12s;
+}
+.filter-chip.active {
+  background: var(--color-blue-bg);
+  border-color: var(--color-blue);
+  color: var(--color-blue); font-weight: 600;
+}
+
+/* Position card */
+.positions-list {
+  padding: var(--x2) var(--x4);
+  display: flex; flex-direction: column; gap: var(--x2);
+  background: var(--color-bg);
+}
+.position-card {
+  background: var(--color-surface);
+  border-radius: var(--radius-md);
+  border: 1px solid var(--color-border);
+  overflow: hidden;
+  box-shadow: var(--shadow-1);
+}
+.pos-card-head {
+  padding: var(--x3) var(--x3) var(--x2);
+  display: flex; align-items: flex-start; gap: var(--x3);
+}
+.pos-logo {
+  width: 36px; height: 36px; border-radius: 50%;
+  display: flex; align-items: center; justify-content: center;
+  font-size: 11px; font-weight: 800; color: #fff; flex-shrink: 0;
+  margin-top: 1px;
+}
+.pos-logo.aapl { background: linear-gradient(135deg, #555, #222); }
+.pos-logo.tsla { background: linear-gradient(135deg, #CC0000, #e31010); }
+.pos-logo.nvda { background: linear-gradient(135deg, #76b900, #529900); }
+.pos-asset { flex: 1; }
+.pos-name { font-size: 14px; font-weight: 700; }
+.pos-meta { font-size: 11px; color: var(--color-text-secondary); margin-top: 1px; display: flex; align-items: center; gap: 6px; }
+.pos-price-col { text-align: right; }
+.pos-price { font-size: 14px; font-weight: 700; font-variant-numeric: tabular-nums; }
+.pos-pl { font-size: 12px; font-weight: 600; }
+.pos-pl.pos { color: var(--color-brand); }
+.pos-pl.neg { color: var(--color-negative); }
+
+/* Status chips */
+.status-chip {
+  display: inline-flex; align-items: center; gap: 4px;
+  padding: 2px 8px; border-radius: var(--radius-full);
+  font-size: 10px; font-weight: 700; letter-spacing: .3px;
+}
+.status-chip.pending {
+  background: var(--color-warning-bg);
+  color: var(--color-warning);
+}
+.status-chip.partial {
+  background: var(--color-blue-bg);
+  color: var(--color-blue);
+}
+.status-chip.filled {
+  background: var(--color-brand-bg);
+  color: var(--color-brand);
+}
+.status-chip.cancelled {
+  background: var(--color-surface-inset);
+  color: var(--color-text-muted);
+}
+.status-dot {
+  width: 5px; height: 5px; border-radius: 50%;
+  background: currentColor; flex-shrink: 0;
+  animation: none;
+}
+.status-chip.pending .status-dot { animation: pulse-warn 1.8s infinite; }
+@keyframes pulse-warn {
+  0%,100% { opacity: 1; }
+  50% { opacity: 0.4; }
+}
+
+/* Fill progress */
+.fill-progress-section {
+  padding: 0 var(--x3) var(--x3);
+}
+.fill-header {
+  display: flex; justify-content: space-between; align-items: center;
+  margin-bottom: var(--x2);
+}
+.fill-label { font-size: 11px; color: var(--color-text-secondary); font-weight: 500; }
+.fill-count { font-size: 12px; font-weight: 700; font-variant-numeric: tabular-nums; }
+.fill-count .filled-num { color: var(--color-brand); }
+.fill-bar-track {
+  height: 6px; border-radius: var(--radius-full);
+  background: var(--color-surface-inset);
+  overflow: hidden;
+}
+.fill-bar-fill {
+  height: 100%; border-radius: var(--radius-full);
+  background: var(--color-brand);
+  transition: width .4s ease;
+}
+.fill-bar-fill.partial { background: var(--color-blue); }
+.fill-bar-fill.zero { background: var(--color-warning); width: 4px; }
+
+/* Limit price row */
+.limit-price-row {
+  padding: var(--x2) var(--x3);
+  background: var(--color-surface-inset);
+  display: flex; justify-content: space-between; align-items: center;
+  border-top: 1px solid var(--color-border);
+}
+.lpr-label { font-size: 11px; color: var(--color-text-secondary); }
+.lpr-val { font-size: 13px; font-weight: 700; font-variant-numeric: tabular-nums; }
+.lpr-tlo { display: flex; align-items: center; gap: 6px; }
+
+/* Card actions */
+.card-actions {
+  padding: var(--x2) var(--x3);
+  display: flex; gap: var(--x2);
+  border-top: 1px solid var(--color-border);
+}
+.act-btn {
+  flex: 1; padding: 8px var(--x2); border-radius: var(--radius-sm);
+  font-size: 12px; font-weight: 600; cursor: pointer;
+  transition: all .15s;
+  display: flex; align-items: center; justify-content: center; gap: 4px;
+}
+.act-btn.cancel {
+  background: var(--color-negative-bg);
+  color: var(--color-negative);
+  border: 1px solid color-mix(in srgb, var(--color-negative) 20%, transparent);
+}
+.act-btn.cancel:hover { background: var(--color-negative); color: #fff; }
+.act-btn.detail {
+  background: var(--color-surface-inset);
+  color: var(--color-text-secondary);
+  border: 1px solid var(--color-border);
+}
+.act-btn.detail:hover { background: var(--color-border); }
+
+/* ============================================================
+   CANCEL CONFIRMATION SHEET (bottom sheet)
+   ============================================================ */
+.bottom-sheet-frame {
+  position: relative;
+  overflow: hidden;
+}
+.sheet-backdrop {
+  position: absolute; inset: 0;
+  background: rgba(0,0,0,.35); backdrop-filter: blur(2px);
+  z-index: 10;
+}
+.bottom-sheet {
+  position: absolute; bottom: 0; left: 0; right: 0; z-index: 20;
+  background: var(--color-surface);
+  border-radius: 20px 20px 0 0;
+  padding: var(--x5) var(--x4) var(--x6);
+  border-top: 1px solid var(--color-border);
+}
+.sheet-handle {
+  width: 36px; height: 4px; border-radius: var(--radius-full);
+  background: var(--color-border-strong); margin: 0 auto var(--x5);
+}
+.sheet-title { font-size: 17px; font-weight: 700; margin-bottom: var(--x2); }
+.sheet-desc { font-size: 13px; color: var(--color-text-secondary); line-height: 1.5; margin-bottom: var(--x5); }
+.sheet-order-card {
+  background: var(--color-surface-inset);
+  border-radius: var(--radius-sm); padding: var(--x3);
+  margin-bottom: var(--x5);
+  border: 1px solid var(--color-border);
+}
+.sheet-order-row {
+  display: flex; justify-content: space-between;
+  font-size: 12px; margin-bottom: var(--x1);
+}
+.sheet-order-row:last-child { margin-bottom: 0; }
+.sork { color: var(--color-text-secondary); }
+.sorv { font-weight: 600; font-variant-numeric: tabular-nums; }
+.sheet-warning {
+  background: var(--color-warning-bg);
+  border: 1px solid color-mix(in srgb, var(--color-warning) 25%, transparent);
+  border-radius: var(--radius-sm);
+  padding: var(--x2) var(--x3);
+  font-size: 11px; color: var(--color-warning); line-height: 1.5;
+  display: flex; gap: var(--x2); align-items: flex-start;
+  margin-bottom: var(--x4);
+}
+.sheet-btns { display: flex; gap: var(--x2); }
+.sheet-btn {
+  flex: 1; height: 46px; border-radius: var(--radius-md);
+  font-size: 14px; font-weight: 700; cursor: pointer; border: none;
+}
+.sheet-btn.confirm { background: var(--color-negative); color: #fff; }
+.sheet-btn.keep { background: var(--color-surface-inset); color: var(--color-text-primary); border: 1.5px solid var(--color-border); }
+
+/* ============================================================
+   REQUIREMENTS TABLE
+   ============================================================ */
+.req-table {
+  background: var(--color-surface);
+  border-radius: var(--radius-lg);
+  border: 1px solid var(--color-border);
+  overflow: hidden;
+  box-shadow: var(--shadow-1);
+  margin-top: var(--x4);
+}
+.req-table-head {
+  display: grid; grid-template-columns: 56px 1fr 1fr 100px;
+  padding: var(--x3) var(--x4);
+  background: var(--color-surface-inset);
+  font-size: 11px; font-weight: 600; color: var(--color-text-muted);
+  text-transform: uppercase; letter-spacing: .4px;
+  border-bottom: 1px solid var(--color-border);
+}
+.req-row {
+  display: grid; grid-template-columns: 56px 1fr 1fr 100px;
+  padding: var(--x3) var(--x4);
+  border-bottom: 1px solid var(--color-border);
+  align-items: start; gap: var(--x2);
+  font-size: 13px;
+}
+.req-row:last-child { border-bottom: none; }
+.req-row:hover { background: var(--color-surface-inset); }
+.req-id { font-size: 11px; color: var(--color-text-muted); font-family: monospace; }
+.req-desc { line-height: 1.5; }
+.req-screen { color: var(--color-blue); font-size: 12px; font-weight: 500; }
+.req-status {
+  display: inline-flex; align-items: center; gap: 4px;
+  padding: 3px 8px; border-radius: var(--radius-full);
+  font-size: 11px; font-weight: 600;
+}
+.req-status.covered { background: var(--color-brand-bg); color: var(--color-brand); }
+.req-status.partial { background: var(--color-warning-bg); color: var(--color-warning); }
+
+/* ============================================================
+   FLOW DIAGRAM SECTION
+   ============================================================ */
+.flow-section {
+  margin-top: var(--x10);
+}
+.flow-grid {
+  display: flex; gap: var(--x3); align-items: stretch; flex-wrap: wrap;
+}
+.flow-step {
+  flex: 1; min-width: 160px;
+  background: var(--color-surface);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-md);
+  padding: var(--x4);
+  box-shadow: var(--shadow-1);
+  position: relative;
+}
+.flow-step-num {
+  width: 24px; height: 24px; border-radius: 50%;
+  background: var(--color-brand); color: #fff;
+  font-size: 11px; font-weight: 700;
+  display: flex; align-items: center; justify-content: center;
+  margin-bottom: var(--x3);
+}
+.flow-step-title { font-size: 13px; font-weight: 700; margin-bottom: var(--x1); }
+.flow-step-desc { font-size: 12px; color: var(--color-text-secondary); line-height: 1.5; }
+.flow-arrow {
+  align-self: center; flex-shrink: 0;
+  font-size: 18px; color: var(--color-text-muted);
+  padding-top: var(--x6);
+}
+.flow-step.decision {
+  border-color: var(--color-warning);
+  border-style: dashed;
+}
+.flow-step.decision .flow-step-num { background: var(--color-warning); }
+
+/* ============================================================
+   PAGE INTRO CARD
+   ============================================================ */
+.intro-card {
+  background: var(--color-surface);
+  border-radius: var(--radius-xl);
+  padding: var(--x6) var(--x8);
+  display: flex; gap: var(--x8); align-items: center;
+  margin-bottom: var(--x8);
+  border: 1px solid var(--color-border);
+  box-shadow: var(--shadow-2);
+  position: relative; overflow: hidden;
+}
+.intro-card::before {
+  content: '';
+  position: absolute; top: 0; left: 0; right: 0;
+  height: 3px; background: linear-gradient(90deg, var(--color-brand), #00BFA5);
+}
+.intro-text { flex: 1; }
+.intro-label { font-size: 11px; font-weight: 600; color: var(--color-brand); text-transform: uppercase; letter-spacing: .6px; margin-bottom: var(--x2); }
+.intro-title { font-size: 28px; font-weight: 800; letter-spacing: -.5px; line-height: 1.2; }
+.intro-subtitle { font-size: 14px; color: var(--color-text-secondary); margin-top: var(--x2); line-height: 1.5; }
+.intro-meta {
+  display: flex; gap: var(--x4); margin-top: var(--x4); flex-wrap: wrap;
+}
+.intro-meta-item { font-size: 12px; color: var(--color-text-muted); display: flex; align-items: center; gap: 5px; }
+.intro-meta-item strong { color: var(--color-text-secondary); font-weight: 600; }
+.intro-stat {
+  flex-shrink: 0; text-align: center;
+  padding: var(--x4) var(--x6);
+  background: var(--color-surface-inset);
+  border-radius: var(--radius-lg);
+  border: 1px solid var(--color-border);
+}
+.intro-stat-num { font-size: 32px; font-weight: 800; color: var(--color-brand); letter-spacing: -1px; }
+.intro-stat-label { font-size: 11px; color: var(--color-text-muted); margin-top: 2px; }
+
+/* ============================================================
+   RESPONSIVE
+   ============================================================ */
+@media (max-width: 800px) {
+  .phone-grid { flex-direction: column; align-items: center; }
+  .intro-card { flex-direction: column; gap: var(--x4); text-align: center; }
+  .intro-meta { justify-content: center; }
+  .req-table-head, .req-row { grid-template-columns: 40px 1fr 80px; }
+  .req-table-head > *:nth-child(3),
+  .req-row > *:nth-child(3) { display: none; }
+}
+</style>
+</head>
+<body>
+
+<!-- ============================================================
+  PAGE HEADER
+  ============================================================ -->
+<header class="page-header">
+  <div class="logo">
+    <div class="logo-mark">eT</div>
+    eToro
+  </div>
+  <nav class="nav-pills">
+    <div class="nav-pill active">Mockup</div>
+    <div class="nav-pill">PRD</div>
+    <div class="nav-pill">Requirements</div>
+  </nav>
+  <div class="header-actions">
+    <span class="prd-badge">PRD · Discovery</span>
+    <button class="theme-toggle" onclick="toggleTheme()" title="Toggle dark mode">🌙</button>
+  </div>
+</header>
+
+<!-- ============================================================
+  PAGE CONTENT
+  ============================================================ -->
+<main class="page-content">
+
+  <!-- INTRO -->
+  <div class="intro-card">
+    <div class="intro-text">
+      <div class="intro-label">True Limit Orders · Product Requirements</div>
+      <div class="intro-title">True Limit Orders<br>for Real Stocks</div>
+      <div class="intro-subtitle">
+        Allow clients to place a limit price into the market and rest the order until it's either
+        filled at the specified price — or better. Zero slippage. Full transparency.
+      </div>
+      <div class="intro-meta">
+        <span class="intro-meta-item">📝 <strong>Author:</strong> Michael P.</span>
+        <span class="intro-meta-item">📅 <strong>Date:</strong> Sep 2024</span>
+        <span class="intro-meta-item">🔬 <strong>Status:</strong> Discovery</span>
+        <span class="intro-meta-item">🎯 <strong>Scope:</strong> Real Stocks (HBC) only</span>
+      </div>
+    </div>
+    <div class="intro-stat">
+      <div class="intro-stat-num">0%</div>
+      <div class="intro-stat-label">Slippage Target</div>
+    </div>
+  </div>
+
+  <!-- ============================================================
+    SCREEN 1: EXECUTION — MARKET ORDER (Baseline)
+    ============================================================ -->
+  <div class="section-header">
+    <div class="screen-label">Screen 1</div>
+    <div class="section-title">
+      Execution Screen — Order Type Selection
+      <span class="tlo-badge"><span class="tlo-dot"></span> TRUE LIMIT ORDER</span>
+    </div>
+    <div class="section-subtitle">For Real Stocks: toggle between Market Order (existing) and True Limit Order (new). CFDs remain unchanged.</div>
+  </div>
+
+  <div class="phone-grid">
+
+    <!-- PHONE A: Market Order (baseline) -->
+    <div>
+      <div style="font-size:12px;font-weight:600;color:var(--color-text-muted);margin-bottom:var(--x2);text-align:center;">A · Market Order (existing)</div>
+      <div class="phone-frame">
+        <div class="phone-notch"><div class="notch-bar"></div><div class="notch-dot"></div></div>
+        <div class="phone-inner">
+          <!-- App bar -->
+          <div class="app-bar">
+            <div class="app-bar-back">←</div>
+            <div style="flex:1">
+              <div class="app-bar-title">AAPL</div>
+              <div class="app-bar-subtitle">Apple Inc.</div>
+            </div>
+            <div class="app-bar-right">
+              <div class="icon-btn">♡</div>
+              <div class="icon-btn">⋯</div>
+            </div>
+          </div>
+          <!-- Asset header -->
+          <div class="asset-header">
+            <div class="asset-logo">AAPL</div>
+            <div>
+              <div class="asset-name">Apple Inc.</div>
+              <div class="asset-sub">NASDAQ · Real Stock</div>
+            </div>
+            <div class="asset-price-col">
+              <div class="asset-price">$186.42</div>
+              <div class="asset-change up">+1.24 (+0.67%)</div>
+            </div>
+          </div>
+          <!-- Buy/Sell segment -->
+          <div class="seg-wrap" style="padding-bottom:var(--x2);">
+            <div class="seg">
+              <button class="active">BUY</button>
+              <button>SELL</button>
+            </div>
+          </div>
+          <!-- Order type tabs — Market only (no TLO yet) -->
+          <div class="order-tabs-wrap">
+            <div class="order-tabs">
+              <div class="order-tab active">
+                <div class="order-tab-label">Market Order</div>
+                <div class="order-tab-hint">Best available price</div>
+              </div>
+            </div>
+          </div>
+          <!-- Form -->
+          <div class="form-section">
+            <div class="form-row">
+              <div class="form-label">Amount</div>
+              <div class="input-wrap">
+                <span class="input-prefix">$</span>
+                <input type="text" class="input-field" value="1,000.00" readonly>
+              </div>
+              <div class="price-shortcuts">
+                <div class="price-chip">$100</div>
+                <div class="price-chip active">$1K</div>
+                <div class="price-chip">$5K</div>
+                <div class="price-chip">$10K</div>
+              </div>
+            </div>
+            <!-- Summary -->
+            <div class="order-summary">
+              <div class="summary-row">
+                <span class="summary-key">Est. shares</span>
+                <span class="summary-val">~5 shares</span>
+              </div>
+              <div class="summary-row">
+                <span class="summary-key">Est. price</span>
+                <span class="summary-val">~$186.42</span>
+              </div>
+              <div class="summary-row">
+                <span class="summary-key">Total</span>
+                <span class="summary-val highlight">$1,000.00</span>
+              </div>
+            </div>
+          </div>
+          <!-- CTA -->
+          <div class="cta-row">
+            <button class="btn-buy">Buy AAPL</button>
+            <button class="btn-sell">Sell</button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- PHONE B: True Limit Order — price entry -->
+    <div>
+      <div style="font-size:12px;font-weight:600;color:var(--color-brand);margin-bottom:var(--x2);text-align:center;">B · True Limit Order (NEW)</div>
+      <div class="phone-frame">
+        <div class="phone-notch"><div class="notch-bar"></div><div class="notch-dot"></div></div>
+        <div class="phone-inner">
+          <!-- App bar -->
+          <div class="app-bar">
+            <div class="app-bar-back">←</div>
+            <div style="flex:1">
+              <div class="app-bar-title">AAPL</div>
+              <div class="app-bar-subtitle">Apple Inc.</div>
+            </div>
+            <div class="app-bar-right">
+              <div class="icon-btn">♡</div>
+              <div class="icon-btn">⋯</div>
+            </div>
+          </div>
+          <!-- Asset header -->
+          <div class="asset-header">
+            <div class="asset-logo">AAPL</div>
+            <div>
+              <div class="asset-name">Apple Inc.</div>
+              <div class="asset-sub">NASDAQ · Real Stock</div>
+            </div>
+            <div class="asset-price-col">
+              <div class="asset-price">$186.42</div>
+              <div class="asset-change up">+1.24 (+0.67%)</div>
+            </div>
+          </div>
+          <!-- Buy/Sell segment -->
+          <div class="seg-wrap" style="padding-bottom:var(--x2);">
+            <div class="seg">
+              <button class="active">BUY</button>
+              <button>SELL</button>
+            </div>
+          </div>
+          <!-- Order type tabs — Market + True Limit -->
+          <div class="order-tabs-wrap">
+            <div class="order-tabs">
+              <div class="order-tab">
+                <div class="order-tab-label">Market Order</div>
+                <div class="order-tab-hint">Best available price</div>
+              </div>
+              <div class="order-tab true-limit-tab active">
+                <div class="order-tab-label">True Limit Order</div>
+                <div class="order-tab-hint">Your price or better</div>
+              </div>
+            </div>
+          </div>
+          <!-- Form -->
+          <div class="form-section">
+
+            <!-- TLO info banner -->
+            <div class="tlo-info-bar">
+              <div class="tlo-info-icon">🎯</div>
+              <div class="tlo-info-text">
+                <b>True Limit Order</b>
+                Your order rests in the market until filled at your price or better. No slippage. Ticket fee applies. Valid for today's session only.
+              </div>
+            </div>
+
+            <!-- Market data strip -->
+            <div class="market-strip">
+              <div class="mkt-item">
+                <div class="mkt-label">Ask</div>
+                <div class="mkt-value ask">$186.45</div>
+              </div>
+              <div class="mkt-item">
+                <div class="mkt-label">Bid</div>
+                <div class="mkt-value bid">$186.39</div>
+              </div>
+              <div class="mkt-item">
+                <div class="mkt-label">Spread</div>
+                <div class="mkt-value">$0.06</div>
+              </div>
+              <div class="mkt-item">
+                <div class="mkt-label">Tick Size</div>
+                <div class="mkt-value">$0.01</div>
+              </div>
+            </div>
+
+            <!-- Limit price -->
+            <div class="form-row">
+              <div class="form-label">
+                Limit Price
+                <span class="form-label-hint">Whole cents only</span>
+              </div>
+              <div class="input-wrap">
+                <span class="input-prefix" style="font-size:15px;font-weight:700;">$</span>
+                <input type="text" class="input-field price" value="185.00" readonly>
+              </div>
+              <div class="price-shortcuts">
+                <div class="price-chip">Ask $186.45</div>
+                <div class="price-chip">-1% $184.56</div>
+                <div class="price-chip active">-2% $185.00</div>
+                <div class="price-chip">-5% $177.10</div>
+              </div>
+              <div class="tick-note"><div class="tick-dot"></div>Price must align to $0.01 tick size · Configured per instrument</div>
+            </div>
+
+            <!-- Shares quantity -->
+            <div class="form-row">
+              <div class="form-label">
+                Shares
+                <span class="form-label-hint">Whole shares only · No fractional</span>
+              </div>
+              <div class="input-wrap">
+                <input type="text" class="input-field shares" value="5" readonly>
+                <span class="input-suffix">shares</span>
+              </div>
+              <div class="price-shortcuts">
+                <div class="price-chip">1</div>
+                <div class="price-chip active">5</div>
+                <div class="price-chip">10</div>
+                <div class="price-chip">25</div>
+              </div>
+            </div>
+
+            <!-- Validation: price is below ask (buy) — OK -->
+            <div class="validation-banner success">
+              <span class="val-icon">✓</span>
+              <div class="val-text">
+                <b>Price is below Ask — good limit buy</b>
+                $185.00 is 0.78% below the current ask. Your order rests until the price reaches your level.
+              </div>
+            </div>
+
+            <!-- Balance check -->
+            <div class="validation-banner info">
+              <span class="val-icon">ℹ</span>
+              <div class="val-text">
+                <b>Balance reserved at limit price</b>
+                $925.00 (5 × $185.00) will be held from your available balance until filled or cancelled.
+              </div>
+            </div>
+
+            <!-- Order summary -->
+            <div class="order-summary">
+              <div class="summary-row">
+                <span class="summary-key">Order type</span>
+                <span class="summary-val tlo">True Limit Order (DAY)</span>
+              </div>
+              <div class="summary-row">
+                <span class="summary-key">Limit price</span>
+                <span class="summary-val">$185.00</span>
+              </div>
+              <div class="summary-row">
+                <span class="summary-key">Quantity</span>
+                <span class="summary-val">5 shares</span>
+              </div>
+              <div class="summary-row">
+                <span class="summary-key">Reserved amount</span>
+                <span class="summary-val">$925.00</span>
+              </div>
+              <div class="summary-row">
+                <span class="summary-key">Ticket fee</span>
+                <span class="summary-val">$0.00</span>
+              </div>
+            </div>
+
+          </div>
+          <!-- CTA -->
+          <div class="cta-row">
+            <button class="btn-buy">Place Limit Order</button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- PHONE C: Price validation error (above ask) -->
+    <div>
+      <div style="font-size:12px;font-weight:600;color:var(--color-negative);margin-bottom:var(--x2);text-align:center;">C · Price Validation Error</div>
+      <div class="phone-frame">
+        <div class="phone-notch"><div class="notch-bar"></div><div class="notch-dot"></div></div>
+        <div class="phone-inner">
+          <div class="app-bar">
+            <div class="app-bar-back">←</div>
+            <div style="flex:1">
+              <div class="app-bar-title">AAPL</div>
+              <div class="app-bar-subtitle">Apple Inc.</div>
+            </div>
+          </div>
+          <div class="asset-header">
+            <div class="asset-logo">AAPL</div>
+            <div>
+              <div class="asset-name">Apple Inc.</div>
+              <div class="asset-sub">NASDAQ · Real Stock</div>
+            </div>
+            <div class="asset-price-col">
+              <div class="asset-price">$186.42</div>
+              <div class="asset-change up">+1.24 (+0.67%)</div>
+            </div>
+          </div>
+          <div class="seg-wrap" style="padding-bottom:var(--x2);">
+            <div class="seg"><button class="active">BUY</button><button>SELL</button></div>
+          </div>
+          <div class="order-tabs-wrap">
+            <div class="order-tabs">
+              <div class="order-tab"><div class="order-tab-label">Market Order</div><div class="order-tab-hint">Best available price</div></div>
+              <div class="order-tab true-limit-tab active"><div class="order-tab-label">True Limit Order</div><div class="order-tab-hint">Your price or better</div></div>
+            </div>
+          </div>
+          <div class="form-section">
+            <div class="market-strip">
+              <div class="mkt-item"><div class="mkt-label">Ask</div><div class="mkt-value ask">$186.45</div></div>
+              <div class="mkt-item"><div class="mkt-label">Bid</div><div class="mkt-value bid">$186.39</div></div>
+              <div class="mkt-item"><div class="mkt-label">Spread</div><div class="mkt-value">$0.06</div></div>
+            </div>
+            <div class="form-row">
+              <div class="form-label">Limit Price</div>
+              <div class="input-wrap">
+                <span class="input-prefix" style="font-size:15px;font-weight:700;color:var(--color-negative);">$</span>
+                <input type="text" class="input-field price" value="191.00" style="border-color:var(--color-negative);color:var(--color-negative);" readonly>
+              </div>
+            </div>
+            <!-- Error: above ask on a buy -->
+            <div class="validation-banner error">
+              <span class="val-icon">⚠</span>
+              <div class="val-text">
+                <b>Price exceeds Ask + tolerance</b>
+                $191.00 is 2.44% above the current ask ($186.45). Limit buy orders cannot be placed more than 2% above ask. Reduce your price.
+              </div>
+            </div>
+            <div class="form-row">
+              <div class="form-label">Shares</div>
+              <div class="input-wrap">
+                <input type="text" class="input-field shares" value="5" readonly>
+                <span class="input-suffix">shares</span>
+              </div>
+            </div>
+            <div class="validation-banner warning">
+              <span class="val-icon">⚡</span>
+              <div class="val-text">
+                <b>Tick size check</b>
+                $191.00 is valid for this instrument's $0.01 tick size.
+              </div>
+            </div>
+          </div>
+          <div class="cta-row">
+            <button class="btn-buy" style="opacity:.45;cursor:not-allowed;">Place Limit Order</button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ANNOTATIONS -->
+    <div class="phone-annotation">
+      <div class="annotation-title">Execution Screen — Design Notes</div>
+      <ul class="annotation-list">
+        <li>
+          <div class="ann-num">1</div>
+          <div><strong>Order Type Toggle</strong> — Segmented control appears only for Real Stocks. CFD instruments show legacy flow unchanged. Toggle state persists per instrument.</div>
+        </li>
+        <li>
+          <div class="ann-num">2</div>
+          <div><strong>TLO Info Banner</strong> — Contextual explainer appears when "True Limit Order" tab is selected. Key facts: rests in market, no slippage, ticket fee, DAY order (expires EOD).</div>
+        </li>
+        <li>
+          <div class="ann-num">3</div>
+          <div><strong>Market Data Strip</strong> — Live Ask/Bid/Spread/Tick Size helps user set a realistic price. Tick size is configurable per instrument via admin.</div>
+        </li>
+        <li>
+          <div class="ann-num">4</div>
+          <div><strong>Limit Price Input</strong> — Dollar amount. Quick shortcuts relative to current ask (e.g. -1%, -2%). Validates against tick size. For a BUY: price above ask+tolerance triggers block. For SELL: inverse asymmetry logic applies.</div>
+        </li>
+        <li>
+          <div class="ann-num">5</div>
+          <div><strong>Whole Shares Only</strong> — Fractional shares are disallowed. Dollar-amount entry rounds down to closest whole share. Sub-1-share amounts blocked at submission.</div>
+        </li>
+        <li>
+          <div class="ann-req">R</div>
+          <div><strong>Balance Reserved at Limit Price</strong> — Available balance check uses limit price × quantity (not current market price). Reserve shown inline before confirmation.</div>
+        </li>
+        <li>
+          <div class="ann-req">R</div>
+          <div><strong>Price Validation Asymmetry</strong> — Buy limit above ask → block (configurable %). Buy limit below ask → no error. Sell logic is inverse. Tolerance % is configurable per instrument.</div>
+        </li>
+        <li>
+          <div class="ann-warn">!</div>
+          <div><strong>Out of scope</strong> — No SL/TP, no markups, no fractional shares, no amendments after submission, no CFDs. Copy trading (PI) follows separate flow.</div>
+        </li>
+      </ul>
+    </div>
+  </div>
+
+  <div class="section-divider"></div>
+
+  <!-- ============================================================
+    SCREEN 2: PORTFOLIO — PENDING LIMIT ORDERS
+    ============================================================ -->
+  <div class="section-header">
+    <div class="screen-label">Screen 2</div>
+    <div class="section-title">Portfolio — Pending & Partial Limit Orders</div>
+    <div class="section-subtitle">Clients see fill progress, limit price, and can cancel pending True Limit Orders from their portfolio.</div>
+  </div>
+
+  <div class="phone-grid">
+
+    <!-- PHONE D: Portfolio positions list -->
+    <div>
+      <div style="font-size:12px;font-weight:600;color:var(--color-blue);margin-bottom:var(--x2);text-align:center;">D · Portfolio — Positions</div>
+      <div class="phone-frame">
+        <div class="phone-notch"><div class="notch-bar"></div><div class="notch-dot"></div></div>
+        <div class="phone-inner">
+          <div class="portfolio-header">
+            <div class="port-title">Portfolio</div>
+            <div class="port-sub">3 positions · 2 pending limit orders</div>
+            <div class="port-summary">
+              <div class="port-stat"><div class="k">Invested</div><div class="v">$12,440</div></div>
+              <div class="port-stat"><div class="k">P&L</div><div class="v pos">+$284.20</div></div>
+              <div class="port-stat"><div class="k">Return</div><div class="v pos">+2.28%</div></div>
+            </div>
+          </div>
+          <div class="filter-row">
+            <div class="filter-chip active">All (3)</div>
+            <div class="filter-chip">Pending (2)</div>
+            <div class="filter-chip">Open</div>
+            <div class="filter-chip">Closed</div>
+          </div>
+          <div class="positions-list">
+
+            <!-- Position 1: AAPL — Partial fill (3/10) -->
+            <div class="position-card">
+              <div class="pos-card-head">
+                <div class="pos-logo aapl">AAPL</div>
+                <div class="pos-asset">
+                  <div class="pos-name">Apple Inc.</div>
+                  <div class="pos-meta">
+                    REAL STOCK
+                    <span class="status-chip partial"><span class="status-dot"></span>PARTIAL</span>
+                    <span class="tlo-badge" style="padding:2px 6px;font-size:9px;">TLO</span>
+                  </div>
+                </div>
+                <div class="pos-price-col">
+                  <div class="pos-price">$185.00</div>
+                  <div class="pos-pl" style="color:var(--color-text-muted);font-weight:500;">Limit price</div>
+                </div>
+              </div>
+              <!-- Fill progress -->
+              <div class="fill-progress-section">
+                <div class="fill-header">
+                  <span class="fill-label">Fill progress</span>
+                  <span class="fill-count"><span class="filled-num">3</span> / 10 shares</span>
+                </div>
+                <div class="fill-bar-track">
+                  <div class="fill-bar-fill partial" style="width:30%"></div>
+                </div>
+              </div>
+              <div class="card-actions">
+                <button class="act-btn cancel">✕ Cancel Order</button>
+                <button class="act-btn detail">View Details</button>
+              </div>
+            </div>
+
+            <!-- Position 2: TSLA — Pending (0/8) -->
+            <div class="position-card">
+              <div class="pos-card-head">
+                <div class="pos-logo tsla">TSLA</div>
+                <div class="pos-asset">
+                  <div class="pos-name">Tesla Inc.</div>
+                  <div class="pos-meta">
+                    REAL STOCK
+                    <span class="status-chip pending"><span class="status-dot"></span>PENDING</span>
+                    <span class="tlo-badge" style="padding:2px 6px;font-size:9px;">TLO</span>
+                  </div>
+                </div>
+                <div class="pos-price-col">
+                  <div class="pos-price">$218.00</div>
+                  <div class="pos-pl" style="color:var(--color-text-muted);font-weight:500;">Limit price</div>
+                </div>
+              </div>
+              <!-- Fill progress — nothing filled yet -->
+              <div class="fill-progress-section">
+                <div class="fill-header">
+                  <span class="fill-label">Fill progress</span>
+                  <span class="fill-count"><span class="filled-num">0</span> / 8 shares</span>
+                </div>
+                <div class="fill-bar-track">
+                  <div class="fill-bar-fill zero"></div>
+                </div>
+              </div>
+              <div class="card-actions">
+                <button class="act-btn cancel">✕ Cancel Order</button>
+                <button class="act-btn detail">View Details</button>
+              </div>
+            </div>
+
+            <!-- Position 3: NVDA — Fully filled -->
+            <div class="position-card">
+              <div class="pos-card-head">
+                <div class="pos-logo nvda">NVDA</div>
+                <div class="pos-asset">
+                  <div class="pos-name">NVIDIA Corp.</div>
+                  <div class="pos-meta">
+                    REAL STOCK
+                    <span class="status-chip filled"><span class="status-dot"></span>FILLED</span>
+                    <span class="tlo-badge" style="padding:2px 6px;font-size:9px;">TLO</span>
+                  </div>
+                </div>
+                <div class="pos-price-col">
+                  <div class="pos-price">$874.50</div>
+                  <div class="pos-pl pos">+$68.00</div>
+                </div>
+              </div>
+              <!-- Fill progress — fully filled -->
+              <div class="fill-progress-section">
+                <div class="fill-header">
+                  <span class="fill-label">Filled at limit</span>
+                  <span class="fill-count"><span class="filled-num">5</span> / 5 shares</span>
+                </div>
+                <div class="fill-bar-track">
+                  <div class="fill-bar-fill" style="width:100%"></div>
+                </div>
+              </div>
+              <div class="limit-price-row">
+                <div class="lpr-tlo">
+                  <span class="tlo-badge" style="font-size:10px;"><span class="tlo-dot"></span>TRUE LIMIT</span>
+                  <span class="lpr-label">Filled @ $860.50 · Exec price</span>
+                </div>
+                <div class="lpr-val" style="color:var(--color-brand);">$860.50</div>
+              </div>
+            </div>
+
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- PHONE E: Cancel confirmation sheet -->
+    <div>
+      <div style="font-size:12px;font-weight:600;color:var(--color-negative);margin-bottom:var(--x2);text-align:center;">E · Cancel Order Sheet</div>
+      <div class="phone-frame bottom-sheet-frame" style="min-height:680px;">
+        <div class="phone-notch"><div class="notch-bar"></div><div class="notch-dot"></div></div>
+        <!-- Background: dimmed portfolio -->
+        <div style="background:var(--color-bg);padding:var(--x4);">
+          <div class="portfolio-header" style="border-radius:var(--radius-md);border:1px solid var(--color-border);padding:var(--x3);">
+            <div style="opacity:.35;">
+              <div class="port-title" style="font-size:15px;">Portfolio</div>
+              <div class="port-sub">3 positions · 2 pending</div>
+            </div>
+          </div>
+          <div style="opacity:.35;margin-top:var(--x2);">
+            <div class="position-card">
+              <div class="pos-card-head">
+                <div class="pos-logo tsla">TSLA</div>
+                <div class="pos-asset">
+                  <div class="pos-name">Tesla Inc.</div>
+                  <div class="pos-meta">REAL STOCK <span class="status-chip pending"><span class="status-dot"></span>PENDING</span></div>
+                </div>
+                <div class="pos-price-col">
+                  <div class="pos-price">$218.00</div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <!-- Sheet backdrop -->
+        <div class="sheet-backdrop"></div>
+        <!-- Bottom sheet -->
+        <div class="bottom-sheet" style="position:relative;bottom:auto;border-radius:20px;margin:0 var(--x2) var(--x2);">
+          <div class="sheet-handle"></div>
+          <div class="sheet-title">Cancel Limit Order?</div>
+          <div class="sheet-desc">This will submit an Order Cancel Request (OCR) to the exchange. Any shares already filled will remain in your account.</div>
+          <div class="sheet-order-card">
+            <div class="sheet-order-row"><span class="sork">Asset</span><span class="sorv">TSLA — Tesla Inc.</span></div>
+            <div class="sheet-order-row"><span class="sork">Order type</span><span class="sorv" style="color:var(--color-brand);">True Limit Order</span></div>
+            <div class="sheet-order-row"><span class="sork">Limit price</span><span class="sorv">$218.00</span></div>
+            <div class="sheet-order-row"><span class="sork">Requested</span><span class="sorv">8 shares</span></div>
+            <div class="sheet-order-row"><span class="sork">Filled so far</span><span class="sorv" style="color:var(--color-brand);">0 shares</span></div>
+            <div class="sheet-order-row"><span class="sork">Reserved balance</span><span class="sorv">$1,744.00</span></div>
+          </div>
+          <div class="sheet-warning">
+            <span>⚡</span>
+            <span>If the exchange fills your order at the same time you cancel, the trade will still go through. You'll be notified if this happens.</span>
+          </div>
+          <div class="sheet-btns">
+            <button class="sheet-btn keep">Keep Order</button>
+            <button class="sheet-btn confirm">Cancel Order</button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- PHONE F: Position detail with partial fill info -->
+    <div>
+      <div style="font-size:12px;font-weight:600;color:var(--color-text-secondary);margin-bottom:var(--x2);text-align:center;">F · Position Detail (Partial)</div>
+      <div class="phone-frame">
+        <div class="phone-notch"><div class="notch-bar"></div><div class="notch-dot"></div></div>
+        <div class="phone-inner">
+          <div class="app-bar">
+            <div class="app-bar-back">←</div>
+            <div style="flex:1">
+              <div class="app-bar-title">AAPL Position</div>
+              <div class="app-bar-subtitle">True Limit Order · Partial</div>
+            </div>
+          </div>
+          <!-- Summary header -->
+          <div style="background:var(--color-surface);padding:var(--x4);border-bottom:1px solid var(--color-border);">
+            <div style="display:flex;align-items:center;gap:var(--x3);margin-bottom:var(--x3);">
+              <div class="pos-logo aapl" style="width:44px;height:44px;font-size:13px;">AAPL</div>
+              <div>
+                <div style="font-size:17px;font-weight:700;">Apple Inc.</div>
+                <div style="font-size:12px;color:var(--color-text-secondary);">NASDAQ · Real Stock</div>
+              </div>
+              <div style="margin-left:auto;">
+                <span class="status-chip partial" style="font-size:11px;padding:4px 10px;"><span class="status-dot"></span>PARTIAL FILL</span>
+              </div>
+            </div>
+            <!-- Big fill number -->
+            <div style="background:var(--color-surface-inset);border-radius:var(--radius-md);padding:var(--x4);text-align:center;border:1px solid var(--color-border);">
+              <div style="font-size:13px;color:var(--color-text-muted);margin-bottom:var(--x2);">Fill Progress</div>
+              <div style="font-size:36px;font-weight:800;font-variant-numeric:tabular-nums;">
+                <span style="color:var(--color-blue);">3</span>
+                <span style="font-size:18px;color:var(--color-text-muted);margin:0 4px;">/</span>
+                <span>10</span>
+              </div>
+              <div style="font-size:13px;color:var(--color-text-muted);margin-top:4px;">shares filled</div>
+              <div style="margin-top:var(--x3);">
+                <div class="fill-bar-track" style="height:8px;">
+                  <div class="fill-bar-fill partial" style="width:30%;height:8px;"></div>
+                </div>
+                <div style="display:flex;justify-content:space-between;margin-top:4px;font-size:10px;color:var(--color-text-muted);">
+                  <span>30% filled</span>
+                  <span>70% pending</span>
+                </div>
+              </div>
+            </div>
+          </div>
+          <!-- Detail rows -->
+          <div style="background:var(--color-surface);">
+            <div class="order-summary" style="margin:0;border-radius:0;border:none;border-bottom:1px solid var(--color-border);">
+              <div class="summary-row">
+                <span class="summary-key">Order type</span>
+                <span class="summary-val tlo" style="display:flex;align-items:center;gap:5px;"><span class="tlo-dot"></span>True Limit Order</span>
+              </div>
+              <div class="summary-row">
+                <span class="summary-key">Limit price</span>
+                <span class="summary-val">$185.00</span>
+              </div>
+              <div class="summary-row">
+                <span class="summary-key">Fills received</span>
+                <span class="summary-val" style="color:var(--color-blue);">3 shares @ $185.00</span>
+              </div>
+              <div class="summary-row">
+                <span class="summary-key">Remaining</span>
+                <span class="summary-val">7 shares pending</span>
+              </div>
+              <div class="summary-row">
+                <span class="summary-key">Balance reserved</span>
+                <span class="summary-val">$1,295.00</span>
+              </div>
+              <div class="summary-row">
+                <span class="summary-key">Expires</span>
+                <span class="summary-val" style="color:var(--color-warning);">EOD · 16:00 ET</span>
+              </div>
+              <div class="summary-row">
+                <span class="summary-key">Unfilled at EOD</span>
+                <span class="summary-val" style="color:var(--color-text-secondary);">Auto-cancelled</span>
+              </div>
+            </div>
+          </div>
+          <div class="cta-row">
+            <button class="btn-cancel" style="flex:1;height:48px;border-radius:var(--radius-md);font-size:14px;font-weight:700;background:var(--color-negative-bg);color:var(--color-negative);border:1.5px solid color-mix(in srgb, var(--color-negative) 20%, transparent);">✕ Cancel Remaining</button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ANNOTATIONS: Portfolio -->
+    <div class="phone-annotation">
+      <div class="annotation-title">Portfolio Screen — Design Notes</div>
+      <ul class="annotation-list">
+        <li>
+          <div class="ann-num">1</div>
+          <div><strong>Status Chips</strong> — PENDING (pulsing dot), PARTIAL (blue), FILLED (green), CANCELLED (grey). Animated dot draws attention to active orders without being intrusive.</div>
+        </li>
+        <li>
+          <div class="ann-num">2</div>
+          <div><strong>Fill Progress Bar</strong> — Shows "X of Y shares" with a color-coded progress bar. PARTIAL = blue bar. PENDING with 0 fills = thin amber sliver at left. 100% = full green.</div>
+        </li>
+        <li>
+          <div class="ann-num">3</div>
+          <div><strong>TLO Badge</strong> — Small "TLO" chip on every limit order card distinguishes it from regular market positions at a glance.</div>
+        </li>
+        <li>
+          <div class="ann-num">4</div>
+          <div><strong>Cancel Button</strong> — Visible only on PENDING and PARTIAL orders (manual submissions). Tapping triggers the Cancel Confirmation Sheet. Hidden on FILLED/CANCELLED positions.</div>
+        </li>
+        <li>
+          <div class="ann-num">5</div>
+          <div><strong>Cancel Confirmation Sheet</strong> — Bottom sheet shows full order detail, reserved balance, and the edge-case warning (simultaneous fill + cancel = trade still goes through, CS alert triggered).</div>
+        </li>
+        <li>
+          <div class="ann-num">6</div>
+          <div><strong>EOD Expiry</strong> — Position detail shows expiry time clearly ("Expires: EOD · 16:00 ET"). Unfilled shares at EOD are auto-cancelled; any partial fills are settled normally.</div>
+        </li>
+        <li>
+          <div class="ann-req">R</div>
+          <div><strong>Partial Fill Distribution</strong> — For Copy: partial fills are distributed throughout the copy tree as they occur (not just at terminal state). Same as existing copy logic.</div>
+        </li>
+        <li>
+          <div class="ann-warn">!</div>
+          <div><strong>Dealing Desk filter</strong> — Limit order rejections must be hidden from the Dealing Desk rejection screen (DEAL-8825). Most limit orders fail by design; dealers should not see these.</div>
+        </li>
+      </ul>
+    </div>
+  </div>
+
+  <div class="section-divider"></div>
+
+  <!-- ============================================================
+    REQUIREMENTS COVERAGE TABLE
+    ============================================================ -->
+  <div class="section-header">
+    <div class="screen-label">Coverage</div>
+    <div class="section-title">Requirements → Mockup Mapping</div>
+    <div class="section-subtitle">Every PRD requirement mapped to a screen and mockup state.</div>
+  </div>
+
+  <div class="req-table">
+    <div class="req-table-head">
+      <div>#</div>
+      <div>Requirement</div>
+      <div>Screen</div>
+      <div>Status</div>
+    </div>
+    <div class="req-row">
+      <div class="req-id">R-01</div>
+      <div class="req-desc">Whole shares only — no fractional. Dollar amount rounds down.</div>
+      <div class="req-screen">Screen B · Shares field</div>
+      <div><span class="req-status covered">✓ Covered</span></div>
+    </div>
+    <div class="req-row">
+      <div class="req-id">R-02</div>
+      <div class="req-desc">Sub-1-share amounts disallowed on submission.</div>
+      <div class="req-screen">Screen C · Validation</div>
+      <div><span class="req-status covered">✓ Covered</span></div>
+    </div>
+    <div class="req-row">
+      <div class="req-id">R-03</div>
+      <div class="req-desc">Configurable X% price tolerance from raw ask/bid per instrument.</div>
+      <div class="req-screen">Screen B & C · Validation banners</div>
+      <div><span class="req-status covered">✓ Covered</span></div>
+    </div>
+    <div class="req-row">
+      <div class="req-id">R-04</div>
+      <div class="req-desc">Price asymmetry: buy above ask blocked; buy below ask ok. Inverse for sell.</div>
+      <div class="req-screen">Screen B & C · Validation state</div>
+      <div><span class="req-status covered">✓ Covered</span></div>
+    </div>
+    <div class="req-row">
+      <div class="req-id">R-05</div>
+      <div class="req-desc">Tick size validation — configurable per instrument.</div>
+      <div class="req-screen">Screen B · Tick note + market strip</div>
+      <div><span class="req-status covered">✓ Covered</span></div>
+    </div>
+    <div class="req-row">
+      <div class="req-id">R-06</div>
+      <div class="req-desc">Balance check at submitted price (not market price).</div>
+      <div class="req-screen">Screen B · Balance reservation banner</div>
+      <div><span class="req-status covered">✓ Covered</span></div>
+    </div>
+    <div class="req-row">
+      <div class="req-id">R-07</div>
+      <div class="req-desc">Indication that the limit is a "True Limit Order" in execution screen.</div>
+      <div class="req-screen">Screen B · TLO tab + info banner</div>
+      <div><span class="req-status covered">✓ Covered</span></div>
+    </div>
+    <div class="req-row">
+      <div class="req-id">R-08</div>
+      <div class="req-desc">Cancel pending limit order from portfolio.</div>
+      <div class="req-screen">Screen D–E · Cancel button + sheet</div>
+      <div><span class="req-status covered">✓ Covered</span></div>
+    </div>
+    <div class="req-row">
+      <div class="req-id">R-09</div>
+      <div class="req-desc">Show % of completion from submitted order amount.</div>
+      <div class="req-screen">Screen D & F · Fill progress bar</div>
+      <div><span class="req-status covered">✓ Covered</span></div>
+    </div>
+    <div class="req-row">
+      <div class="req-id">R-10</div>
+      <div class="req-desc">Real stocks show Market + True Limit Order. CFDs unchanged.</div>
+      <div class="req-screen">Screen A vs B · Order type tabs</div>
+      <div><span class="req-status covered">✓ Covered</span></div>
+    </div>
+    <div class="req-row">
+      <div class="req-id">R-11</div>
+      <div class="req-desc">Client can close position using a limit order.</div>
+      <div class="req-screen">Screen B · SELL tab with TLO selected</div>
+      <div><span class="req-status partial">≈ Partial</span></div>
+    </div>
+    <div class="req-row">
+      <div class="req-id">R-12</div>
+      <div class="req-desc">Cancel confirmation with edge case: simultaneous fill warning.</div>
+      <div class="req-screen">Screen E · Sheet warning text</div>
+      <div><span class="req-status covered">✓ Covered</span></div>
+    </div>
+    <div class="req-row">
+      <div class="req-id">R-13</div>
+      <div class="req-desc">EOD kill: unfilled amounts auto-cancelled; partial fills settled.</div>
+      <div class="req-screen">Screen F · Expires row + auto-cancel note</div>
+      <div><span class="req-status covered">✓ Covered</span></div>
+    </div>
+    <div class="req-row">
+      <div class="req-id">R-14</div>
+      <div class="req-desc">Order type allowed per instrument (market / limit / both) — configurable.</div>
+      <div class="req-screen">Implied by order type tab visibility</div>
+      <div><span class="req-status partial">≈ Config only</span></div>
+    </div>
+  </div>
+
+  <!-- Footer -->
+  <div style="margin-top:var(--x12);text-align:center;font-size:12px;color:var(--color-text-muted);">
+    eToro · True Limit Orders PRD Mockup · Michael P. · Sep 2024 · CoreClaw 🦀
+  </div>
+
+</main>
+
+<script>
+function toggleTheme() {
+  const html = document.documentElement;
+  const current = html.getAttribute('data-theme');
+  html.setAttribute('data-theme', current === 'dark' ? 'light' : 'dark');
+  document.querySelector('.theme-toggle').textContent = current === 'dark' ? '🌙' : '☀️';
+}
+</script>
+</body>
+</html>
