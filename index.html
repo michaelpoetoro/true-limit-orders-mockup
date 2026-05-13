@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en" data-theme="light">
+<html lang="en" data-theme="dark">
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -617,6 +617,251 @@ button{font-family:inherit;border:none;background:none;cursor:pointer;color:inhe
   opacity: 0.4;
   cursor: not-allowed;
 }
+
+/* ─── eToro native execution CSS (from approved preview) ─── */
+
+@font-face {
+  font-family: 'eToroNum';
+  src: url('https://marketing.etorostatic.com/cache1/fonts/etoro/eToro-VF-v0.7.ttf') format('truetype');
+  font-weight: 100 900;
+  font-display: swap;
+}
+* { margin:0;padding:0;box-sizing:border-box; }
+html,body { background:#080810;min-height:100vh;-webkit-font-smoothing:antialiased; }
+button { font-family:inherit;border:none;cursor:pointer;background:none;color:inherit; }
+
+:root {
+  --bg:   #080810;
+  --sht:  #1C1C1E;
+  --pill: rgba(255,255,255,.1);
+  --t1:   #ffffff;
+  --t2:   rgba(255,255,255,.5);
+  --t3:   rgba(255,255,255,.28);
+  --grn:  #0EB12E;
+  --ok:   #0EB12E;
+  --err:  #FF3B30;
+  --bdr:  rgba(255,255,255,.1);
+}
+
+/* Shell */
+.shell {
+  min-height:100vh;
+  display:flex;flex-direction:column;
+  align-items:center;justify-content:center;
+  padding:20px;gap:12px;
+}
+.nav-row {
+  display:flex;align-items:center;gap:10px;
+}
+.nav-a {
+  width:32px;height:32px;border-radius:50%;
+  background:rgba(255,255,255,.08);color:#fff;font-size:14px;
+  display:flex;align-items:center;justify-content:center;
+}
+.nav-a:disabled{opacity:.25;cursor:default;}
+.nav-dots {
+  display:flex;gap:6px;align-items:center;
+}
+.nav-dot {
+  width:5px;height:5px;border-radius:50%;background:rgba(255,255,255,.25);
+  transition:all .15s;
+}
+.nav-dot.on { width:16px;border-radius:3px;background:var(--grn); }
+
+/* Phone — exact iPhone 14 proportions at 1x: 390×844 */
+.phone {
+  width:390px;
+  height:844px;
+  border-radius:48px;
+  border:1px solid rgba(255,255,255,.1);
+  overflow:hidden;
+  position:relative;
+  background:var(--bg);
+  box-shadow:0 32px 80px rgba(0,0,0,.7),0 0 0 1px rgba(255,255,255,.04);
+}
+
+/* Status bar: 54px */
+.sb {
+  position:absolute;top:0;left:0;right:0;height:54px;
+  background:var(--bg);z-index:20;
+  display:flex;align-items:flex-end;
+  justify-content:space-between;
+  padding:0 28px 10px;
+}
+.sb-time{font-size:15px;font-weight:700;color:var(--t1);font-family:'Inter',sans-serif;}
+.sb-icons{display:flex;gap:5px;align-items:center;}
+.sb-icon{font-size:12px;color:var(--t1);}
+
+/* Screens */
+.scr {
+  position:absolute;top:54px;left:0;right:0;bottom:0;
+  background:var(--bg);
+  display:flex;flex-direction:column;
+  overflow:hidden;
+}
+.scr.off{display:none;}
+
+/* ── Top bar ── */
+.top-bar {
+  flex-shrink:0;
+  display:flex;align-items:center;justify-content:space-between;
+  padding:10px 20px 2px;
+}
+.back-btn {
+  width:36px;height:36px;border-radius:50%;
+  background:var(--pill);
+  display:flex;align-items:center;justify-content:center;
+  font-size:22px;font-weight:200;color:var(--t1);
+  line-height:1;
+}
+.ot-pill {
+  display:flex;align-items:center;gap:4px;
+  padding:8px 14px;border-radius:28px;background:var(--pill);
+  font-size:14px;font-weight:600;color:var(--t1);
+}
+.ot-pill .ch{font-size:9px;opacity:.55;margin-left:2px;}
+
+/* ── Asset strip ── */
+.asset-strip {
+  flex-shrink:0;
+  display:flex;align-items:center;justify-content:center;
+  gap:6px;padding:0 20px 6px;
+}
+.asset-ico {
+  width:20px;height:20px;border-radius:5px;
+  background:#18182A;border:1px solid rgba(255,255,255,.15);
+  display:flex;align-items:center;justify-content:center;
+  font-size:6px;font-weight:800;color:#fff;letter-spacing:-.5px;
+}
+.a-tick{font-size:14px;font-weight:600;color:var(--t1);}
+.a-sep{color:var(--t3);font-size:12px;}
+.a-price{font-size:14px;font-weight:400;color:var(--t2);font-variant-numeric:tabular-nums;}
+
+/* ── Amount ── */
+.amount-area {
+  flex-shrink:0;
+  display:flex;flex-direction:column;align-items:center;
+  padding:12px 20px 0;
+}
+.amount-row{display:flex;align-items:flex-start;gap:1px;margin-bottom:8px;}
+.amt-sym{
+  font-size:24px;font-weight:500;color:var(--t1);
+  padding-top:12px;font-family:'Roboto',sans-serif;
+}
+.amt-num{
+  font-size:60px;font-weight:400;color:var(--t1);
+  font-variant-numeric:tabular-nums;
+  font-feature-settings:'ss06' 1,'lnum' 1,'tnum' 1;
+  letter-spacing:0;line-height:72px;
+  font-family:'eToroNum','Inter',sans-serif;
+}
+.qty-pill{
+  display:flex;align-items:center;gap:5px;
+  padding:7px 16px;border-radius:28px;background:var(--pill);
+  font-size:13px;font-weight:500;color:var(--t1);
+  margin-bottom:6px;
+}
+.qty-pill .rf{opacity:.5;font-size:12px;}
+.avail{font-size:13px;color:var(--t2);}
+
+/* ── Keypad — 4 rows × 62px = 248px ── */
+.keypad{
+  flex-shrink:0;
+  display:grid;grid-template-columns:1fr 1fr 1fr;
+  background:var(--bg);
+  padding:0 2px;
+}
+.k{
+  height:62px;
+  display:flex;align-items:center;justify-content:center;
+  font-size:26px;font-weight:400;color:var(--t1);
+  border-radius:8px;transition:background .07s;
+}
+.k:active{background:rgba(255,255,255,.1);}
+.k-dot{font-size:30px;font-weight:700;padding-bottom:6px;}
+.k-del svg{opacity:.8;}
+
+/* ── CTA ── */
+.cta-area{
+  flex-shrink:0;
+  padding:8px 20px 16px;
+  background:var(--bg);
+}
+.cta-buy{
+  width:100%;height:54px;border-radius:28px;
+  background:var(--grn);color:#fff;
+  font-size:16px;font-weight:600;font-family:'eToroNum','Inter',sans-serif;
+  transition:background .12s;
+}
+.cta-buy:hover{background:#0C9A27;}
+.cta-buy:disabled{background:rgba(255,255,255,.11);color:rgba(255,255,255,.33);}
+
+/* ══ Screen 2: Set Limit sheet ══ */
+.scr-2-bg{
+  flex:1;min-height:0;display:flex;flex-direction:column;position:relative;
+}
+.dim-layer{
+  position:absolute;inset:0;background:rgba(0,0,0,.52);z-index:1;
+}
+.s2-behind{
+  flex:1;display:flex;flex-direction:column;
+  opacity:.42;pointer-events:none;
+}
+
+/* Sheet */
+.lmt-sheet{
+  position:absolute;bottom:0;left:0;right:0;z-index:2;
+  background:var(--sht);
+  border-radius:16px 16px 0 0;
+  display:flex;flex-direction:column;
+  /* shadow to give depth */
+  box-shadow:0 -8px 40px rgba(0,0,0,.5);
+}
+.sht-handle{
+  width:40px;height:4px;border-radius:2px;
+  background:rgba(255,255,255,.22);
+  margin:10px auto 12px;flex-shrink:0;
+}
+.sht-title{
+  font-size:18px;font-weight:700;color:var(--t1);
+  text-align:center;margin-bottom:2px;flex-shrink:0;
+  font-family:'eToroNum','Inter',sans-serif;
+}
+.sht-sub{
+  font-size:13px;color:var(--t2);
+  text-align:center;margin-bottom:10px;flex-shrink:0;
+}
+.sht-num{
+  font-size:58px;font-weight:400;color:var(--t1);
+  text-align:center;
+  font-variant-numeric:tabular-nums;
+  font-feature-settings:'ss06' 1,'lnum' 1,'tnum' 1;
+  letter-spacing:0;line-height:66px;
+  font-family:'eToroNum','Inter',sans-serif;
+  min-height:64px;padding:0 20px;
+  flex-shrink:0;
+}
+.sht-val{
+  font-size:11px;color:var(--ok);
+  text-align:center;min-height:14px;
+  margin-bottom:6px;flex-shrink:0;
+}
+.sht-val.err{color:var(--err);}
+.sht-kp{
+  display:grid;grid-template-columns:1fr 1fr 1fr;
+  background:var(--sht);flex-shrink:0;padding:0 2px;
+}
+.sht-kp .k{height:60px;font-size:24px;}
+.sht-kp .k:active{background:rgba(255,255,255,.07);}
+.sht-cta{padding:6px 20px 16px;flex-shrink:0;}
+.sht-set-btn{
+  width:100%;height:54px;border-radius:28px;
+  background:var(--grn);color:#fff;
+  font-size:16px;font-weight:600;font-family:'eToroNum','Inter',sans-serif;
+}
+.sht-set-btn:hover{background:#0C9A27;}
+.sht-set-btn:disabled{background:rgba(255,255,255,.11);color:rgba(255,255,255,.33);}
+
 </style>
 </head>
 <body>
@@ -686,57 +931,36 @@ const STEPS = [
     ],
     cta: 'Tap "Switch to Limit Order" button',
     html: () => `
-      <div class="screen-content">
-        <div class="app-bar">
-          <button class="back-btn" aria-label="Back" onclick="showToast('Navigate to asset page')">←</button>
-          <div style="flex:1"><div class="bar-title">AAPL</div><div class="bar-sub">Apple Inc.</div></div>
-          <button class="icon-btn" aria-label="Watchlist" onclick="showToast('Added to watchlist ♡')">♡</button>
-          <button class="icon-btn" aria-label="More" onclick="showToast('More options')">⋯</button>
+      <div class="scr" style="position:relative;top:0;left:0;right:0;bottom:0;display:flex;flex-direction:column;overflow:hidden;background:var(--bg);">
+        <div class="top-bar">
+          <button class="back-btn" onclick="showToast('Back to asset page')">‹</button>
+          <button class="ot-pill" onclick="goTo(1)">Market Order<span class="ch">▾</span></button>
         </div>
         <div class="asset-strip">
-          <div class="asset-logo" aria-hidden="true">AAPL</div>
-          <div><div class="asset-name">Apple Inc.</div><div class="asset-sub">NASDAQ · Real Stock</div></div>
-          <div class="asset-price-col"><div class="asset-price">$186.42</div><div class="asset-change up">+1.24 (+0.67%)</div></div>
+          <div class="asset-ico">AAPL</div>
+          <span class="a-tick">AAPL</span><span class="a-sep">·</span>
+          <span class="a-price">$186.42</span>
         </div>
-        <div class="seg-wrap"><div class="seg" role="group" aria-label="Direction">
-          <button class="active buy" aria-pressed="true">BUY</button>
-          <button aria-pressed="false">SELL</button>
-        </div></div>
-        <div class="order-tabs-wrap">
-          <div class="order-tabs" role="tablist">
-            <div class="order-tab active" role="tab" aria-selected="true">
-              <div class="order-tab-label">Market Order</div>
-              <div class="order-tab-hint">Best available price</div>
-            </div>
+        <div class="amount-area">
+          <div class="amount-row">
+            <span class="amt-sym">$</span>
+            <span class="amt-num" id="mkt-num">10.00</span>
           </div>
+          <button class="qty-pill"><span id="mkt-shares">~0.05 shares</span><span class="rf">⟳</span></button>
+          <span class="avail">Available: $12,440.00</span>
+          <span id="mkt-amount-input" style="display:none">10.00</span>
+          <span id="mkt-est-shares" style="display:none">~0.05 shares</span>
+          <span id="mkt-est-price" style="display:none">~$186.42</span>
+          <span id="mkt-total" style="display:none">$11.99</span>
         </div>
-        <div class="form-sec">
-          <div class="form-row">
-            <div class="form-label" id="lbl-amount">Amount</div>
-            <div class="input-wrap"><span class="input-pre" aria-hidden="true">$</span>
-              <input class="input-f" id="mkt-amount-input" value="$1,000.00" inputmode="decimal" aria-labelledby="lbl-amount">
-            </div>
-            <div class="chips" role="group" aria-label="Quick amounts">
-              <button class="chip" data-amount="100">$100</button>
-              <button class="chip sel" aria-pressed="true" data-amount="1000">$1K</button>
-              <button class="chip" data-amount="5000">$5K</button>
-              <button class="chip" data-amount="10000">$10K</button>
-            </div>
-          </div>
-          <div class="summary" role="region" aria-label="Order summary">
-            <div class="s-row"><span class="s-k">Est. shares</span><span class="s-v" id="mkt-est-shares">~5 shares</span></div>
-            <div class="s-row"><span class="s-k">Est. price</span><span class="s-v" id="mkt-est-price">~$186.42</span></div>
-            <div class="s-row"><span class="s-k">Ticket fee</span><span class="s-v">$1.99</span></div>
-            <div class="s-row"><span class="s-k">Total</span><span class="s-v tlo" id="mkt-total">$934.09</span></div>
-          </div>
-          <button class="switch-btn" onclick="goTo(1)" aria-label="Switch to True Limit Order">
-            🎯 Switch to Limit Order
-          </button>
+        <div class="keypad">
+          <button class="k" onclick="mKp('1')">1</button><button class="k" onclick="mKp('2')">2</button><button class="k" onclick="mKp('3')">3</button>
+          <button class="k" onclick="mKp('4')">4</button><button class="k" onclick="mKp('5')">5</button><button class="k" onclick="mKp('6')">6</button>
+          <button class="k" onclick="mKp('7')">7</button><button class="k" onclick="mKp('8')">8</button><button class="k" onclick="mKp('9')">9</button>
+          <button class="k k-dot" onclick="mKp('.')">.</button><button class="k" onclick="mKp('0')">0</button>
+          <button class="k k-del" onclick="mKpDel()"><svg width="20" height="14" viewBox="0 0 20 14" fill="none"><path d="M7 1L1 7L7 13M19 7H1" stroke="white" stroke-width="1.8" stroke-linecap="round"/></svg></button>
         </div>
-        <div class="cta-row">
-          <button class="btn-buy" onclick="goTo(1)" title="Try True Limit Order instead">Buy AAPL</button>
-          <button class="btn-sell" onclick="goTo(1)" title="Try True Limit Order instead">Sell</button>
-        </div>
+        <div class="cta-area"><button class="cta-buy">Buy AAPL</button></div>
       </div>
     `
   },
@@ -757,91 +981,75 @@ const STEPS = [
     ],
     cta: 'Tap "Place Limit Order" to submit',
     html: () => `
-      <div class="screen-content">
-        <div class="app-bar">
-          <button class="back-btn" aria-label="Back" onclick="goTo(0)">←</button>
-          <div style="flex:1"><div class="bar-title">AAPL</div><div class="bar-sub">Apple Inc.</div></div>
-          <button class="icon-btn" aria-label="Watchlist">♡</button>
-          <button class="icon-btn" aria-label="More">⋯</button>
+      <div style="background:var(--bg);position:relative;display:flex;flex-direction:column;overflow:hidden;height:100%;">
+        <!-- Dimmed market screen behind -->
+        <div class="top-bar" style="opacity:.35;pointer-events:none;">
+          <button class="back-btn">‹</button>
+          <button class="ot-pill">Market Order<span class="ch">▾</span></button>
         </div>
-        <div class="asset-strip">
-          <div class="asset-logo" aria-hidden="true">AAPL</div>
-          <div><div class="asset-name">Apple Inc.</div><div class="asset-sub">NASDAQ · Real Stock</div></div>
-          <div class="asset-price-col"><div class="asset-price">$186.42</div><div class="asset-change up">+1.24 (+0.67%)</div></div>
-        </div>
-        <div class="seg-wrap"><div class="seg" role="group" aria-label="Direction">
-          <button class="active buy" aria-pressed="true">BUY</button>
-          <button aria-pressed="false">SELL</button>
-        </div></div>
-        <div class="order-tabs-wrap">
-          <div class="order-tabs" role="tablist">
-            <button class="order-tab" role="tab" aria-selected="false" onclick="goTo(0)">
-              <div class="order-tab-label">Market Order</div>
-              <div class="order-tab-hint">Best available price</div>
-            </button>
-            <button class="order-tab tlo-active" role="tab" aria-selected="true">
-              <div class="order-tab-label">True Limit Order</div>
-              <div class="order-tab-hint">Your price or better</div>
-            </button>
+        <div style="flex:1;opacity:.35;pointer-events:none;display:flex;flex-direction:column;align-items:center;padding:0 20px 6px;">
+          <div class="asset-strip">
+            <div class="asset-ico">AAPL</div>
+            <span class="a-tick">AAPL</span><span class="a-sep">·</span>
+            <span class="a-price">$186.42</span>
+          </div>
+          <div class="amount-row" style="margin-top:8px;">
+            <span class="amt-sym">$</span><span class="amt-num">10.00</span>
           </div>
         </div>
-        <div class="form-sec" style="padding-bottom:0;">
-          <div class="tlo-bar" role="note">
-            <div class="tlo-bar-icon" aria-hidden="true">🎯</div>
-            <div class="tlo-bar-text"><b>True Limit Order</b>Your order rests in the market until filled at your price or better. No slippage. $1.99 ticket fee. Valid today only (DAY).</div>
+        <!-- Dim overlay -->
+        <div style="position:absolute;inset:0;background:rgba(0,0,0,.52);z-index:1;"></div>
+        <!-- Set Limit sheet -->
+        <div class="lmt-sheet" style="position:absolute;bottom:0;left:0;right:0;z-index:2;background:var(--sht);border-radius:16px 16px 0 0;display:flex;flex-direction:column;box-shadow:0 -8px 40px rgba(0,0,0,.5);">
+          <div class="sht-handle"></div>
+          <div class="sht-title">Set Limit order</div>
+          <div class="sht-sub">Current Ask Price: $186.45</div>
+          <div class="sht-num" id="kp-display">184.56</div>
+          <div class="sht-val" id="price-validation">✓ Below Ask · order rests at your price</div>
+          <div class="sht-val err" id="price-inline-err" style="display:none;"></div>
+          <div class="sht-val err" id="shares-inline-err" style="display:none;"></div>
+          <div class="sht-kp">
+            <button class="k" onclick="kpPress('1')">1</button><button class="k" onclick="kpPress('2')">2</button><button class="k" onclick="kpPress('3')">3</button>
+            <button class="k" onclick="kpPress('4')">4</button><button class="k" onclick="kpPress('5')">5</button><button class="k" onclick="kpPress('6')">6</button>
+            <button class="k" onclick="kpPress('7')">7</button><button class="k" onclick="kpPress('8')">8</button><button class="k" onclick="kpPress('9')">9</button>
+            <button class="k k-dot" onclick="kpPress('.')">.</button><button class="k" onclick="kpPress('0')">0</button>
+            <button class="k k-del" onclick="kpBackspace()"><svg width="20" height="14" viewBox="0 0 20 14" fill="none"><path d="M7 1L1 7L7 13M19 7H1" stroke="white" stroke-width="1.8" stroke-linecap="round"/></svg></button>
           </div>
-          <div class="mkt-strip" role="region" aria-label="Live market data">
-            <div class="mkt-i"><div class="mkt-l">Ask</div><div class="mkt-v up">$186.45</div></div>
-            <div class="mkt-i"><div class="mkt-l">Bid</div><div class="mkt-v down">$186.39</div></div>
-            <div class="mkt-i"><div class="mkt-l">Spread</div><div class="mkt-v">$0.06</div></div>
-            <div class="mkt-i"><div class="mkt-l">Tick</div><div class="mkt-v">$0.01</div></div>
-          </div>
-          <div class="form-row">
-            <div class="form-label" id="lbl-price">Limit Price <span class="form-hint">Whole cents · aligned to tick size</span></div>
-            <div class="input-wrap">
-              <span class="input-pre" style="font-weight:800;color:var(--color-text-primary);" aria-hidden="true">$</span>
-              <input class="input-f focused" id="tlo-price-input" value="184.56" inputmode="decimal" aria-labelledby="lbl-price">
-            </div>
-            <div class="chips" role="group" aria-label="Price shortcuts">
-              <button class="chip" data-price="186.45">Ask $186.45</button>
-              <button class="chip sel" aria-pressed="true" data-price="184.56">-1% $184.56</button>
-              <button class="chip" data-price="182.78">-2% $182.78</button>
-              <button class="chip" data-price="177.13">-5% $177.13</button>
-            </div>
-            <div class="tick-note">· Tick size &amp; tolerance % configurable per instrument</div>
-          </div>
-          <div class="form-row" style="margin-bottom:var(--x3);">
-            <div class="form-label" id="lbl-shares">Shares <span class="form-hint">Whole shares only — no fractional</span></div>
-            <div class="input-wrap">
-              <input class="input-f shares" id="tlo-shares-input" value="5" inputmode="numeric" aria-labelledby="lbl-shares">
-              <span class="input-suf" aria-hidden="true">shares</span>
-            </div>
-            <div class="chips" role="group" aria-label="Share quantity shortcuts">
-              <button class="chip" data-shares="1">1</button>
-              <button class="chip sel" aria-pressed="true" data-shares="5">5</button>
-              <button class="chip" data-shares="10">10</button>
-              <button class="chip" data-shares="25">25</button>
-            </div>
-          </div>
-          <div class="val-banner ok" id="price-validation" role="status">
-            <span class="val-icon" aria-hidden="true">✓</span>
-            <div><b>Price valid — below Ask</b>$184.56 is 1.01% below current Ask. Order rests until price hits your level.</div>
-          </div>
-          <div class="val-banner info" id="tlo-reserve-banner" role="note">
-            <span class="val-icon" aria-hidden="true">ℹ</span>
-            <div id="tlo-reserve-text"><b>Balance reserved at limit price</b> $922.80 (5 × $184.56) held until filled or cancelled.</div>
-          </div>
-          <div class="summary" role="region" aria-label="Order summary">
-            <div class="s-row"><span class="s-k">Order type</span><span class="s-v tlo">True Limit Order (DAY)</span></div>
-            <div class="s-row"><span class="s-k">Limit price</span><span class="s-v" id="tlo-summary-price">$184.56</span></div>
-            <div class="s-row"><span class="s-k">Quantity</span><span class="s-v" id="tlo-summary-qty">5 shares</span></div>
-            <div class="s-row"><span class="s-k">Reserved</span><span class="s-v" id="tlo-summary-reserved">$922.80</span></div>
-            <div class="s-row"><span class="s-k">Ticket fee</span><span class="s-v">$1.99</span></div>
+          <div class="sht-cta">
+            <button class="sht-set-btn" id="place-limit-btn" onclick="validateAndSubmit()">Set limit</button>
           </div>
         </div>
-        <div class="cta-row">
-          <button class="btn-buy" id="place-limit-btn" onclick="validateAndSubmit()" aria-label="Place limit order">Place Limit Order</button>
-        </div>
+        <!-- Hidden inputs for JS compatibility -->
+        <input id="tlo-price-input" value="184.56" style="display:none">
+        <input id="tlo-shares-input" value="5" style="display:none">
+        <span id="tlo-summary-price" style="display:none">$184.56</span>
+        <span id="tlo-summary-qty" style="display:none">5 shares</span>
+        <span id="tlo-summary-reserved" style="display:none">$922.80</span>
+        <div id="tlo-reserve-text" style="display:none">$922.80 (5 × $184.56)</div>
+        <script>
+        var kpVal = '184.56';
+        function kpPress(k) {
+          if (k === '.' && kpVal.includes('.')) return;
+          if (kpVal.includes('.') && kpVal.split('.')[1].length >= 2) return;
+          if (kpVal === '0' && k !== '.') kpVal = k; else kpVal += k;
+          var d = document.getElementById('kp-display');
+          if (d) d.textContent = kpVal;
+          var inp = document.getElementById('tlo-price-input');
+          if (inp) { inp.value = kpVal; inp.dispatchEvent(new Event('input', {bubbles:true})); }
+        }
+        function kpBackspace() {
+          if (kpVal.length <= 1) kpVal = '0'; else kpVal = kpVal.slice(0,-1);
+          var d = document.getElementById('kp-display');
+          if (d) d.textContent = kpVal;
+          var inp = document.getElementById('tlo-price-input');
+          if (inp) { inp.value = kpVal; inp.dispatchEvent(new Event('input', {bubbles:true})); }
+        }
+        (function() {
+          var d = document.getElementById('kp-display');
+          if (d) d.textContent = kpVal;
+          if (typeof validateForm === 'function') setTimeout(validateForm, 50);
+        })();
+        </script>
       </div>
     `
   },
@@ -2107,6 +2315,23 @@ function validateForm() {
     btn.style.opacity = '0.7';
     btn.style.cursor = 'not-allowed';
   }
+}
+
+/* ─── Market order keypad (Screen 1) ─── */
+var mktKpVal = '10.00';
+function mKp(k) {
+  if (k === '.' && mktKpVal.includes('.')) return;
+  if (mktKpVal.includes('.') && mktKpVal.split('.')[1].length >= 2) return;
+  if (mktKpVal === '0' && k !== '.') mktKpVal = k; else mktKpVal += k;
+  var d = document.getElementById('mkt-num');
+  var s = document.getElementById('mkt-shares');
+  if (d) d.textContent = mktKpVal;
+  if (s) { var a = parseFloat(mktKpVal); s.textContent = isNaN(a) ? '— shares' : '~'+(a/186.42).toFixed(2)+' shares'; }
+}
+function mKpDel() {
+  if (mktKpVal.length <= 1) mktKpVal = '0'; else mktKpVal = mktKpVal.slice(0,-1);
+  var d = document.getElementById('mkt-num');
+  if (d) d.textContent = mktKpVal;
 }
 
 // Init
