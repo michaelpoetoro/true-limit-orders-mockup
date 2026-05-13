@@ -1027,30 +1027,7 @@ const STEPS = [
         <span id="tlo-summary-qty" style="display:none">5 shares</span>
         <span id="tlo-summary-reserved" style="display:none">$922.80</span>
         <div id="tlo-reserve-text" style="display:none">$922.80 (5 × $184.56)</div>
-        <script>
-        var kpVal = '184.56';
-        function kpPress(k) {
-          if (k === '.' && kpVal.includes('.')) return;
-          if (kpVal.includes('.') && kpVal.split('.')[1].length >= 2) return;
-          if (kpVal === '0' && k !== '.') kpVal = k; else kpVal += k;
-          var d = document.getElementById('kp-display');
-          if (d) d.textContent = kpVal;
-          var inp = document.getElementById('tlo-price-input');
-          if (inp) { inp.value = kpVal; inp.dispatchEvent(new Event('input', {bubbles:true})); }
-        }
-        function kpBackspace() {
-          if (kpVal.length <= 1) kpVal = '0'; else kpVal = kpVal.slice(0,-1);
-          var d = document.getElementById('kp-display');
-          if (d) d.textContent = kpVal;
-          var inp = document.getElementById('tlo-price-input');
-          if (inp) { inp.value = kpVal; inp.dispatchEvent(new Event('input', {bubbles:true})); }
-        }
-        (function() {
-          var d = document.getElementById('kp-display');
-          if (d) d.textContent = kpVal;
-          if (typeof validateForm === 'function') setTimeout(validateForm, 50);
-        })();
-        </script>
+
       </div>
     `
   },
@@ -1968,6 +1945,7 @@ function goTo(idx) {
   document.getElementById('nextBtn').disabled = currentStep === STEPS.length - 1;
   const activeItem = document.querySelector('.step-item.active');
   if (activeItem) activeItem.scrollIntoView({ behavior: 'smooth', block: 'nearest', inline: 'center' });
+  if (idx === 1) { setTimeout(function(){ var d=document.getElementById('kp-display'); if(d)d.textContent=kpVal; if(typeof validateForm==='function')validateForm(); }, 50); }
 }
 
 function toggleTheme() {
@@ -2333,6 +2311,27 @@ function mKpDel() {
   if (mktKpVal.length <= 1) mktKpVal = '0'; else mktKpVal = mktKpVal.slice(0,-1);
   var d = document.getElementById('mkt-num');
   if (d) d.textContent = mktKpVal;
+}
+
+/* ─── TLO price keypad (Screen 2) ─── */
+var kpVal = '184.56';
+function kpPress(k) {
+  var d = document.getElementById('kp-display');
+  if (!d) return;
+  if (k === '.' && kpVal.includes('.')) return;
+  if (kpVal.includes('.') && kpVal.split('.')[1].length >= 2) return;
+  if (kpVal === '0' && k !== '.') kpVal = k; else kpVal += k;
+  d.textContent = kpVal;
+  var inp = document.getElementById('tlo-price-input');
+  if (inp) { inp.value = kpVal; inp.dispatchEvent(new Event('input', {bubbles:true})); }
+}
+function kpBackspace() {
+  var d = document.getElementById('kp-display');
+  if (!d) return;
+  if (kpVal.length <= 1) kpVal = '0'; else kpVal = kpVal.slice(0,-1);
+  d.textContent = kpVal;
+  var inp = document.getElementById('tlo-price-input');
+  if (inp) { inp.value = kpVal; inp.dispatchEvent(new Event('input', {bubbles:true})); }
 }
 
 // Init
