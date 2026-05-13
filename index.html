@@ -709,7 +709,7 @@ const STEPS = [
           <div class="form-row">
             <div class="form-label" id="lbl-amount">Amount</div>
             <div class="input-wrap"><span class="input-pre" aria-hidden="true">$</span>
-              <input class="input-f" id="mkt-amount-input" value="$1,000.00" readonly aria-labelledby="lbl-amount">
+              <input class="input-f" id="mkt-amount-input" value="$1,000.00" inputmode="decimal" aria-labelledby="lbl-amount">
             </div>
             <div class="chips" role="group" aria-label="Quick amounts">
               <button class="chip" data-amount="100">$100</button>
@@ -795,7 +795,7 @@ const STEPS = [
             <div class="form-label" id="lbl-price">Limit Price <span class="form-hint">Whole cents · aligned to tick size</span></div>
             <div class="input-wrap">
               <span class="input-pre" style="font-weight:800;color:var(--color-text-primary);" aria-hidden="true">$</span>
-              <input class="input-f focused" id="tlo-price-input" value="184.56" aria-labelledby="lbl-price">
+              <input class="input-f focused" id="tlo-price-input" value="184.56" inputmode="decimal" aria-labelledby="lbl-price">
             </div>
             <div class="chips" role="group" aria-label="Price shortcuts">
               <button class="chip" data-price="186.45">Ask $186.45</button>
@@ -808,7 +808,7 @@ const STEPS = [
           <div class="form-row" style="margin-bottom:var(--x3);">
             <div class="form-label" id="lbl-shares">Shares <span class="form-hint">Whole shares only — no fractional</span></div>
             <div class="input-wrap">
-              <input class="input-f shares" value="5" readonly aria-labelledby="lbl-shares">
+              <input class="input-f shares" id="tlo-shares-input" value="5" inputmode="numeric" aria-labelledby="lbl-shares">
               <span class="input-suf" aria-hidden="true">shares</span>
             </div>
             <div class="chips" role="group" aria-label="Share quantity shortcuts">
@@ -818,7 +818,7 @@ const STEPS = [
               <button class="chip" data-shares="25">25</button>
             </div>
           </div>
-          <div class="val-banner ok" role="status">
+          <div class="val-banner ok" id="price-validation" role="status">
             <span class="val-icon" aria-hidden="true">✓</span>
             <div><b>Price valid — below Ask</b>$184.56 is 1.01% below current Ask. Order rests until price hits your level.</div>
           </div>
@@ -1863,6 +1863,101 @@ document.addEventListener('click', function(e) {
     btn.setAttribute('aria-pressed', 'true');
     if (btn.textContent.trim() === 'BUY') btn.classList.add('buy');
     if (btn.textContent.trim() === 'SELL') btn.classList.add('sell');
+    return;
+  }
+});
+
+/* ─── Live input handlers (manual typing) ─────────────────────────── */
+document.addEventListener('input', function(e) {
+  const inp = e.target;
+
+  /* Manual price entry — Screen 2 TLO */
+  if (inp.id === 'tlo-price-input') {
+    const price = parseFloat(inp.value);
+    const ask = 186.45;
+    if (isNaN(price)) return;
+
+    // Deselect all price chips
+    document.querySelectorAll('[data-price]').forEach(c => {
+      c.classList.remove('sel');
+      c.setAttribute('aria-pressed', 'false');
+    });
+    // Select matching chip if exact match
+    document.querySelectorAll('[data-price]').forEach(c => {
+      if (parseFloat(c.dataset.price) === price) {
+        c.classList.add('sel');
+        c.setAttribute('aria-pressed', 'true');
+      }
+    });
+
+    // Update summary price
+    const sEl = document.getElementById('tlo-summary-price');
+    if (sEl) sEl.textContent = isNaN(price) ? '—' : '$' + price.toFixed(2);
+
+    // Update reserved
+    const sharesInp = document.getElementById('tlo-shares-input') || document.querySelector('.input-f.shares');
+    const shares = sharesInp ? parseInt(sharesInp.value) || 5 : 5;
+    const reserved = price * shares;
+    const resEl = document.getElementById('tlo-summary-reserved');
+    if (resEl) resEl.textContent = isNaN(reserved) ? '—' : '$' + reserved.toLocaleString('en-US', {minimumFractionDigits:2, maximumFractionDigits:2});
+
+    // Validation banner
+    const valBanner = document.getElementById('price-validation');
+    if (valBanner) {
+      if (price > ask * 1.02) {
+        valBanner.className = 'val-banner err';
+        valBanner.innerHTML = '<span class="val-icon">⚠</span><div><b>Price exceeds Ask + tolerance</b>$' + price.toFixed(2) + ' is ' + ((price/ask-1)*100).toFixed(2) + '% above Ask ($' + ask + '). Max +2%. Reduce your price.</div>';
+      } else if (price <= 0) {
+        valBanner.className = 'val-banner err';
+        valBanner.innerHTML = '<span class="val-icon">⚠</span><div><b>Invalid price</b>Enter a valid limit price.</div>';
+      } else {
+        const pctBelow = ((ask - price) / ask * 100).toFixed(2);
+        valBanner.className = 'val-banner ok';
+        valBanner.innerHTML = '<span class="val-icon">✓</span><div><b>Price valid — below Ask</b>$' + price.toFixed(2) + ' is ' + pctBelow + '% below Ask. Order will rest until price reaches your level.</div>';
+      }
+    }
+    return;
+  }
+
+  /* Manual shares entry — Screen 2 TLO */
+  if (inp.id === 'tlo-shares-input' || (inp.classList.contains('input-f') && inp.classList.contains('shares') && !inp.id)) {
+    const shares = parseInt(inp.value);
+    if (isNaN(shares) || shares < 1) return;
+
+    // Deselect all share chips
+    document.querySelectorAll('[data-shares]').forEach(c => {
+      c.classList.remove('sel');
+      c.setAttribute('aria-pressed', 'false');
+    });
+    document.querySelectorAll('[data-shares]').forEach(c => {
+      if (parseInt(c.dataset.shares) === shares) {
+        c.classList.add('sel');
+        c.setAttribute('aria-pressed', 'true');
+      }
+    });
+
+    const qEl = document.getElementById('tlo-summary-qty');
+    if (qEl) qEl.textContent = shares + ' shares';
+
+    const priceInp = document.getElementById('tlo-price-input');
+    const price = priceInp ? parseFloat(priceInp.value) || 184.56 : 184.56;
+    const reserved = price * shares;
+    const resEl = document.getElementById('tlo-summary-reserved');
+    if (resEl) resEl.textContent = '$' + reserved.toLocaleString('en-US', {minimumFractionDigits:2, maximumFractionDigits:2});
+    return;
+  }
+
+  /* Manual amount entry — Screen 1 */
+  if (inp.id === 'mkt-amount-input') {
+    const raw = inp.value.replace(/[^0-9.]/g, '');
+    const amt = parseFloat(raw);
+    if (isNaN(amt)) return;
+    const mktPrice = 186.42;
+    const shares = Math.floor(amt / mktPrice);
+    const estEl = document.getElementById('mkt-est-shares');
+    if (estEl) estEl.textContent = shares < 1 ? '< 1 share ⚠' : '~' + shares + ' shares';
+    const totalEl = document.getElementById('mkt-total');
+    if (totalEl) totalEl.textContent = shares < 1 ? '—' : '$' + (shares * mktPrice + 1.99).toLocaleString('en-US', {minimumFractionDigits:2, maximumFractionDigits:2});
     return;
   }
 });
