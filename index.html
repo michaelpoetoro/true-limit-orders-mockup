@@ -709,20 +709,20 @@ const STEPS = [
           <div class="form-row">
             <div class="form-label" id="lbl-amount">Amount</div>
             <div class="input-wrap"><span class="input-pre" aria-hidden="true">$</span>
-              <input class="input-f" value="932.10" readonly aria-labelledby="lbl-amount">
+              <input class="input-f" id="mkt-amount-input" value="$1,000.00" readonly aria-labelledby="lbl-amount">
             </div>
             <div class="chips" role="group" aria-label="Quick amounts">
-              <button class="chip">$100</button>
-              <button class="chip sel" aria-pressed="true">$1K</button>
-              <button class="chip">$5K</button>
-              <button class="chip">$10K</button>
+              <button class="chip" data-amount="100">$100</button>
+              <button class="chip sel" aria-pressed="true" data-amount="1000">$1K</button>
+              <button class="chip" data-amount="5000">$5K</button>
+              <button class="chip" data-amount="10000">$10K</button>
             </div>
           </div>
           <div class="summary" role="region" aria-label="Order summary">
-            <div class="s-row"><span class="s-k">Est. shares</span><span class="s-v">~5 shares</span></div>
-            <div class="s-row"><span class="s-k">Est. price</span><span class="s-v">~$186.42</span></div>
+            <div class="s-row"><span class="s-k">Est. shares</span><span class="s-v" id="mkt-est-shares">~5 shares</span></div>
+            <div class="s-row"><span class="s-k">Est. price</span><span class="s-v" id="mkt-est-price">~$186.42</span></div>
             <div class="s-row"><span class="s-k">Ticket fee</span><span class="s-v">$1.99</span></div>
-            <div class="s-row"><span class="s-k">Total</span><span class="s-v tlo">$934.09</span></div>
+            <div class="s-row"><span class="s-k">Total</span><span class="s-v tlo" id="mkt-total">$934.09</span></div>
           </div>
           <button class="switch-btn" onclick="goTo(1)" aria-label="Switch to True Limit Order">
             🎯 Switch to Limit Order
@@ -795,13 +795,13 @@ const STEPS = [
             <div class="form-label" id="lbl-price">Limit Price <span class="form-hint">Whole cents · aligned to tick size</span></div>
             <div class="input-wrap">
               <span class="input-pre" style="font-weight:800;color:var(--color-text-primary);" aria-hidden="true">$</span>
-              <input class="input-f focused" value="185.00" readonly aria-labelledby="lbl-price">
+              <input class="input-f focused" id="tlo-price-input" value="184.56" aria-labelledby="lbl-price">
             </div>
             <div class="chips" role="group" aria-label="Price shortcuts">
-              <button class="chip">Ask $186.45</button>
-              <button class="chip">-1% $184.56</button>
-              <button class="chip sel" aria-pressed="true">-2% $182.78</button>
-              <button class="chip">-5% $177.13</button>
+              <button class="chip" data-price="186.45">Ask $186.45</button>
+              <button class="chip sel" aria-pressed="true" data-price="184.56">-1% $184.56</button>
+              <button class="chip" data-price="182.78">-2% $182.78</button>
+              <button class="chip" data-price="177.13">-5% $177.13</button>
             </div>
             <div class="tick-note">· Tick size &amp; tolerance % configurable per instrument</div>
           </div>
@@ -812,25 +812,25 @@ const STEPS = [
               <span class="input-suf" aria-hidden="true">shares</span>
             </div>
             <div class="chips" role="group" aria-label="Share quantity shortcuts">
-              <button class="chip">1</button>
-              <button class="chip sel" aria-pressed="true">5</button>
-              <button class="chip">10</button>
-              <button class="chip">25</button>
+              <button class="chip" data-shares="1">1</button>
+              <button class="chip sel" aria-pressed="true" data-shares="5">5</button>
+              <button class="chip" data-shares="10">10</button>
+              <button class="chip" data-shares="25">25</button>
             </div>
           </div>
           <div class="val-banner ok" role="status">
             <span class="val-icon" aria-hidden="true">✓</span>
-            <div><b>Price valid — below Ask</b>$185.00 is 0.78% below current ask. Order rests until price hits your level.</div>
+            <div><b>Price valid — below Ask</b>$184.56 is 1.01% below current Ask. Order rests until price hits your level.</div>
           </div>
           <div class="val-banner info" role="note">
             <span class="val-icon" aria-hidden="true">ℹ</span>
-            <div><b>Balance reserved at limit price</b>$925.00 (5 × $185.00) held until filled or cancelled.</div>
+            <div><b>Balance reserved at limit price</b>$922.80 (5 × $184.56) held until filled or cancelled.</div>
           </div>
           <div class="summary" role="region" aria-label="Order summary">
             <div class="s-row"><span class="s-k">Order type</span><span class="s-v tlo">True Limit Order (DAY)</span></div>
-            <div class="s-row"><span class="s-k">Limit price</span><span class="s-v">$185.00</span></div>
-            <div class="s-row"><span class="s-k">Quantity</span><span class="s-v">5 shares</span></div>
-            <div class="s-row"><span class="s-k">Reserved</span><span class="s-v">$925.00</span></div>
+            <div class="s-row"><span class="s-k">Limit price</span><span class="s-v" id="tlo-summary-price">$184.56</span></div>
+            <div class="s-row"><span class="s-k">Quantity</span><span class="s-v" id="tlo-summary-qty">5 shares</span></div>
+            <div class="s-row"><span class="s-k">Reserved</span><span class="s-v" id="tlo-summary-reserved">$922.80</span></div>
             <div class="s-row"><span class="s-k">Ticket fee</span><span class="s-v">$1.99</span></div>
           </div>
         </div>
@@ -1773,7 +1773,7 @@ document.addEventListener('click', function(e) {
   const btn = e.target.closest('button');
   if (!btn) return;
 
-  /* Chip selection (amount / price / share) */
+  /* Chip selection — toggle active state AND update bound form values */
   if (btn.classList.contains('chip') && !btn.classList.contains('f-chip')) {
     const group = btn.closest('[role="group"]') || btn.parentElement;
     if (group) {
@@ -1784,6 +1784,56 @@ document.addEventListener('click', function(e) {
       btn.classList.add('sel');
       btn.setAttribute('aria-pressed', 'true');
     }
+
+    /* Amount chips (Screen 1 — Market Order) */
+    if (btn.dataset.amount) {
+      const amt = parseInt(btn.dataset.amount);
+      const mktPrice = 186.42;
+      const shares = Math.floor(amt / mktPrice);
+      const inp = document.getElementById('mkt-amount-input');
+      if (inp) inp.value = amt >= 1000
+        ? '$' + (amt/1000).toFixed(0) + ',000.00'
+        : '$' + amt.toFixed(0) + '.00';
+      const estEl = document.getElementById('mkt-est-shares');
+      if (estEl) estEl.textContent = shares < 1 ? '< 1 share ⚠' : '~' + shares + ' shares';
+      const totalEl = document.getElementById('mkt-total');
+      if (totalEl) totalEl.textContent = shares < 1 ? '—' :
+        '$' + (shares * mktPrice + 1.99).toLocaleString('en-US', {minimumFractionDigits:2, maximumFractionDigits:2});
+      return;
+    }
+
+    /* Price chips (Screen 2 — TLO Entry) */
+    if (btn.dataset.price) {
+      const price = parseFloat(btn.dataset.price);
+      const ask = 186.45;
+      const pInp = document.getElementById('tlo-price-input');
+      if (pInp) pInp.value = price.toFixed(2);
+      const sEl = document.getElementById('tlo-summary-price');
+      if (sEl) sEl.textContent = '$' + price.toFixed(2);
+      // Update reserved (use current shares)
+      const sharesInp = document.querySelector('.input-f.shares');
+      const shares = sharesInp ? parseInt(sharesInp.value) || 5 : 5;
+      const reserved = (price * shares).toFixed(2);
+      const resEl = document.getElementById('tlo-summary-reserved');
+      if (resEl) resEl.textContent = '$' + parseFloat(reserved).toLocaleString('en-US',{minimumFractionDigits:2});
+      return;
+    }
+
+    /* Share chips (Screen 2 — TLO Entry) */
+    if (btn.dataset.shares) {
+      const shares = parseInt(btn.dataset.shares);
+      const sharesInp = document.querySelector('.input-f.shares');
+      if (sharesInp) sharesInp.value = shares;
+      const qEl = document.getElementById('tlo-summary-qty');
+      if (qEl) qEl.textContent = shares + ' shares';
+      const pInp = document.getElementById('tlo-price-input');
+      const price = pInp ? parseFloat(pInp.value) || 184.56 : 184.56;
+      const reserved = (price * shares).toFixed(2);
+      const resEl = document.getElementById('tlo-summary-reserved');
+      if (resEl) resEl.textContent = '$' + parseFloat(reserved).toLocaleString('en-US',{minimumFractionDigits:2});
+      return;
+    }
+
     return;
   }
 
