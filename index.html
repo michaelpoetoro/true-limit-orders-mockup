@@ -342,7 +342,7 @@ button{font-family:inherit;border:none;background:none;cursor:pointer;color:inhe
 }
 .form-hint { font-size: 10px; color: var(--color-text-muted); text-transform: none; letter-spacing: 0; font-weight: 400; }
 .input-wrap { position: relative; }
-.input-f {
+.input-f { cursor: text;
   width: 100%; height: 46px; border: 1.5px solid var(--color-border);
   border-radius: var(--radius-sm); background: var(--color-surface);
   font-size: 16px; font-weight: 700; color: var(--color-text-primary);
@@ -902,7 +902,7 @@ const STEPS = [
           <div class="form-row">
             <div class="form-label" id="lbl-sh-err">Shares</div>
             <div class="input-wrap">
-              <input class="input-f shares" value="5" readonly aria-labelledby="lbl-sh-err">
+              <input class="input-f shares" value="5" aria-labelledby="lbl-sh-err">
               <span class="input-suf" aria-hidden="true">shares</span>
             </div>
           </div>
