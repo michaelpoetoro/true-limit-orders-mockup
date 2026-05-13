@@ -3,480 +3,402 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>TLO Preview — eToro Execution Screens</title>
+<title>TLO Execution Preview</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Roboto:wght@400;500&display=swap" rel="stylesheet">
 <style>
 @font-face {
-  font-family: 'eToro Variable';
+  font-family: 'eToroNum';
   src: url('https://marketing.etorostatic.com/cache1/fonts/etoro/eToro-VF-v0.7.ttf') format('truetype');
   font-weight: 100 900;
   font-display: swap;
 }
+* { margin:0;padding:0;box-sizing:border-box; }
+html,body { background:#080810;min-height:100vh;-webkit-font-smoothing:antialiased; }
+button { font-family:inherit;border:none;cursor:pointer;background:none;color:inherit; }
 
-/* ─── DS tokens (production-accurate dark execution) ─── */
 :root {
-  /* Execution screen bg: near-black, slightly warm neutral */
-  --exec-bg:        #0A0A0F;
-  /* Sheet bg */
-  --sheet-bg:       #1C1C1E;
-  /* Pill/overlay bg */
-  --pill-bg:        rgba(255,255,255,.1);
-  /* Text */
-  --t1: #FFFFFF;
-  --t2: rgba(255,255,255,.52);
-  --t3: rgba(255,255,255,.3);
-  /* Brand green (eToro DS confirmed) */
-  --green:    #0EB12E;
-  --green-hover: #0C9A27;
-  /* Status */
-  --ok:  #0EB12E;
-  --err: #FF3B30;
-  /* Border */
-  --border: rgba(255,255,255,.1);
-  /* Radius */
-  --r-pill: 28px;
-  --r-sheet: 16px;
-  --r-sm: 8px;
-
-  font-family: 'eToro Variable', 'Inter', -apple-system, sans-serif;
-  -webkit-font-smoothing: antialiased;
+  --bg:   #080810;
+  --sht:  #1C1C1E;
+  --pill: rgba(255,255,255,.1);
+  --t1:   #ffffff;
+  --t2:   rgba(255,255,255,.5);
+  --t3:   rgba(255,255,255,.28);
+  --grn:  #0EB12E;
+  --ok:   #0EB12E;
+  --err:  #FF3B30;
+  --bdr:  rgba(255,255,255,.1);
 }
 
-*, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
-body { background: #0A0A0F; min-height: 100vh; display: flex; align-items: center; justify-content: center; }
-button { font-family: inherit; border: none; cursor: pointer; background: none; color: inherit; }
+/* Shell */
+.shell {
+  min-height:100vh;
+  display:flex;flex-direction:column;
+  align-items:center;justify-content:center;
+  padding:20px;gap:12px;
+}
+.nav-row {
+  display:flex;align-items:center;gap:10px;
+}
+.nav-a {
+  width:32px;height:32px;border-radius:50%;
+  background:rgba(255,255,255,.08);color:#fff;font-size:14px;
+  display:flex;align-items:center;justify-content:center;
+}
+.nav-a:disabled{opacity:.25;cursor:default;}
+.nav-dots {
+  display:flex;gap:6px;align-items:center;
+}
+.nav-dot {
+  width:5px;height:5px;border-radius:50%;background:rgba(255,255,255,.25);
+  transition:all .15s;
+}
+.nav-dot.on { width:16px;border-radius:3px;background:var(--grn); }
 
-/* ─── Preview wrapper: single phone, centered ─── */
-.preview-wrap {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  gap: 16px;
-  padding: 24px;
-}
-.screen-nav {
-  display: flex; align-items: center; gap: 12px;
-}
-.nav-btn {
-  width: 36px; height: 36px; border-radius: 50%;
-  background: rgba(255,255,255,.1); color: #fff; font-size: 16px;
-  display: flex; align-items: center; justify-content: center;
-  cursor: pointer; transition: background .1s;
-}
-.nav-btn:hover { background: rgba(255,255,255,.18); }
-.nav-btn:disabled { opacity: .3; cursor: default; }
-.screen-label { font-size: 12px; color: rgba(255,255,255,.4); font-weight: 500; letter-spacing: .3px; min-width: 200px; text-align: center; }
-
-/* ─── Phone frame: minimal, real aspect ─── */
+/* Phone — exact iPhone 14 proportions at 1x: 390×844 */
 .phone {
-  width: 375px;
-  /* iPhone 14 proportions: 375 × 812 logical */
-  height: 812px;
-  border-radius: 44px;
-  border: 1px solid rgba(255,255,255,.12);
-  overflow: hidden;
-  position: relative;
-  background: var(--exec-bg);
-  box-shadow: 0 24px 64px rgba(0,0,0,.6);
+  width:390px;
+  height:844px;
+  border-radius:48px;
+  border:1px solid rgba(255,255,255,.1);
+  overflow:hidden;
+  position:relative;
+  background:var(--bg);
+  box-shadow:0 32px 80px rgba(0,0,0,.7),0 0 0 1px rgba(255,255,255,.04);
 }
 
-/* Status bar */
-.status-bar {
-  height: 47px;
-  background: var(--exec-bg);
-  display: flex; align-items: flex-end;
-  padding: 0 28px 10px;
-  justify-content: space-between;
-  position: relative; z-index: 10;
+/* Status bar: 54px */
+.sb {
+  position:absolute;top:0;left:0;right:0;height:54px;
+  background:var(--bg);z-index:20;
+  display:flex;align-items:flex-end;
+  justify-content:space-between;
+  padding:0 28px 10px;
 }
-.status-time { font-size: 15px; font-weight: 600; color: var(--t1); }
-.status-right { display: flex; align-items: center; gap: 6px; }
-.status-icon { font-size: 12px; color: var(--t1); }
+.sb-time{font-size:15px;font-weight:700;color:var(--t1);font-family:'Inter',sans-serif;}
+.sb-icons{display:flex;gap:5px;align-items:center;}
+.sb-icon{font-size:12px;color:var(--t1);}
 
-/* Screen container */
-.screen {
-  position: absolute;
-  inset: 47px 0 0;
-  background: var(--exec-bg);
-  display: flex;
-  flex-direction: column;
-  overflow: hidden;
+/* Screens */
+.scr {
+  position:absolute;top:54px;left:0;right:0;bottom:0;
+  background:var(--bg);
+  display:flex;flex-direction:column;
+  overflow:hidden;
 }
-.screen.hidden { display: none; }
+.scr.off{display:none;}
 
-/* ─── Top bar ─── */
-.exec-top {
-  display: flex; align-items: center; justify-content: space-between;
-  padding: 14px 20px 6px;
-  flex-shrink: 0;
+/* ── Top bar ── */
+.top-bar {
+  flex-shrink:0;
+  display:flex;align-items:center;justify-content:space-between;
+  padding:12px 20px 4px;
 }
-.exec-back {
-  width: 36px; height: 36px; border-radius: 50%;
-  background: var(--pill-bg);
-  display: flex; align-items: center; justify-content: center;
-  font-size: 20px; font-weight: 300; color: var(--t1);
+.back-btn {
+  width:36px;height:36px;border-radius:50%;
+  background:var(--pill);
+  display:flex;align-items:center;justify-content:center;
+  font-size:22px;font-weight:200;color:var(--t1);
+  line-height:1;
 }
-.exec-type-pill {
-  display: flex; align-items: center; gap: 5px;
-  padding: 9px 16px; border-radius: var(--r-pill);
-  background: var(--pill-bg);
-  font-size: 14px; font-weight: 600; color: var(--t1);
+.ot-pill {
+  display:flex;align-items:center;gap:4px;
+  padding:8px 14px;border-radius:28px;background:var(--pill);
+  font-size:14px;font-weight:600;color:var(--t1);
 }
-.exec-type-pill .pill-chevron { font-size: 9px; opacity: .6; }
+.ot-pill .ch{font-size:9px;opacity:.55;margin-left:2px;}
 
-/* ─── Asset row (compact) ─── */
-.exec-asset {
-  display: flex; align-items: center; justify-content: center;
-  gap: 6px; padding: 0 20px 10px;
-  flex-shrink: 0;
+/* ── Asset strip ── */
+.asset-strip {
+  flex-shrink:0;
+  display:flex;align-items:center;justify-content:center;
+  gap:6px;padding:2px 20px 8px;
 }
-.asset-logo {
-  width: 22px; height: 22px; border-radius: 6px;
-  background: #1A1A2E; border: 1px solid rgba(255,255,255,.15);
-  display: flex; align-items: center; justify-content: center;
-  font-size: 6px; font-weight: 800; color: #fff;
-  letter-spacing: -.5px;
+.asset-ico {
+  width:20px;height:20px;border-radius:5px;
+  background:#18182A;border:1px solid rgba(255,255,255,.15);
+  display:flex;align-items:center;justify-content:center;
+  font-size:6px;font-weight:800;color:#fff;letter-spacing:-.5px;
 }
-.asset-ticker { font-size: 15px; font-weight: 600; color: var(--t1); }
-.asset-sep { color: var(--t3); font-size: 13px; }
-.asset-price { font-size: 15px; font-weight: 400; color: var(--t2); font-variant-numeric: tabular-nums; }
+.a-tick{font-size:14px;font-weight:600;color:var(--t1);}
+.a-sep{color:var(--t3);font-size:12px;}
+.a-price{font-size:14px;font-weight:400;color:var(--t2);font-variant-numeric:tabular-nums;}
 
-/* ─── Amount area ─── */
-.exec-amount {
-  display: flex; flex-direction: column; align-items: center;
-  padding: 8px 20px 6px; flex: 1; justify-content: flex-start;
+/* ── Amount ── */
+.amount-area {
+  flex:1;min-height:0;
+  display:flex;flex-direction:column;align-items:center;
+  padding:4px 20px 4px;
+  justify-content:flex-start;
 }
-.amount-row {
-  display: flex; align-items: flex-start; gap: 2px;
-  margin-bottom: 12px;
+.amount-row{display:flex;align-items:flex-start;gap:1px;margin-bottom:10px;}
+.amt-sym{
+  font-size:24px;font-weight:500;color:var(--t1);
+  padding-top:12px;font-family:'Roboto',sans-serif;
 }
-.amount-sym {
-  font-size: 24px; font-weight: 500; color: var(--t1);
-  padding-top: 11px;
-  font-family: 'Roboto', sans-serif;
+.amt-num{
+  font-size:60px;font-weight:400;color:var(--t1);
+  font-variant-numeric:tabular-nums;
+  font-feature-settings:'ss06' 1,'lnum' 1,'tnum' 1;
+  letter-spacing:0;line-height:72px;
+  font-family:'eToroNum','Inter',sans-serif;
 }
-.amount-num {
-  font-size: 60px; font-weight: 400; color: var(--t1);
-  font-variant-numeric: tabular-nums;
-  font-feature-settings: 'ss06' 1, 'lnum' 1, 'tnum' 1;
-  letter-spacing: 0;
-  line-height: 70px;
-  font-family: 'eToro Variable', 'Inter', sans-serif;
+.qty-pill{
+  display:flex;align-items:center;gap:5px;
+  padding:7px 16px;border-radius:28px;background:var(--pill);
+  font-size:13px;font-weight:500;color:var(--t1);
+  margin-bottom:7px;
 }
-.qty-pill {
-  display: flex; align-items: center; gap: 6px;
-  padding: 8px 18px; border-radius: var(--r-pill);
-  background: var(--pill-bg);
-  font-size: 14px; font-weight: 500; color: var(--t1);
-  margin-bottom: 8px;
-}
-.qty-pill .refresh { opacity: .55; font-size: 13px; }
-.avail {
-  font-size: 13px; color: var(--t2);
-}
+.qty-pill .rf{opacity:.5;font-size:12px;}
+.avail{font-size:13px;color:var(--t2);}
 
-/* ─── Keypad ─── */
-.keypad {
-  display: grid; grid-template-columns: 1fr 1fr 1fr;
-  background: var(--exec-bg);
-  flex-shrink: 0;
+/* ── Keypad — 4 rows × 62px = 248px ── */
+.keypad{
+  flex-shrink:0;
+  display:grid;grid-template-columns:1fr 1fr 1fr;
+  background:var(--bg);
+  padding:0 2px;
 }
-.k {
-  height: 74px;
-  display: flex; align-items: center; justify-content: center;
-  font-size: 26px; font-weight: 400; color: var(--t1);
-  border-radius: var(--r-sm);
-  transition: background .08s;
+.k{
+  height:62px;
+  display:flex;align-items:center;justify-content:center;
+  font-size:26px;font-weight:400;color:var(--t1);
+  border-radius:8px;transition:background .07s;
 }
-.k:active { background: rgba(255,255,255,.1); }
-.k-dot { font-size: 32px; font-weight: 700; padding-bottom: 6px; }
-.k-del svg { opacity: .8; }
+.k:active{background:rgba(255,255,255,.1);}
+.k-dot{font-size:30px;font-weight:700;padding-bottom:6px;}
+.k-del svg{opacity:.8;}
 
-/* ─── CTA ─── */
-.exec-cta {
-  padding: 10px 20px 32px;
-  flex-shrink: 0;
-  background: var(--exec-bg);
+/* ── CTA ── */
+.cta-area{
+  flex-shrink:0;
+  padding:8px 20px 16px;
+  background:var(--bg);
 }
-.cta-buy {
-  width: 100%; height: 54px; border-radius: var(--r-pill);
-  background: var(--green); color: #fff;
-  font-size: 16px; font-weight: 600;
-  font-family: 'eToro Variable', 'Inter', sans-serif;
-  transition: background .12s;
+.cta-buy{
+  width:100%;height:54px;border-radius:28px;
+  background:var(--grn);color:#fff;
+  font-size:16px;font-weight:600;font-family:'eToroNum','Inter',sans-serif;
+  transition:background .12s;
 }
-.cta-buy:hover { background: var(--green-hover); }
-.cta-buy:disabled {
-  background: rgba(255,255,255,.12);
-  color: rgba(255,255,255,.35);
+.cta-buy:hover{background:#0C9A27;}
+.cta-buy:disabled{background:rgba(255,255,255,.11);color:rgba(255,255,255,.33);}
+
+/* ══ Screen 2: Set Limit sheet ══ */
+.scr-2-bg{
+  flex:1;min-height:0;display:flex;flex-direction:column;position:relative;
+}
+.dim-layer{
+  position:absolute;inset:0;background:rgba(0,0,0,.52);z-index:1;
+}
+.s2-behind{
+  flex:1;display:flex;flex-direction:column;
+  opacity:.42;pointer-events:none;
 }
 
-/* ─── Limit Order sheet (Screen 2) ─── */
-.behind-dim {
-  position: absolute; inset: 0;
-  background: rgba(0,0,0,.5);
-  z-index: 5;
+/* Sheet */
+.lmt-sheet{
+  position:absolute;bottom:0;left:0;right:0;z-index:2;
+  background:var(--sht);
+  border-radius:16px 16px 0 0;
+  display:flex;flex-direction:column;
+  /* shadow to give depth */
+  box-shadow:0 -8px 40px rgba(0,0,0,.5);
 }
-.limit-sheet {
-  position: absolute; bottom: 0; left: 0; right: 0;
-  background: var(--sheet-bg);
-  border-radius: var(--r-sheet) var(--r-sheet) 0 0;
-  z-index: 10;
-  display: flex; flex-direction: column;
-  padding-bottom: 32px;
+.sht-handle{
+  width:40px;height:4px;border-radius:2px;
+  background:rgba(255,255,255,.22);
+  margin:14px auto 14px;flex-shrink:0;
 }
-.sheet-handle {
-  width: 40px; height: 4px; border-radius: 2px;
-  background: rgba(255,255,255,.22);
-  margin: 14px auto 16px;
-  flex-shrink: 0;
+.sht-title{
+  font-size:18px;font-weight:700;color:var(--t1);
+  text-align:center;margin-bottom:3px;flex-shrink:0;
+  font-family:'eToroNum','Inter',sans-serif;
 }
-.sheet-title {
-  font-size: 18px; font-weight: 700; color: var(--t1);
-  text-align: center; margin-bottom: 3px; flex-shrink: 0;
+.sht-sub{
+  font-size:13px;color:var(--t2);
+  text-align:center;margin-bottom:12px;flex-shrink:0;
 }
-.sheet-sub {
-  font-size: 13px; color: var(--t2);
-  text-align: center; margin-bottom: 14px; flex-shrink: 0;
+.sht-num{
+  font-size:58px;font-weight:400;color:var(--t1);
+  text-align:center;
+  font-variant-numeric:tabular-nums;
+  font-feature-settings:'ss06' 1,'lnum' 1,'tnum' 1;
+  letter-spacing:0;line-height:66px;
+  font-family:'eToroNum','Inter',sans-serif;
+  min-height:68px;padding:0 20px;
+  flex-shrink:0;
 }
-.sheet-display {
-  font-size: 60px; font-weight: 400; color: var(--t1);
-  text-align: center;
-  font-variant-numeric: tabular-nums;
-  font-feature-settings: 'ss06' 1, 'lnum' 1, 'tnum' 1;
-  letter-spacing: 0; line-height: 70px;
-  font-family: 'eToro Variable', 'Inter', sans-serif;
-  min-height: 72px; padding: 0 20px;
-  flex-shrink: 0;
+.sht-val{
+  font-size:11px;color:var(--ok);
+  text-align:center;min-height:15px;
+  margin-bottom:8px;flex-shrink:0;
 }
-.sheet-val {
-  font-size: 11px; color: var(--ok);
-  text-align: center; min-height: 16px;
-  margin-bottom: 10px; flex-shrink: 0;
+.sht-val.err{color:var(--err);}
+.sht-kp{
+  display:grid;grid-template-columns:1fr 1fr 1fr;
+  background:var(--sht);flex-shrink:0;padding:0 2px;
 }
-.sheet-val.err { color: var(--err); }
-.sheet-keypad {
-  display: grid; grid-template-columns: 1fr 1fr 1fr;
-  background: var(--sheet-bg); flex: 1;
+.sht-kp .k{height:60px;font-size:24px;}
+.sht-kp .k:active{background:rgba(255,255,255,.07);}
+.sht-cta{padding:8px 20px 20px;flex-shrink:0;}
+.sht-set-btn{
+  width:100%;height:54px;border-radius:28px;
+  background:var(--grn);color:#fff;
+  font-size:16px;font-weight:600;font-family:'eToroNum','Inter',sans-serif;
 }
-.sheet-keypad .k { height: 64px; font-size: 24px; }
-.sheet-keypad .k:active { background: rgba(255,255,255,.07); }
-.sheet-cta {
-  padding: 10px 20px 0;
-  flex-shrink: 0;
-}
-.sheet-set-btn {
-  width: 100%; height: 54px; border-radius: var(--r-pill);
-  background: var(--green); color: #fff;
-  font-size: 16px; font-weight: 600;
-  font-family: 'eToro Variable', 'Inter', sans-serif;
-}
-.sheet-set-btn:hover { background: var(--green-hover); }
-.sheet-set-btn:disabled {
-  background: rgba(255,255,255,.12);
-  color: rgba(255,255,255,.35);
-}
+.sht-set-btn:hover{background:#0C9A27;}
+.sht-set-btn:disabled{background:rgba(255,255,255,.11);color:rgba(255,255,255,.33);}
 </style>
 </head>
 <body>
-<div class="preview-wrap">
+<div class="shell">
 
-  <!-- Nav controls -->
-  <div class="screen-nav">
-    <button class="nav-btn" id="prevBtn" onclick="showScreen(currentScreen-1)" disabled>←</button>
-    <div class="screen-label" id="screenLabel">Screen 1 · Market Order</div>
-    <button class="nav-btn" id="nextBtn" onclick="showScreen(currentScreen+1)">→</button>
+  <!-- Minimal nav: just dots + arrows, NO text labels -->
+  <div class="nav-row">
+    <button class="nav-a" id="pBtn" onclick="go(-1)" disabled>‹</button>
+    <div class="nav-dots">
+      <div class="nav-dot on" id="d0"></div>
+      <div class="nav-dot" id="d1"></div>
+    </div>
+    <button class="nav-a" id="nBtn" onclick="go(1)">›</button>
   </div>
 
-  <!-- Phone -->
   <div class="phone">
-    <div class="status-bar">
-      <span class="status-time">9:41</span>
-      <div class="status-right">
-        <span class="status-icon">●●●</span>
-        <span class="status-icon">▮▮▮</span>
-        <span class="status-icon" style="font-size:10px;">🔋</span>
+    <div class="sb">
+      <span class="sb-time">9:41</span>
+      <div class="sb-icons">
+        <span class="sb-icon">●●●</span>
+        <span class="sb-icon" style="font-size:10px;letter-spacing:1px;">▮▮▮</span>
+        <span class="sb-icon" style="font-size:10px;">🔋</span>
       </div>
     </div>
 
     <!-- Screen 1: Market Order -->
-    <div class="screen" id="screen-1">
-      <div class="exec-top">
-        <button class="exec-back">‹</button>
-        <button class="exec-type-pill" onclick="showScreen(2)">
-          Market Order <span class="pill-chevron">▾</span>
+    <div class="scr" id="s1">
+      <div class="top-bar">
+        <button class="back-btn">‹</button>
+        <button class="ot-pill" onclick="go(1)">
+          Market Order<span class="ch">▾</span>
         </button>
       </div>
-      <div class="exec-asset">
-        <div class="asset-logo">AAPL</div>
-        <span class="asset-ticker">AAPL</span>
-        <span class="asset-sep">·</span>
-        <span class="asset-price">$186.42</span>
+      <div class="asset-strip">
+        <div class="asset-ico">AAPL</div>
+        <span class="a-tick">AAPL</span><span class="a-sep">·</span>
+        <span class="a-price">$186.42</span>
       </div>
-      <div class="exec-amount">
+      <div class="amount-area">
         <div class="amount-row">
-          <span class="amount-sym">$</span>
-          <span class="amount-num" id="mkt-num">10.00</span>
+          <span class="amt-sym">$</span>
+          <span class="amt-num" id="mn">10.00</span>
         </div>
-        <button class="qty-pill">
-          <span id="mkt-shares">~0.05 shares</span>
-          <span class="refresh">⟳</span>
-        </button>
+        <button class="qty-pill"><span id="ms">~0.05 shares</span><span class="rf">⟳</span></button>
         <span class="avail">Available: $12,440.00</span>
       </div>
       <div class="keypad">
-        <button class="k" onclick="mKp('1')">1</button>
-        <button class="k" onclick="mKp('2')">2</button>
-        <button class="k" onclick="mKp('3')">3</button>
-        <button class="k" onclick="mKp('4')">4</button>
-        <button class="k" onclick="mKp('5')">5</button>
-        <button class="k" onclick="mKp('6')">6</button>
-        <button class="k" onclick="mKp('7')">7</button>
-        <button class="k" onclick="mKp('8')">8</button>
-        <button class="k" onclick="mKp('9')">9</button>
-        <button class="k k-dot" onclick="mKp('.')">.</button>
-        <button class="k" onclick="mKp('0')">0</button>
-        <button class="k k-del" onclick="mKpDel()">
-          <svg width="22" height="16" viewBox="0 0 22 16" fill="none"><path d="M8 1L1 8L8 15M21 8H1" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
-        </button>
+        <button class="k" onclick="mk('1')">1</button><button class="k" onclick="mk('2')">2</button><button class="k" onclick="mk('3')">3</button>
+        <button class="k" onclick="mk('4')">4</button><button class="k" onclick="mk('5')">5</button><button class="k" onclick="mk('6')">6</button>
+        <button class="k" onclick="mk('7')">7</button><button class="k" onclick="mk('8')">8</button><button class="k" onclick="mk('9')">9</button>
+        <button class="k k-dot" onclick="mk('.')">.</button><button class="k" onclick="mk('0')">0</button>
+        <button class="k k-del" onclick="md()"><svg width="20" height="14" viewBox="0 0 20 14" fill="none"><path d="M7 1L1 7L7 13M19 7H1" stroke="white" stroke-width="1.8" stroke-linecap="round"/></svg></button>
       </div>
-      <div class="exec-cta">
-        <button class="cta-buy">Buy AAPL</button>
-      </div>
+      <div class="cta-area"><button class="cta-buy">Buy AAPL</button></div>
     </div>
 
-    <!-- Screen 2: Set Limit Order (sheet over dimmed screen 1) -->
-    <div class="screen hidden" id="screen-2">
-      <!-- Dimmed background -->
-      <div class="exec-top" style="opacity:.4;pointer-events:none;">
-        <button class="exec-back">‹</button>
-        <button class="exec-type-pill">Market Order <span class="pill-chevron">▾</span></button>
+    <!-- Screen 2: Set Limit order (sheet over dimmed s1) -->
+    <div class="scr off" id="s2">
+      <div class="top-bar" style="opacity:.35;pointer-events:none;">
+        <button class="back-btn">‹</button>
+        <button class="ot-pill">Market Order<span class="ch">▾</span></button>
       </div>
-      <div class="exec-asset" style="opacity:.4;pointer-events:none;">
-        <div class="asset-logo">AAPL</div>
-        <span class="asset-ticker">AAPL</span>
-        <span class="asset-sep">·</span>
-        <span class="asset-price">$186.42</span>
-      </div>
-      <div class="exec-amount" style="opacity:.4;pointer-events:none;">
-        <div class="amount-row">
-          <span class="amount-sym">$</span>
-          <span class="amount-num">10.00</span>
+      <div class="scr-2-bg">
+        <div class="s2-behind">
+          <div class="asset-strip">
+            <div class="asset-ico">AAPL</div>
+            <span class="a-tick">AAPL</span><span class="a-sep">·</span>
+            <span class="a-price">$186.42</span>
+          </div>
+          <div class="amount-area">
+            <div class="amount-row">
+              <span class="amt-sym">$</span><span class="amt-num">10.00</span>
+            </div>
+            <button class="qty-pill">~0.05 shares <span class="rf">⟳</span></button>
+          </div>
         </div>
-        <button class="qty-pill">~0.05 shares <span class="refresh">⟳</span></button>
-        <span class="avail">Available: $12,440.00</span>
-      </div>
-      <!-- Dim overlay -->
-      <div class="behind-dim"></div>
-      <!-- Sheet -->
-      <div class="limit-sheet">
-        <div class="sheet-handle"></div>
-        <div class="sheet-title">Set Limit order</div>
-        <div class="sheet-sub">Current Ask Price: $186.45</div>
-        <div class="sheet-display" id="limit-num">184.56</div>
-        <div class="sheet-val" id="sheet-val-msg">✓ Below Ask · order rests at your price</div>
-        <div class="sheet-keypad">
-          <button class="k" onclick="lKp('1')">1</button>
-          <button class="k" onclick="lKp('2')">2</button>
-          <button class="k" onclick="lKp('3')">3</button>
-          <button class="k" onclick="lKp('4')">4</button>
-          <button class="k" onclick="lKp('5')">5</button>
-          <button class="k" onclick="lKp('6')">6</button>
-          <button class="k" onclick="lKp('7')">7</button>
-          <button class="k" onclick="lKp('8')">8</button>
-          <button class="k" onclick="lKp('9')">9</button>
-          <button class="k k-dot" onclick="lKp('.')">.</button>
-          <button class="k" onclick="lKp('0')">0</button>
-          <button class="k k-del" onclick="lKpDel()">
-            <svg width="22" height="16" viewBox="0 0 22 16" fill="none"><path d="M8 1L1 8L8 15M21 8H1" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
-          </button>
-        </div>
-        <div class="sheet-cta">
-          <button class="sheet-set-btn" id="set-limit-btn">Set limit</button>
+        <div class="dim-layer"></div>
+        <!-- The sheet -->
+        <div class="lmt-sheet">
+          <div class="sht-handle"></div>
+          <div class="sht-title">Set Limit order</div>
+          <div class="sht-sub">Current Ask Price: $186.45</div>
+          <div class="sht-num" id="ln">184.56</div>
+          <div class="sht-val" id="lv">✓ Below Ask · order rests at your price</div>
+          <div class="sht-kp">
+            <button class="k" onclick="lk('1')">1</button><button class="k" onclick="lk('2')">2</button><button class="k" onclick="lk('3')">3</button>
+            <button class="k" onclick="lk('4')">4</button><button class="k" onclick="lk('5')">5</button><button class="k" onclick="lk('6')">6</button>
+            <button class="k" onclick="lk('7')">7</button><button class="k" onclick="lk('8')">8</button><button class="k" onclick="lk('9')">9</button>
+            <button class="k k-dot" onclick="lk('.')">.</button><button class="k" onclick="lk('0')">0</button>
+            <button class="k k-del" onclick="ld()"><svg width="20" height="14" viewBox="0 0 20 14" fill="none"><path d="M7 1L1 7L7 13M19 7H1" stroke="white" stroke-width="1.8" stroke-linecap="round"/></svg></button>
+          </div>
+          <div class="sht-cta"><button class="sht-set-btn" id="setBtn">Set limit</button></div>
         </div>
       </div>
     </div>
-
-  </div><!-- /phone -->
-</div><!-- /preview-wrap -->
+  </div>
+</div>
 
 <script>
-var SCREENS = [
-  { id: 'screen-1', label: 'Screen 1 · Market Order' },
-  { id: 'screen-2', label: 'Screen 2 · Set Limit Order' }
-];
-var currentScreen = 0;
-
-function showScreen(idx) {
-  if (idx < 0 || idx >= SCREENS.length) return;
-  document.getElementById(SCREENS[currentScreen].id).classList.add('hidden');
-  currentScreen = idx;
-  document.getElementById(SCREENS[currentScreen].id).classList.remove('hidden');
-  document.getElementById('screenLabel').textContent = SCREENS[currentScreen].label;
-  document.getElementById('prevBtn').disabled = currentScreen === 0;
-  document.getElementById('nextBtn').disabled = currentScreen === SCREENS.length - 1;
+var cur=0;
+var screens=['s1','s2'];
+var dots=['d0','d1'];
+function go(d){
+  document.getElementById(screens[cur]).classList.add('off');
+  document.getElementById(dots[cur]).classList.remove('on');
+  cur=Math.max(0,Math.min(screens.length-1,cur+d));
+  document.getElementById(screens[cur]).classList.remove('off');
+  document.getElementById(dots[cur]).classList.add('on');
+  document.getElementById('pBtn').disabled=cur===0;
+  document.getElementById('nBtn').disabled=cur===screens.length-1;
 }
-
-/* Market keypad */
-var mVal = '10.00';
-function mKp(k) {
-  if (k === '.' && mVal.includes('.')) return;
-  if (mVal.includes('.') && mVal.split('.')[1].length >= 2) return;
-  if (mVal === '0' && k !== '.') mVal = k;
-  else mVal += k;
-  var d = document.getElementById('mkt-num');
-  var s = document.getElementById('mkt-shares');
-  if (d) d.textContent = mVal;
-  if (s) { var a = parseFloat(mVal); s.textContent = isNaN(a) ? '— shares' : '~' + (a/186.42).toFixed(2) + ' shares'; }
+// Market kp
+var mv='10.00';
+function mk(k){
+  if(k==='.'&&mv.includes('.'))return;
+  if(mv.includes('.')&&mv.split('.')[1].length>=2)return;
+  if(mv==='0'&&k!=='.')mv=k;else mv+=k;
+  var d=document.getElementById('mn'),s=document.getElementById('ms');
+  if(d)d.textContent=mv;
+  if(s){var a=parseFloat(mv);s.textContent=isNaN(a)?'— shares':'~'+(a/186.42).toFixed(2)+' shares';}
 }
-function mKpDel() {
-  if (mVal.length <= 1) mVal = '0';
-  else mVal = mVal.slice(0,-1);
-  var d = document.getElementById('mkt-num');
-  if (d) d.textContent = mVal;
+function md(){
+  if(mv.length<=1)mv='0';else mv=mv.slice(0,-1);
+  var d=document.getElementById('mn');if(d)d.textContent=mv;
 }
-
-/* Limit keypad */
-var lVal = '184.56';
-var ASK = 186.45;
-function lKp(k) {
-  if (k === '.' && lVal.includes('.')) return;
-  if (lVal.includes('.') && lVal.split('.')[1].length >= 2) return;
-  if (lVal === '0' && k !== '.') lVal = k;
-  else lVal += k;
-  var d = document.getElementById('limit-num');
-  if (d) d.textContent = lVal;
-  lValidate();
+// Limit kp
+var lv='184.56',ASK=186.45;
+function lk(k){
+  if(k==='.'&&lv.includes('.'))return;
+  if(lv.includes('.')&&lv.split('.')[1].length>=2)return;
+  if(lv==='0'&&k!=='.')lv=k;else lv+=k;
+  var d=document.getElementById('ln');if(d)d.textContent=lv;
+  lval();
 }
-function lKpDel() {
-  if (lVal.length <= 1) lVal = '0';
-  else lVal = lVal.slice(0,-1);
-  var d = document.getElementById('limit-num');
-  if (d) d.textContent = lVal;
-  lValidate();
+function ld(){
+  if(lv.length<=1)lv='0';else lv=lv.slice(0,-1);
+  var d=document.getElementById('ln');if(d)d.textContent=lv;
+  lval();
 }
-function lValidate() {
-  var p = parseFloat(lVal);
-  var msg = document.getElementById('sheet-val-msg');
-  var btn = document.getElementById('set-limit-btn');
-  if (!msg) return;
-  if (isNaN(p) || p <= 0) {
-    msg.className = 'sheet-val err'; msg.textContent = 'Enter a valid price';
-    if (btn) btn.disabled = true; return;
-  }
-  if (p > ASK * 1.02) {
-    msg.className = 'sheet-val err';
-    msg.textContent = '$' + p.toFixed(2) + ' exceeds Ask + 2% (' + (ASK*1.02).toFixed(2) + ')';
-    if (btn) btn.disabled = true; return;
-  }
-  var pct = ((ASK-p)/ASK*100).toFixed(2);
-  msg.className = 'sheet-val';
-  msg.textContent = '✓ ' + pct + '% below Ask · rests at $' + p.toFixed(2);
-  if (btn) btn.disabled = false;
+function lval(){
+  var p=parseFloat(lv),msg=document.getElementById('lv'),btn=document.getElementById('setBtn');
+  if(!msg)return;
+  if(isNaN(p)||p<=0){msg.className='sht-val err';msg.textContent='Enter a valid price';if(btn)btn.disabled=true;return;}
+  if(p>ASK*1.02){msg.className='sht-val err';msg.textContent='$'+p.toFixed(2)+' exceeds Ask+2% ('+( ASK*1.02).toFixed(2)+')';if(btn)btn.disabled=true;return;}
+  var pct=((ASK-p)/ASK*100).toFixed(2);
+  msg.className='sht-val';msg.textContent='✓ '+pct+'% below Ask · rests at $'+p.toFixed(2);
+  if(btn)btn.disabled=false;
 }
-lValidate();
+lval();
 </script>
 </body>
 </html>
