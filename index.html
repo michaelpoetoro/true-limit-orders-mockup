@@ -2072,6 +2072,27 @@ function validateForm() {
   priceEl.style.borderColor = priceErr ? 'var(--color-negative)' : '';
   if (sharesEl) sharesEl.style.borderColor = sharesErr ? 'var(--color-negative)' : '';
 
+  // Update the main validation banner to reflect ALL errors
+  const mainBanner = document.getElementById('price-validation');
+  if (mainBanner) {
+    if (!isValid) {
+      // Show most relevant error in the main banner
+      const mainErr = priceErr || sharesErr;
+      mainBanner.className = 'val-banner err';
+      mainBanner.innerHTML = '<span class="val-icon">⚠</span><div><b>' +
+        (sharesErr ? 'Whole shares only' : 'Invalid price') +
+        '</b>' + mainErr + '</div>';
+    } else {
+      // Restore green ok state
+      const price = parseFloat(priceEl.value);
+      const ask = 186.45;
+      const pctBelow = ((ask - price) / ask * 100).toFixed(2);
+      mainBanner.className = 'val-banner ok';
+      mainBanner.innerHTML = '<span class="val-icon">✓</span><div><b>Price valid — below Ask</b>$' +
+        price.toFixed(2) + ' is ' + pctBelow + '% below Ask. Order rests until price hits your level.</div>';
+    }
+  }
+
   // Button — change background color for unmistakable disabled state
   if (isValid) {
     btn.disabled = false;
