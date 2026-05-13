@@ -1017,7 +1017,7 @@ const STEPS = [
               </div>
             </div>
             <div class="card-actions">
-              <button class="act-cancel" onclick="goTo(7)" aria-label="Cancel AAPL limit order">✕ Cancel Order</button>
+              <button class="act-cancel" onclick="goTo(9)" aria-label="Cancel AAPL limit order">✕ Cancel Order</button>
               <button class="act-detail" onclick="goTo(7)" aria-label="View AAPL position details">View Details</button>
             </div>
           </article>
@@ -1272,7 +1272,7 @@ const STEPS = [
           </div>
         </div>
         <div class="cta-row">
-          <button class="act-cancel" onclick="goTo(5)" style="flex:1;height:46px;border-radius:var(--radius-md);font-size:14px;font-weight:700;" aria-label="Cancel remaining 3 AAPL shares">
+          <button class="act-cancel" onclick="goTo(9)" style="flex:1;height:46px;border-radius:var(--radius-md);font-size:14px;font-weight:700;" aria-label="Cancel remaining 3 AAPL shares">
             ✕ Cancel Remaining 3 Shares
           </button>
         </div>
@@ -1339,7 +1339,7 @@ const STEPS = [
               </div>
             </div>
             <div class="card-actions">
-              <button class="act-cancel" onclick="goTo(5)" aria-label="Cancel AAPL limit order">✕ Cancel Order</button>
+              <button class="act-cancel" onclick="goTo(9)" aria-label="Cancel AAPL limit order">✕ Cancel Order</button>
               <button class="act-detail" onclick="goTo(7)" aria-label="View AAPL details">View Details</button>
             </div>
           </article>
@@ -1391,6 +1391,65 @@ const STEPS = [
             </div>
           </article>
 
+        </div>
+      </div>
+    `
+  },
+
+
+  /* ── 10. AAPL Cancel Sheet ───────────────────────────────── */
+  {
+    id: 'aapl-cancel-sheet',
+    label: 'AAPL Cancel',
+    tag: 'Portfolio · Screen 10',
+    title: 'Cancel Confirmation — AAPL Partial Order',
+    desc: 'Cancel sheet for the AAPL partial order. 2 shares already filled remain. Cancel request covers the remaining 3 unfilled shares.',
+    points: [
+      { type: 'blue', text: '<strong>2 shares already filled</strong> — these remain in the account regardless of cancel' },
+      { type: 'default', text: 'OCR only covers the <strong>remaining 3 unfilled shares</strong>' },
+      { type: 'warn', text: 'Race-condition warning applies here too — PRD requirement' },
+    ],
+    cta: 'Tap "Cancel Remaining" to see result',
+    html: () => `
+      <div class="screen-content sheet-wrap">
+        <div class="sheet-bg-content" style="opacity:.3;pointer-events:none;padding:var(--x4);" aria-hidden="true">
+          <div class="port-header" style="border-radius:var(--radius-md);border:1px solid var(--color-border);padding:var(--x3);">
+            <div class="port-title" style="font-size:14px;">Portfolio</div>
+            <div class="port-sub">3 positions · 2 active</div>
+          </div>
+          <div style="margin-top:var(--x2);">
+            <div class="pos-card">
+              <div class="pos-head">
+                <div class="pos-logo aapl">AAPL</div>
+                <div style="flex:1"><div class="pos-name">Apple Inc.</div>
+                  <div class="pos-meta">REAL <span class="status-chip chip-partial"><span class="chip-dot"></span>PARTIAL</span></div>
+                </div>
+                <div class="pos-price-col"><div class="pos-price">$185.00</div></div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="sheet-bg" aria-hidden="true"></div>
+        <div class="bottom-sheet" role="dialog" aria-modal="true" aria-labelledby="aapl-sheet-title">
+          <div class="sheet-handle" aria-hidden="true"></div>
+          <h2 class="sheet-title" id="aapl-sheet-title">Cancel Remaining Shares?</h2>
+          <p class="sheet-desc">An Order Cancel Request (OCR) will be sent for the <strong>3 unfilled shares</strong>. Your 2 already-filled shares remain in your account.</p>
+          <div class="sheet-card" role="region" aria-label="Order being cancelled">
+            <div class="sheet-row"><span class="sr-k">Asset</span><span class="sr-v">AAPL — Apple Inc.</span></div>
+            <div class="sheet-row"><span class="sr-k">Order type</span><span class="sr-v" style="color:var(--color-brand);">True Limit Order</span></div>
+            <div class="sheet-row"><span class="sr-k">Limit price</span><span class="sr-v">$185.00</span></div>
+            <div class="sheet-row"><span class="sr-k">Already filled</span><span class="sr-v" style="color:var(--color-brand);">2 shares — kept</span></div>
+            <div class="sheet-row"><span class="sr-k">Cancelling</span><span class="sr-v">3 unfilled shares</span></div>
+            <div class="sheet-row"><span class="sr-k">Balance released</span><span class="sr-v">$555.00</span></div>
+          </div>
+          <div class="sheet-warn" role="alert">
+            <span aria-hidden="true">⚡</span>
+            <span>If the exchange fills any remaining shares at the same time you cancel, those fills still go through. You'll be notified if this happens.</span>
+          </div>
+          <div class="sheet-btns">
+            <button class="s-btn keep" onclick="goTo(4)" aria-label="Keep the remaining shares open">Keep Order</button>
+            <button class="s-btn confirm" onclick="goTo(8)" aria-label="Confirm cancel of remaining 3 AAPL shares">Cancel Remaining</button>
+          </div>
         </div>
       </div>
     `
