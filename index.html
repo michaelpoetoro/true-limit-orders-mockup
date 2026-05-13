@@ -945,9 +945,9 @@ const STEPS = [
             <div class="confirm-row"><span class="ck">Asset</span><span class="cv">AAPL — Apple Inc.</span></div>
             <div class="confirm-row"><span class="ck">Order type</span><span class="cv" style="color:var(--color-brand);">True Limit Order</span></div>
             <div class="confirm-row"><span class="ck">Direction</span><span class="cv" style="color:var(--color-brand);">BUY</span></div>
-            <div class="confirm-row"><span class="ck">Limit price</span><span class="cv">$\${orderState.price.toFixed(2)}</span></div>
-            <div class="confirm-row"><span class="ck">Quantity</span><span class="cv">\${orderState.shares} shares</span></div>
-            <div class="confirm-row"><span class="ck">Reserved</span><span class="cv">$\${parseFloat(orderState.reserved).toLocaleString('en-US',{minimumFractionDigits:2})}</span></div>
+            <div class="confirm-row"><span class="ck">Limit price</span><span class="cv">${'$' + orderState.price.toFixed(2)}</span></div>
+            <div class="confirm-row"><span class="ck">Quantity</span><span class="cv">${orderState.shares} shares</span></div>
+            <div class="confirm-row"><span class="ck">Reserved</span><span class="cv">${'$' + parseFloat(orderState.reserved).toLocaleString('en-US',{minimumFractionDigits:2})}</span></div>
             <div class="confirm-row"><span class="ck">Ticket fee</span><span class="cv">$1.99</span></div>
             <div class="confirm-row"><span class="ck">Expires</span><span class="cv" style="color:var(--color-warning);">Today · EOD 16:00 ET</span></div>
             <div class="confirm-row"><span class="ck">Status</span><span class="cv"><span class="status-chip chip-pending" style="font-size:10px;"><span class="chip-dot"></span>PENDING</span></span></div>
