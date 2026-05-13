@@ -5,42 +5,52 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>TLO Screen 2 Preview — Set Limit Order</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
-<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Roboto:wght@400;500&display=swap" rel="stylesheet">
 <style>
 /* ─── eToro DS dark tokens (from screenshots + known brand values) ─── */
+@font-face {
+  font-family: 'eToro Variable';
+  src: url('https://marketing.etorostatic.com/cache1/fonts/etoro/eToro-VF-v0.7.ttf') format('truetype');
+  font-weight: 100 900;
+  font-display: swap;
+}
+
 :root {
-  /* Backgrounds */
-  --bg-app:    #000000;
-  --bg-sheet:  #1C1C1E;   /* dark grey bottom sheet */
-  --bg-pill:   rgba(255,255,255,.1);
-  --bg-keypad: #1C1C1E;
+  /* eToro DS dark tokens (confirmed from DS lCCEnYuXIjaHCkXbUMG2PP) */
+  --bg-app:    #000021;   /* dark base bg */
+  --bg-sheet:  #0A0A2E;   /* dark surface/page */
+  --bg-pill:   rgba(255,255,255,.09);
+  --bg-keypad: #000021;
+  --bg-keypad-sheet: #0A0A2E;
 
   /* Text */
   --text-primary:   #FFFFFF;
-  --text-secondary: rgba(255,255,255,.55);
-  --text-tertiary:  rgba(255,255,255,.35);
+  --text-secondary: rgba(255,255,255,.52);
+  --text-tertiary:  rgba(255,255,255,.32);
 
   /* Brand */
-  --brand-green:   #0EB12E;  /* eToro official green */
+  --brand-green:     #0EB12E;
+  --brand-green-hover: #0C9A27;
   --brand-green-cta: #0EB12E;
 
   /* Status */
-  --status-ok:  #30D158;    /* slightly brighter green for ok indicator */
+  --status-ok:  #0EB12E;
   --status-err: #FF453A;
 
-  /* Borders / separators */
-  --border:    rgba(255,255,255,.12);
+  /* Borders */
+  --border: #2A2A4E;
 
   /* Radius */
-  --r-pill: 27px;
+  --r-pill:  27px;
   --r-sheet: 16px;
 
-  font-family: 'Inter', -apple-system, sans-serif;
+  font-family: 'eToro Variable', 'Inter', -apple-system, sans-serif;
   -webkit-font-smoothing: antialiased;
 }
 
 *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
-html, body { background: #111; min-height: 100vh; }
+html, body { background: #06060F; min-height: 100vh; }
 button { font-family: inherit; border: none; cursor: pointer; }
 
 /* ─── Preview shell ─── */
@@ -51,7 +61,7 @@ button { font-family: inherit; border: none; cursor: pointer; }
   min-height: 100vh;
   gap: 40px;
   padding: 32px;
-  background: #111;
+  background: #06060F;
   flex-wrap: wrap;
 }
 .preview-label {
@@ -181,19 +191,22 @@ button { font-family: inherit; border: none; cursor: pointer; }
   margin-bottom: 14px;
 }
 .exec-currency {
-  font-size: 28px;
-  font-weight: 300;
+  font-size: 24px;
+  font-weight: 500;
   color: #fff;
-  padding-top: 10px;
-  letter-spacing: -1px;
+  padding-top: 12px;
+  font-family: 'Roboto', 'Inter', sans-serif;
+  letter-spacing: 0;
 }
 .exec-amount-num {
-  font-size: 62px;
-  font-weight: 300;
+  font-size: 60px;
+  font-weight: 400;
   color: #fff;
   font-variant-numeric: tabular-nums;
-  letter-spacing: -3px;
-  line-height: 1;
+  font-feature-settings: 'ss06' 1, 'lnum' 1, 'tnum' 1;
+  letter-spacing: 0;
+  line-height: 70.3125px;
+  font-family: 'eToro Variable', 'Inter', sans-serif;
 }
 .exec-shares-pill {
   display: flex; align-items: center; gap: 6px;
@@ -233,14 +246,16 @@ button { font-family: inherit; border: none; cursor: pointer; }
   background: var(--bg-app);
 }
 .cta-btn {
-  width: 100%; height: 56px;
+  width: 100%; height: 54px;
   border-radius: var(--r-pill);
   background: var(--brand-green-cta);
   color: #fff;
-  font-size: 17px; font-weight: 700;
-  letter-spacing: -.2px;
-  transition: opacity .12s;
+  font-size: 16px; font-weight: 600;
+  letter-spacing: 0;
+  font-family: 'eToro Variable', 'Inter', sans-serif;
+  transition: background .12s;
 }
+.cta-btn:hover { background: var(--brand-green-hover); }
 .cta-btn:active { opacity: .85; }
 .cta-btn:disabled {
   background: rgba(255,255,255,.12);
@@ -279,11 +294,15 @@ button { font-family: inherit; border: none; cursor: pointer; }
   text-align: center; margin-bottom: 20px;
 }
 .sheet-display {
-  font-size: 54px; font-weight: 700; color: #fff;
-  text-align: center; font-variant-numeric: tabular-nums;
-  letter-spacing: -2px; min-height: 66px;
+  font-size: 60px; font-weight: 400; color: #fff;
+  text-align: center;
+  font-variant-numeric: tabular-nums;
+  font-feature-settings: 'ss06' 1, 'lnum' 1, 'tnum' 1;
+  letter-spacing: 0;
+  line-height: 70.3125px;
+  min-height: 72px;
   margin-bottom: 4px; padding: 0 20px;
-  line-height: 1.1;
+  font-family: 'eToro Variable', 'Inter', sans-serif;
 }
 .sheet-validation {
   font-size: 11px; text-align: center;
@@ -293,7 +312,7 @@ button { font-family: inherit; border: none; cursor: pointer; }
 .sheet-keypad {
   display: grid;
   grid-template-columns: 1fr 1fr 1fr;
-  background: var(--bg-sheet);
+  background: var(--bg-keypad-sheet);
   padding: 0 8px;
   flex: 1;
 }
@@ -308,8 +327,10 @@ button { font-family: inherit; border: none; cursor: pointer; }
   border-radius: var(--r-pill);
   background: var(--brand-green-cta);
   color: #fff;
-  font-size: 17px; font-weight: 700;
+  font-size: 16px; font-weight: 600;
+  font-family: 'eToro Variable', 'Inter', sans-serif;
 }
+.sheet-cta-btn:hover { background: var(--brand-green-hover); }
 .sheet-cta-btn:active { opacity: .85; }
 .sheet-cta-btn:disabled {
   background: rgba(255,255,255,.12);
