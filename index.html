@@ -1448,7 +1448,7 @@ const STEPS = [
           </div>
           <div class="sheet-btns">
             <button class="s-btn keep" onclick="goTo(4)" aria-label="Keep the remaining shares open">Keep Order</button>
-            <button class="s-btn confirm" onclick="goTo(10)" aria-label="Confirm cancel of remaining 3 AAPL shares">Cancel Remaining</button>
+            <button class="s-btn confirm" onclick="goTo(11)" aria-label="Confirm cancel of remaining 3 AAPL shares">Cancel Remaining</button>
           </div>
         </div>
       </div>
@@ -1467,7 +1467,7 @@ const STEPS = [
       { type: 'warn', text: '<strong>SELL limit far below Bid → blocked</strong>: selling too cheap vs. market. Configurable % tolerance per instrument.' },
       { type: 'green', text: '<strong>SELL limit above Bid → valid</strong>: order rests until market rises to your level (e.g. sell at $190 when Bid is $186.39).' },
       { type: 'default', text: 'Asymmetry: BUY blocks above Ask + X%. SELL blocks below Bid − X%. Each direction has its own tolerance threshold.' },
-      { type: 'default', text: 'This is the PRD's "asymmetry on validation" requirement — same UI pattern, opposite direction logic.' },
+      { type: 'default', text: 'This is the PRD&apos;s &ldquo;asymmetry on validation&rdquo; requirement — same UI pattern, opposite direction logic.' },
     ],
     cta: 'Use ← arrows to go back',
     html: () => `
@@ -1564,63 +1564,8 @@ const STEPS = [
       </div>
     `
   }
-];
+,
 
-/* ============================================================
-   PROTOTYPE ENGINE
-   ============================================================ */
-let currentStep = 0;
-let direction = 'forward';
-
-function buildStepNav() {
-  const nav = document.getElementById('stepNav');
-  nav.innerHTML = STEPS.map((s, i) => {
-    const visited = i < currentStep ? 'visited' : '';
-    const active = i === currentStep ? 'active' : '';
-    const arrow = i < STEPS.length - 1 ? '<span class="step-arrow" aria-hidden="true">›</span>' : '';
-    return `<button class="step-item ${active} ${visited}" onclick="goTo(${i})" aria-label="Go to screen ${i+1}: ${s.label}" aria-current="${i === currentStep ? 'step' : 'false'}">
-        <div class="step-num" aria-hidden="true">${i + 1}</div>
-        <span class="step-label">${s.label}</span>
-      </button>${arrow}`;
-  }).join('');
-}
-
-function buildDots() {
-  const dots = document.getElementById('stepDots');
-  dots.innerHTML = STEPS.map((s, i) =>
-    `<div class="step-dot ${i === currentStep ? 'active' : ''}" role="presentation" aria-hidden="true"></div>`
-  ).join('');
-}
-
-function buildAnnotation() {
-  const s = STEPS[currentStep];
-  const ann = document.getElementById('annotationPanel');
-  ann.innerHTML = `
-    <div class="ann-card">
-      <div class="ann-screen-tag">${s.tag}</div>
-      <div class="ann-title">${s.title}</div>
-      <div class="ann-desc">${s.desc}</div>
-      <ul class="ann-points">
-        ${s.points.map(p => `
-          <li>
-            <div class="ann-dot ${p.type === 'warn' ? 'warn' : p.type === 'blue' ? 'blue' : ''}" aria-hidden="true">✓</div>
-            <span>${p.text}</span>
-          </li>
-        `).join('')}
-      </ul>
-      <div class="ann-cta">
-        <span style="font-size:16px;" aria-hidden="true">👆</span>
-        <span>${s.cta}</span>
-      </div>
-    </div>
-  `;
-}
-
-function renderScreen(dir) {
-  const screen = document.getElementById('phoneScreen');
-  const s = STEPS[currentStep,
-
-  /* ── 11. Post-Cancel — AAPL (remaining 3 shares cancelled) ── */
   {
     id: 'post-cancel-aapl',
     label: 'AAPL Cancelled',
@@ -1732,6 +1677,60 @@ function renderScreen(dir) {
     `
   }
 ];
+
+/* ============================================================
+   PROTOTYPE ENGINE
+   ============================================================ */
+let currentStep = 0;
+let direction = 'forward';
+
+function buildStepNav() {
+  const nav = document.getElementById('stepNav');
+  nav.innerHTML = STEPS.map((s, i) => {
+    const visited = i < currentStep ? 'visited' : '';
+    const active = i === currentStep ? 'active' : '';
+    const arrow = i < STEPS.length - 1 ? '<span class="step-arrow" aria-hidden="true">›</span>' : '';
+    return `<button class="step-item ${active} ${visited}" onclick="goTo(${i})" aria-label="Go to screen ${i+1}: ${s.label}" aria-current="${i === currentStep ? 'step' : 'false'}">
+        <div class="step-num" aria-hidden="true">${i + 1}</div>
+        <span class="step-label">${s.label}</span>
+      </button>${arrow}`;
+  }).join('');
+}
+
+function buildDots() {
+  const dots = document.getElementById('stepDots');
+  dots.innerHTML = STEPS.map((s, i) =>
+    `<div class="step-dot ${i === currentStep ? 'active' : ''}" role="presentation" aria-hidden="true"></div>`
+  ).join('');
+}
+
+function buildAnnotation() {
+  const s = STEPS[currentStep];
+  const ann = document.getElementById('annotationPanel');
+  ann.innerHTML = `
+    <div class="ann-card">
+      <div class="ann-screen-tag">${s.tag}</div>
+      <div class="ann-title">${s.title}</div>
+      <div class="ann-desc">${s.desc}</div>
+      <ul class="ann-points">
+        ${s.points.map(p => `
+          <li>
+            <div class="ann-dot ${p.type === 'warn' ? 'warn' : p.type === 'blue' ? 'blue' : ''}" aria-hidden="true">✓</div>
+            <span>${p.text}</span>
+          </li>
+        `).join('')}
+      </ul>
+      <div class="ann-cta">
+        <span style="font-size:16px;" aria-hidden="true">👆</span>
+        <span>${s.cta}</span>
+      </div>
+    </div>
+  `;
+}
+
+function renderScreen(dir) {
+  const screen = document.getElementById('phoneScreen');
+  const s = STEPS[currentStep];
   const animClass = dir === 'forward' ? 'slide-in-right' : 'slide-in-left';
   screen.innerHTML = s.html();
   const content = screen.querySelector('.screen-content, .sheet-wrap');
