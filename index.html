@@ -612,6 +612,11 @@ button{font-family:inherit;border:none;background:none;cursor:pointer;color:inhe
   cursor: pointer; transition: background .15s; margin-top: var(--x2);
 }
 .switch-btn:hover { background: var(--color-brand); color: #fff; }
+
+.btn-buy.btn-form-invalid {
+  opacity: 0.4;
+  cursor: not-allowed;
+}
 </style>
 </head>
 <body>
@@ -835,7 +840,7 @@ const STEPS = [
           </div>
         </div>
         <div class="cta-row">
-          <button class="btn-buy" onclick="validateAndSubmit()" aria-label="Place limit order">Place Limit Order</button>
+          <button class="btn-buy" id="place-limit-btn" onclick="validateAndSubmit()" aria-label="Place limit order">Place Limit Order</button>
         </div>
       </div>
     `
@@ -2024,7 +2029,7 @@ function validateAndSubmit() {
 function validateForm() {
   const priceEl = document.getElementById('tlo-price-input');
   const sharesEl = document.getElementById('tlo-shares-input');
-  const btn = document.querySelector('.btn-buy[onclick*="validateAndSubmit"]');
+  const btn = document.getElementById('place-limit-btn');
   if (!priceEl || !sharesEl || !btn) return;
 
   const price = parseFloat(priceEl.value);
@@ -2069,15 +2074,11 @@ function validateForm() {
 
   // Update button visual state
   if (isValid) {
-    btn.style.opacity = '';
-    btn.style.cursor = '';
-    btn.disabled = false;
+    btn.classList.remove('btn-form-invalid');
     priceEl.style.borderColor = '';
     sharesEl.style.borderColor = '';
   } else {
-    btn.style.opacity = '0.4';
-    btn.style.cursor = 'not-allowed';
-    btn.disabled = false; // keep enabled so we can show toast, but visually disabled
+    btn.classList.add('btn-form-invalid');
     if (priceErr) priceEl.style.borderColor = 'var(--color-negative)';
     else priceEl.style.borderColor = '';
     if (sharesErr) sharesEl.style.borderColor = 'var(--color-negative)';
