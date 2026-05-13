@@ -1454,6 +1454,116 @@ const STEPS = [
       </div>
     `
   }
+,
+
+  /* ── 12. SELL-Side TLO — Asymmetric Validation Mirror ──── */
+  {
+    id: 'sell-validation',
+    label: 'SELL Validation',
+    tag: 'Execution · Screen 12',
+    title: 'SELL True Limit Order — Asymmetric Validation',
+    desc: 'Mirror of the BUY validation flow. For SELL: price too far BELOW Bid is blocked. Price above Bid (limit sell higher than market) is valid and rests.',
+    points: [
+      { type: 'warn', text: '<strong>SELL limit far below Bid → blocked</strong>: selling too cheap vs. market. Configurable % tolerance per instrument.' },
+      { type: 'green', text: '<strong>SELL limit above Bid → valid</strong>: order rests until market rises to your level (e.g. sell at $190 when Bid is $186.39).' },
+      { type: 'default', text: 'Asymmetry: BUY blocks above Ask + X%. SELL blocks below Bid − X%. Each direction has its own tolerance threshold.' },
+      { type: 'default', text: 'This is the PRD's "asymmetry on validation" requirement — same UI pattern, opposite direction logic.' },
+    ],
+    cta: 'Use ← arrows to go back',
+    html: () => `
+      <div class="screen-content">
+        <div class="app-bar">
+          <button class="back-btn" aria-label="Back" onclick="goTo(2)">←</button>
+          <div style="flex:1"><div class="bar-title">AAPL</div><div class="bar-sub">Apple Inc.</div></div>
+        </div>
+        <div class="asset-strip">
+          <div class="asset-logo" aria-hidden="true">AAPL</div>
+          <div><div class="asset-name">Apple Inc.</div><div class="asset-sub">NASDAQ · Real Stock</div></div>
+          <div class="asset-price-col"><div class="asset-price">$186.42</div><div class="asset-change down">−1.24 (−0.67%)</div></div>
+        </div>
+        <div class="seg-wrap">
+          <div class="seg" role="group" aria-label="Direction">
+            <button aria-pressed="false" onclick="toggleDir(this)">BUY</button>
+            <button class="active sell" aria-pressed="true" onclick="toggleDir(this)">SELL</button>
+          </div>
+        </div>
+        <div class="order-tabs-wrap">
+          <div class="order-tabs" role="tablist">
+            <button class="order-tab" role="tab" aria-selected="false">
+              <div class="order-tab-label">Market Order</div>
+              <div class="order-tab-hint">Best available price</div>
+            </button>
+            <button class="order-tab tlo-active" role="tab" aria-selected="true">
+              <div class="order-tab-label">True Limit Order</div>
+              <div class="order-tab-hint">Your price or better</div>
+            </button>
+          </div>
+        </div>
+
+        <!-- TWO-STATE COMPARISON PANEL -->
+        <div style="background:var(--color-surface);padding:var(--x3) var(--x4) var(--x2);border-bottom:1px solid var(--color-border);">
+          <div style="font-size:10px;font-weight:700;color:var(--color-text-muted);text-transform:uppercase;letter-spacing:.5px;margin-bottom:var(--x3);">Asymmetric Validation — SELL TLO</div>
+
+          <!-- VALID STATE: price above bid -->
+          <div style="background:var(--color-brand-bg);border:1px solid color-mix(in srgb,var(--color-brand) 22%,transparent);border-radius:var(--radius-sm);padding:var(--x3);margin-bottom:var(--x3);">
+            <div style="font-size:10px;font-weight:700;color:var(--color-brand);margin-bottom:var(--x2);display:flex;align-items:center;gap:5px;">
+              <span>✓</span> VALID — Limit sell ABOVE Bid
+            </div>
+            <div class="mkt-strip" style="margin:0 0 var(--x2);">
+              <div class="mkt-i"><div class="mkt-l">Bid</div><div class="mkt-v down">$186.39</div></div>
+              <div class="mkt-i"><div class="mkt-l">Ask</div><div class="mkt-v up">$186.45</div></div>
+              <div class="mkt-i"><div class="mkt-l">Your price</div><div class="mkt-v" style="color:var(--color-brand);">$190.00</div></div>
+            </div>
+            <div style="font-size:11px;color:var(--color-brand);line-height:1.5;">
+              $190.00 is 1.94% above current Bid. Order rests until market rises to your level.
+              No block — selling higher than market is the intent of a sell limit order.
+            </div>
+          </div>
+
+          <!-- ERROR STATE: price far below bid -->
+          <div style="background:var(--color-negative-bg);border:1px solid color-mix(in srgb,var(--color-negative) 22%,transparent);border-radius:var(--radius-sm);padding:var(--x3);margin-bottom:var(--x3);">
+            <div style="font-size:10px;font-weight:700;color:var(--color-negative);margin-bottom:var(--x2);display:flex;align-items:center;gap:5px;">
+              <span>⚠</span> BLOCKED — Limit sell TOO FAR below Bid
+            </div>
+            <div class="mkt-strip" style="margin:0 0 var(--x2);">
+              <div class="mkt-i"><div class="mkt-l">Bid</div><div class="mkt-v down">$186.39</div></div>
+              <div class="mkt-i"><div class="mkt-l">Tolerance</div><div class="mkt-v">−2%</div></div>
+              <div class="mkt-i"><div class="mkt-l">Your price</div><div class="mkt-v" style="color:var(--color-negative);">$181.00</div></div>
+            </div>
+            <div style="font-size:11px;color:var(--color-negative);line-height:1.5;">
+              $181.00 is 2.89% below Bid ($186.39). Max allowed on a sell limit is −2% below Bid.
+              Likely unintended — client would be selling far below fair market value.
+            </div>
+          </div>
+
+          <!-- Rule summary box -->
+          <div style="background:var(--color-surface-inset);border-radius:var(--radius-sm);padding:var(--x3);border:1px solid var(--color-border);">
+            <div style="font-size:10px;font-weight:700;color:var(--color-text-muted);margin-bottom:var(--x2);text-transform:uppercase;letter-spacing:.4px;">Asymmetry rule (PRD)</div>
+            <div style="display:flex;flex-direction:column;gap:var(--x1);">
+              <div style="display:flex;justify-content:space-between;font-size:11px;">
+                <span style="color:var(--color-text-secondary);">BUY limit above Ask + X%</span>
+                <span style="color:var(--color-negative);font-weight:700;">Blocked</span>
+              </div>
+              <div style="display:flex;justify-content:space-between;font-size:11px;">
+                <span style="color:var(--color-text-secondary);">BUY limit below Ask</span>
+                <span style="color:var(--color-brand);font-weight:700;">Allowed</span>
+              </div>
+              <div style="height:1px;background:var(--color-border);margin:var(--x1) 0;"></div>
+              <div style="display:flex;justify-content:space-between;font-size:11px;">
+                <span style="color:var(--color-text-secondary);">SELL limit below Bid − X%</span>
+                <span style="color:var(--color-negative);font-weight:700;">Blocked</span>
+              </div>
+              <div style="display:flex;justify-content:space-between;font-size:11px;">
+                <span style="color:var(--color-text-secondary);">SELL limit above Bid</span>
+                <span style="color:var(--color-brand);font-weight:700;">Allowed</span>
+              </div>
+              <div style="font-size:10px;color:var(--color-text-muted);margin-top:var(--x1);">X% configurable per instrument</div>
+            </div>
+          </div>
+        </div>
+      </div>
+    `
+  }
 ];
 
 /* ============================================================
