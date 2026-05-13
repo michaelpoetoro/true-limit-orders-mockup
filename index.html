@@ -1989,6 +1989,8 @@ function showToast(msg) {
 let orderState = { price: 184.56, shares: 5 };
 
 function validateAndSubmit() {
+  const sbtn = document.getElementById('place-limit-btn');
+  if (sbtn && sbtn.disabled) return;
   const priceEl = document.getElementById('tlo-price-input');
   const sharesEl = document.getElementById('tlo-shares-input');
 
@@ -2046,7 +2048,7 @@ function validateForm() {
   else if (price > ask * 1.02) { priceErr = 'Price ' + price.toFixed(2) + ' exceeds Ask+2% (' + (ask*1.02).toFixed(2) + ')'; isValid = false; }
 
   if (isNaN(sharesFloat) || sharesFloat < 1) { sharesErr = 'Minimum 1 whole share'; isValid = false; }
-  else if (sharesRaw.includes('.') || sharesFloat !== shares) { sharesErr = 'Whole shares only (' + sharesFloat + ' not allowed)'; isValid = false; }
+  else if (!/^\d+$/.test(sharesRaw.trim()) || sharesFloat !== shares) { sharesErr = 'Whole shares only — ' + sharesRaw + ' is not a whole number'; isValid = false; }
 
   // Inline error elements — create if missing
   function ensureErr(id, afterEl) {
@@ -2070,15 +2072,17 @@ function validateForm() {
 
   // Button — change background color for unmistakable disabled state
   if (isValid) {
+    btn.disabled = false;
+    btn.removeAttribute('aria-disabled');
     btn.style.background = '';
     btn.style.opacity = '';
     btn.style.cursor = '';
-    btn.setAttribute('data-valid', 'true');
   } else {
+    btn.disabled = true;
+    btn.setAttribute('aria-disabled', 'true');
     btn.style.background = 'var(--color-border-strong)';
     btn.style.opacity = '0.7';
     btn.style.cursor = 'not-allowed';
-    btn.setAttribute('data-valid', 'false');
   }
 }
 
