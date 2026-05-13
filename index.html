@@ -683,10 +683,10 @@ const STEPS = [
     html: () => `
       <div class="screen-content">
         <div class="app-bar">
-          <button class="back-btn" aria-label="Back">←</button>
+          <button class="back-btn" aria-label="Back" onclick="showToast('Navigate to asset page')">←</button>
           <div style="flex:1"><div class="bar-title">AAPL</div><div class="bar-sub">Apple Inc.</div></div>
-          <button class="icon-btn" aria-label="Watchlist">♡</button>
-          <button class="icon-btn" aria-label="More">⋯</button>
+          <button class="icon-btn" aria-label="Watchlist" onclick="showToast('Added to watchlist ♡')">♡</button>
+          <button class="icon-btn" aria-label="More" onclick="showToast('More options')">⋯</button>
         </div>
         <div class="asset-strip">
           <div class="asset-logo" aria-hidden="true">AAPL</div>
@@ -694,8 +694,8 @@ const STEPS = [
           <div class="asset-price-col"><div class="asset-price">$186.42</div><div class="asset-change up">+1.24 (+0.67%)</div></div>
         </div>
         <div class="seg-wrap"><div class="seg" role="group" aria-label="Direction">
-          <button class="active buy" aria-pressed="true">BUY</button>
-          <button aria-pressed="false">SELL</button>
+          <button class="active buy" aria-pressed="true" onclick="toggleDir(this)">BUY</button>
+          <button aria-pressed="false" onclick="toggleDir(this)">SELL</button>
         </div></div>
         <div class="order-tabs-wrap">
           <div class="order-tabs" role="tablist">
@@ -712,10 +712,10 @@ const STEPS = [
               <input class="input-f" value="932.10" readonly aria-labelledby="lbl-amount">
             </div>
             <div class="chips" role="group" aria-label="Quick amounts">
-              <button class="chip">$100</button>
-              <button class="chip sel" aria-pressed="true">$1K</button>
-              <button class="chip">$5K</button>
-              <button class="chip">$10K</button>
+              <button class="chip" onclick="selectChip(this)">$100</button>
+              <button class="chip sel" aria-pressed="true" onclick="selectChip(this)">$1K</button>
+              <button class="chip" onclick="selectChip(this)">$5K</button>
+              <button class="chip" onclick="selectChip(this)">$10K</button>
             </div>
           </div>
           <div class="summary" role="region" aria-label="Order summary">
@@ -729,8 +729,8 @@ const STEPS = [
           </button>
         </div>
         <div class="cta-row">
-          <button class="btn-buy">Buy AAPL</button>
-          <button class="btn-sell">Sell</button>
+          <button class="btn-buy" onclick="goTo(1)" title="Try True Limit Order instead">Buy AAPL</button>
+          <button class="btn-sell" onclick="goTo(1)" title="Try True Limit Order instead">Sell</button>
         </div>
       </div>
     `
@@ -765,8 +765,8 @@ const STEPS = [
           <div class="asset-price-col"><div class="asset-price">$186.42</div><div class="asset-change up">+1.24 (+0.67%)</div></div>
         </div>
         <div class="seg-wrap"><div class="seg" role="group" aria-label="Direction">
-          <button class="active buy" aria-pressed="true">BUY</button>
-          <button aria-pressed="false">SELL</button>
+          <button class="active buy" aria-pressed="true" onclick="toggleDir(this)">BUY</button>
+          <button aria-pressed="false" onclick="toggleDir(this)">SELL</button>
         </div></div>
         <div class="order-tabs-wrap">
           <div class="order-tabs" role="tablist">
@@ -798,10 +798,10 @@ const STEPS = [
               <input class="input-f focused" value="185.00" readonly aria-labelledby="lbl-price">
             </div>
             <div class="chips" role="group" aria-label="Price shortcuts">
-              <button class="chip">Ask $186.45</button>
-              <button class="chip">-1% $184.56</button>
-              <button class="chip sel" aria-pressed="true">-2% $182.78</button>
-              <button class="chip">-5% $177.13</button>
+              <button class="chip" onclick="selectChip(this)">Ask $186.45</button>
+              <button class="chip" onclick="selectChip(this)">-1% $184.56</button>
+              <button class="chip sel" aria-pressed="true" onclick="selectChip(this)">-2% $182.78</button>
+              <button class="chip" onclick="selectChip(this)">-5% $177.13</button>
             </div>
             <div class="tick-note">· Tick size &amp; tolerance % configurable per instrument</div>
           </div>
@@ -812,10 +812,10 @@ const STEPS = [
               <span class="input-suf" aria-hidden="true">shares</span>
             </div>
             <div class="chips" role="group" aria-label="Share quantity shortcuts">
-              <button class="chip">1</button>
-              <button class="chip sel" aria-pressed="true">5</button>
-              <button class="chip">10</button>
-              <button class="chip">25</button>
+              <button class="chip" onclick="selectChip(this)">1</button>
+              <button class="chip sel" aria-pressed="true" onclick="selectChip(this)">5</button>
+              <button class="chip" onclick="selectChip(this)">10</button>
+              <button class="chip" onclick="selectChip(this)">25</button>
             </div>
           </div>
           <div class="val-banner ok" role="status">
@@ -867,8 +867,8 @@ const STEPS = [
           <div class="asset-price-col"><div class="asset-price">$186.42</div><div class="asset-change up">+1.24 (+0.67%)</div></div>
         </div>
         <div class="seg-wrap"><div class="seg" role="group">
-          <button class="active buy" aria-pressed="true">BUY</button>
-          <button aria-pressed="false">SELL</button>
+          <button class="active buy" aria-pressed="true" onclick="toggleDir(this)">BUY</button>
+          <button aria-pressed="false" onclick="toggleDir(this)">SELL</button>
         </div></div>
         <div class="order-tabs-wrap">
           <div class="order-tabs" role="tablist">
@@ -935,7 +935,7 @@ const STEPS = [
     html: () => `
       <div class="screen-content">
         <div class="app-bar" style="justify-content:flex-end;">
-          <button class="icon-btn" aria-label="Close">✕</button>
+          <button class="icon-btn" aria-label="Close" onclick="goTo(4)">✕</button>
         </div>
         <div class="confirm-screen">
           <div class="confirm-icon" aria-hidden="true">🎯</div>
@@ -985,9 +985,9 @@ const STEPS = [
           </div>
         </div>
         <div class="filter-bar" role="tablist" aria-label="Filter positions">
-          <button class="f-chip on" role="tab" aria-selected="true">All (3)</button>
-          <button class="f-chip" role="tab" aria-selected="false">Active (2)</button>
-          <button class="f-chip" role="tab" aria-selected="false">Filled</button>
+          <button class="f-chip on" role="tab" aria-selected="true" onclick="selectFChip(this)">All (3)</button>
+          <button class="f-chip" role="tab" aria-selected="false" onclick="selectFChip(this)">Active (2)</button>
+          <button class="f-chip" role="tab" aria-selected="false" onclick="selectFChip(this)">Filled</button>
         </div>
         <div class="pos-list" role="list">
 
@@ -1310,9 +1310,9 @@ const STEPS = [
           <span style="font-size:12px;color:var(--color-brand);font-weight:600;">TSLA order cancelled · $1,090.00 released to your balance</span>
         </div>
         <div class="filter-bar" role="tablist">
-          <button class="f-chip on" role="tab" aria-selected="true">All (3)</button>
-          <button class="f-chip" role="tab" aria-selected="false">Active (1)</button>
-          <button class="f-chip" role="tab" aria-selected="false">Cancelled</button>
+          <button class="f-chip on" role="tab" aria-selected="true" onclick="selectFChip(this)">All (3)</button>
+          <button class="f-chip" role="tab" aria-selected="false" onclick="selectFChip(this)">Active (1)</button>
+          <button class="f-chip" role="tab" aria-selected="false" onclick="selectFChip(this)">Cancelled</button>
         </div>
         <div class="pos-list" role="list">
 
@@ -1544,6 +1544,53 @@ document.addEventListener('keydown', e => {
   if (e.key === 'ArrowRight' || e.key === 'ArrowDown') goTo(currentStep + 1);
   if (e.key === 'ArrowLeft'  || e.key === 'ArrowUp')   goTo(currentStep - 1);
 });
+
+
+function toggleDir(btn, group) {
+  const parent = btn.closest('[role="group"]');
+  if (!parent) return;
+  parent.querySelectorAll('button').forEach(b => {
+    b.classList.remove('active','buy','sell');
+    b.setAttribute('aria-pressed','false');
+  });
+  btn.classList.add('active');
+  btn.setAttribute('aria-pressed','true');
+  if (btn.textContent.trim() === 'BUY') btn.classList.add('buy');
+  if (btn.textContent.trim() === 'SELL') btn.classList.add('sell');
+}
+
+
+function selectChip(btn) {
+  const group = btn.closest('[role="group"]');
+  if (!group) return;
+  group.querySelectorAll('.chip').forEach(c => {
+    c.classList.remove('sel');
+    c.setAttribute('aria-pressed','false');
+  });
+  btn.classList.add('sel');
+  btn.setAttribute('aria-pressed','true');
+}
+
+
+function selectFChip(btn) {
+  const bar = btn.closest('.filter-bar');
+  if (!bar) return;
+  bar.querySelectorAll('.f-chip').forEach(c => {
+    c.classList.remove('on');
+    c.setAttribute('aria-selected','false');
+  });
+  btn.classList.add('on');
+  btn.setAttribute('aria-selected','true');
+}
+
+
+function showToast(msg) {
+  const t = document.createElement('div');
+  t.style.cssText = 'position:fixed;bottom:24px;left:50%;transform:translateX(-50%);background:rgba(0,0,0,.75);color:#fff;padding:8px 16px;border-radius:99px;font-size:12px;font-weight:600;z-index:9999;pointer-events:none;animation:fadeUpHint .3s ease both';
+  t.textContent = msg;
+  document.body.appendChild(t);
+  setTimeout(() => t.remove(), 2000);
+}
 
 // Init
 goTo(0);
