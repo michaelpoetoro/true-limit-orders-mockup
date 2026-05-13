@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en" data-theme="light">
+<html lang="en" data-theme="dark">
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -756,7 +756,6 @@ const STEPS = [
           </div>
         </div>
         <div class="form-sec">
-          <div class="tlo-note">🎯 Rests in market at your price or better · $1.99 ticket fee · DAY order (expires EOD)</div>
           <div class="mkt-grid">
             <div class="mkt-cell"><div class="mkt-lbl">Ask</div><div class="mkt-val mkt-ask">$186.45</div></div>
             <div class="mkt-cell"><div class="mkt-lbl">Bid</div><div class="mkt-val mkt-bid">$186.39</div></div>
@@ -791,12 +790,8 @@ const STEPS = [
             </div>
             <div class="field-err" id="shares-inline-err"></div>
           </div>
-          <div class="val-note ok" id="price-validation" role="status">
-            <span>✓</span><div><b>Price valid</b> — $184.56 is 1.01% below Ask. Order rests until filled.</div>
-          </div>
-          <div class="val-note info" id="tlo-reserve-banner" role="note">
-            <span>ℹ</span><div id="tlo-reserve-text"><b>Balance reserved:</b> $922.80 (5 × $184.56) held until filled or cancelled.</div>
-          </div>
+          <div style="font-size:10px;color:var(--brand);margin-top:3px;margin-bottom:8px;" id="price-validation">✓ $184.56 is 1.01% below Ask</div>
+
           <div class="summary">
             <div class="s-row"><span class="s-k">Order type</span><span class="s-v brand">True Limit Order (DAY)</span></div>
             <div class="s-row"><span class="s-k">Limit price</span><span class="s-v" id="tlo-summary-price">$184.56</span></div>
@@ -804,6 +799,7 @@ const STEPS = [
             <div class="s-row"><span class="s-k">Reserved</span><span class="s-v" id="tlo-summary-reserved">$922.80</span></div>
             <div class="s-row"><span class="s-k">Ticket fee</span><span class="s-v">$1.99</span></div>
           </div>
+          <div style="font-size:10px;color:var(--text-3);margin-top:6px;" id="tlo-reserve-text">$922.80 reserved (5 × $184.56) · released on cancel or fill</div>
         </div>
         <div class="cta-bar">
           <button class="btn-primary btn-buy" id="place-limit-btn" onclick="validateAndSubmit()">Place Limit Order</button>
