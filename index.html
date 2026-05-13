@@ -1748,6 +1748,7 @@ function goTo(idx) {
   buildStepNav();
   buildDots();
   buildAnnotation();
+  if (idx === 1) setTimeout(validateForm, 10); // TLO entry screen
   document.getElementById('stepCounter').textContent = `${currentStep + 1} / ${STEPS.length}`;
   document.getElementById('prevBtn').disabled = currentStep === 0;
   document.getElementById('nextBtn').disabled = currentStep === STEPS.length - 1;
@@ -1906,6 +1907,7 @@ document.addEventListener('input', function(e) {
     if (resEl) resEl.textContent = isNaN(reserved) ? '—' : '$' + reserved.toLocaleString('en-US', {minimumFractionDigits:2, maximumFractionDigits:2});
     const bText4 = document.getElementById('tlo-reserve-text');
     if (bText4 && !isNaN(reserved)) bText4.innerHTML = '<b>Balance reserved at limit price</b> $' + reserved.toLocaleString('en-US',{minimumFractionDigits:2}) + ' (' + shares + ' × $' + price.toFixed(2) + ') held until filled or cancelled.';
+    validateForm();
 
     // Validation banner
     const valBanner = document.getElementById('price-validation');
@@ -2017,6 +2019,70 @@ function validateAndSubmit() {
   // All valid — store state and navigate to confirmation
   orderState = { price, shares, reserved: (price * shares).toFixed(2) };
   goTo(3);
+}
+
+function validateForm() {
+  const priceEl = document.getElementById('tlo-price-input');
+  const sharesEl = document.getElementById('tlo-shares-input');
+  const btn = document.querySelector('.btn-buy[onclick*="validateAndSubmit"]');
+  if (!priceEl || !sharesEl || !btn) return;
+
+  const price = parseFloat(priceEl.value);
+  const sharesRaw = sharesEl.value;
+  const sharesFloat = parseFloat(sharesRaw);
+  const shares = Math.floor(sharesFloat);
+  const ask = 186.45;
+
+  let priceErr = '', sharesErr = '', isValid = true;
+
+  if (isNaN(price) || price <= 0) {
+    priceErr = 'Enter a valid price'; isValid = false;
+  } else if (price > ask * 1.02) {
+    priceErr = 'Price exceeds Ask + 2% tolerance (' + (ask * 1.02).toFixed(2) + ')'; isValid = false;
+  }
+
+  if (isNaN(sharesFloat) || sharesFloat < 1) {
+    sharesErr = 'Minimum 1 whole share'; isValid = false;
+  } else if (sharesFloat !== shares) {
+    sharesErr = 'Whole shares only — ' + sharesFloat + ' not allowed'; isValid = false;
+  }
+
+  // Update price error
+  let priceErrEl = document.getElementById('price-inline-err');
+  if (!priceErrEl) {
+    priceErrEl = document.createElement('div');
+    priceErrEl.id = 'price-inline-err';
+    priceErrEl.style.cssText = 'font-size:11px;color:var(--color-negative);margin-top:4px;font-weight:600;';
+    priceEl.parentElement.insertAdjacentElement('afterend', priceErrEl);
+  }
+  priceErrEl.textContent = priceErr;
+
+  // Update shares error
+  let sharesErrEl = document.getElementById('shares-inline-err');
+  if (!sharesErrEl) {
+    sharesErrEl = document.createElement('div');
+    sharesErrEl.id = 'shares-inline-err';
+    sharesErrEl.style.cssText = 'font-size:11px;color:var(--color-negative);margin-top:4px;font-weight:600;';
+    sharesEl.parentElement.insertAdjacentElement('afterend', sharesErrEl);
+  }
+  sharesErrEl.textContent = sharesErr;
+
+  // Update button visual state
+  if (isValid) {
+    btn.style.opacity = '';
+    btn.style.cursor = '';
+    btn.disabled = false;
+    priceEl.style.borderColor = '';
+    sharesEl.style.borderColor = '';
+  } else {
+    btn.style.opacity = '0.4';
+    btn.style.cursor = 'not-allowed';
+    btn.disabled = false; // keep enabled so we can show toast, but visually disabled
+    if (priceErr) priceEl.style.borderColor = 'var(--color-negative)';
+    else priceEl.style.borderColor = '';
+    if (sharesErr) sharesEl.style.borderColor = 'var(--color-negative)';
+    else sharesEl.style.borderColor = '';
+  }
 }
 
 // Init
