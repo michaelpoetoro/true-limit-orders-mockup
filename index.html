@@ -1934,6 +1934,7 @@ document.addEventListener('input', function(e) {
 
   /* Manual shares entry — Screen 2 TLO */
   if (inp.id === 'tlo-shares-input' || (inp.classList.contains('input-f') && inp.classList.contains('shares') && !inp.id)) {
+    validateForm();  // always validate first — catches fractional, empty, zero
     const shares = parseInt(inp.value);
     if (isNaN(shares) || shares < 1) return;
 
@@ -1959,6 +1960,7 @@ document.addEventListener('input', function(e) {
     if (resEl) resEl.textContent = '$' + reserved.toLocaleString('en-US', {minimumFractionDigits:2, maximumFractionDigits:2});
     const bannerText = document.getElementById('tlo-reserve-text');
     if (bannerText) bannerText.innerHTML = '<b>Balance reserved at limit price</b> $' + reserved.toLocaleString('en-US',{minimumFractionDigits:2}) + ' (' + shares + ' × $' + price.toFixed(2) + ') held until filled or cancelled.';
+    validateForm();  // re-run after updating to ensure consistent state
     return;
   }
 
