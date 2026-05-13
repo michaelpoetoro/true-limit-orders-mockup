@@ -602,6 +602,16 @@ button{font-family:inherit;border:none;background:none;cursor:pointer;color:inhe
   .annotation-panel { display: none; }
   .proto-stage { padding: var(--x4) var(--x3); }
 }
+
+.switch-btn {
+  display: flex; align-items: center; justify-content: center; gap: var(--x2);
+  width: 100%; padding: 10px; border-radius: var(--radius-md);
+  font-size: 13px; font-weight: 600;
+  background: var(--color-brand-bg); color: var(--color-brand);
+  border: 1px solid color-mix(in srgb, var(--color-brand) 25%, transparent);
+  cursor: pointer; transition: background .15s; margin-top: var(--x2);
+}
+.switch-btn:hover { background: var(--color-brand); color: #fff; }
 </style>
 </head>
 <body>
@@ -653,411 +663,734 @@ button{font-family:inherit;border:none;background:none;cursor:pointer;color:inhe
 
 <script>
 /* ============================================================
-   PROTOTYPE DATA
+   PROTOTYPE DATA — v2 (all ProductClaw redlines resolved)
    ============================================================ */
 const STEPS = [
+  /* ── 1. Market Order (baseline) ─────────────────────────── */
   {
     id: 'market-order',
     label: 'Market Order',
     tag: 'Execution · Screen 1',
     title: 'Order Entry — Market (Baseline)',
-    desc: 'Default state for Real Stocks. Client sees the standard market order form they already know.',
+    desc: 'Default execution state for Real Stocks. Client sees the standard market order form. Only the Market Order tab is visible at this point — True Limit Order is introduced in the next step.',
     points: [
-      { type: 'default', text: 'Single tab visible — Market Order only' },
-      { type: 'default', text: 'Dollar amount input, no price field' },
-      { type: 'default', text: 'Tap the <strong>True Limit Order</strong> tab to continue →' },
+      { type: 'default', text: '<strong>Single tab</strong> — only Market Order is visible. No TLO option yet.' },
+      { type: 'default', text: 'Dollar amount, not shares — familiar entry for retail clients' },
+      { type: 'default', text: 'CFD instruments: this tab is the only one. Unchanged.' },
+      { type: 'default', text: 'Tap <strong>"Switch to Limit Order"</strong> to see the new TLO flow →' },
     ],
-    cta: 'Tap "True Limit Order" tab on the screen',
+    cta: 'Tap "Switch to Limit Order" button',
     html: () => `
       <div class="screen-content">
         <div class="app-bar">
-          <div class="back-btn">←</div>
+          <button class="back-btn" aria-label="Back">←</button>
           <div style="flex:1"><div class="bar-title">AAPL</div><div class="bar-sub">Apple Inc.</div></div>
-          <div class="icon-btn">♡</div><div class="icon-btn">⋯</div>
+          <button class="icon-btn" aria-label="Watchlist">♡</button>
+          <button class="icon-btn" aria-label="More">⋯</button>
         </div>
         <div class="asset-strip">
-          <div class="asset-logo">AAPL</div>
+          <div class="asset-logo" aria-hidden="true">AAPL</div>
           <div><div class="asset-name">Apple Inc.</div><div class="asset-sub">NASDAQ · Real Stock</div></div>
           <div class="asset-price-col"><div class="asset-price">$186.42</div><div class="asset-change up">+1.24 (+0.67%)</div></div>
         </div>
-        <div class="seg-wrap"><div class="seg"><button class="active buy">BUY</button><button>SELL</button></div></div>
+        <div class="seg-wrap"><div class="seg" role="group" aria-label="Direction">
+          <button class="active buy" aria-pressed="true">BUY</button>
+          <button aria-pressed="false">SELL</button>
+        </div></div>
         <div class="order-tabs-wrap">
-          <div class="order-tabs">
-            <div class="order-tab active tap-zone" onclick="goTo(1)" style="position:relative;">
+          <div class="order-tabs" role="tablist">
+            <div class="order-tab active" role="tab" aria-selected="true">
               <div class="order-tab-label">Market Order</div>
               <div class="order-tab-hint">Best available price</div>
-            </div>
-            <div class="order-tab tap-zone" onclick="goTo(1)" style="position:relative;">
-              <div class="order-tab-label">True Limit Order</div>
-              <div class="order-tab-hint">Your price or better</div>
-              <div class="tap-hint">Tap here →</div>
             </div>
           </div>
         </div>
         <div class="form-sec">
           <div class="form-row">
-            <div class="form-label">Amount</div>
-            <div class="input-wrap"><span class="input-pre">$</span><input class="input-f" value="1,000.00" readonly></div>
-            <div class="chips"><div class="chip">$100</div><div class="chip sel">$1K</div><div class="chip">$5K</div><div class="chip">$10K</div></div>
+            <div class="form-label" id="lbl-amount">Amount</div>
+            <div class="input-wrap"><span class="input-pre" aria-hidden="true">$</span>
+              <input class="input-f" value="932.10" readonly aria-labelledby="lbl-amount">
+            </div>
+            <div class="chips" role="group" aria-label="Quick amounts">
+              <button class="chip">$100</button>
+              <button class="chip sel" aria-pressed="true">$1K</button>
+              <button class="chip">$5K</button>
+              <button class="chip">$10K</button>
+            </div>
           </div>
-          <div class="summary">
+          <div class="summary" role="region" aria-label="Order summary">
             <div class="s-row"><span class="s-k">Est. shares</span><span class="s-v">~5 shares</span></div>
             <div class="s-row"><span class="s-k">Est. price</span><span class="s-v">~$186.42</span></div>
-            <div class="s-row"><span class="s-k">Total</span><span class="s-v tlo">$1,000.00</span></div>
+            <div class="s-row"><span class="s-k">Ticket fee</span><span class="s-v">$1.99</span></div>
+            <div class="s-row"><span class="s-k">Total</span><span class="s-v tlo">$934.09</span></div>
           </div>
+          <button class="switch-btn" onclick="goTo(1)" aria-label="Switch to True Limit Order">
+            🎯 Switch to Limit Order
+          </button>
         </div>
-        <div class="cta-row"><button class="btn-buy">Buy AAPL</button><button class="btn-sell">Sell</button></div>
+        <div class="cta-row">
+          <button class="btn-buy">Buy AAPL</button>
+          <button class="btn-sell">Sell</button>
+        </div>
       </div>
     `
   },
+
+  /* ── 2. TLO Entry ────────────────────────────────────────── */
   {
     id: 'tlo-entry',
     label: 'Limit Order Entry',
     tag: 'Execution · Screen 2',
     title: 'True Limit Order — Price & Shares',
-    desc: 'User switches to True Limit Order. A new form appears with limit price, live market data, and whole-share quantity.',
+    desc: 'Client switches to True Limit Order. The form changes: price input appears, shares replace dollar amount. Live market data is shown inline.',
     points: [
-      { type: 'green', text: '<strong>TLO tab activates</strong> with green highlight — clear visual distinction from Market' },
-      { type: 'green', text: '<strong>Info banner</strong> explains: rests in market, no slippage, DAY order' },
-      { type: 'green', text: '<strong>Live market strip</strong>: Ask / Bid / Spread / Tick size' },
-      { type: 'green', text: '<strong>Price shortcuts</strong> relative to Ask (-1%, -2%, -5%)' },
-      { type: 'green', text: '<strong>Whole shares only</strong> — no fractional, no dollar amounts' },
+      { type: 'green', text: '<strong>TLO tab highlights</strong> in green — clear visual switch from Market' },
+      { type: 'green', text: '<strong>Info banner</strong>: rests in market, no slippage, DAY order, ticket fee' },
+      { type: 'green', text: '<strong>Live market strip</strong>: Ask / Bid / Spread / Tick size (per instrument)' },
+      { type: 'green', text: '<strong>Price shortcuts</strong>: Ask / -1% $184.56 / -2% $182.78 / -5% $177.13' },
+      { type: 'green', text: '<strong>Whole shares only</strong> — no fractional, sub-1-share blocked at submit' },
     ],
     cta: 'Tap "Place Limit Order" to submit',
     html: () => `
       <div class="screen-content">
         <div class="app-bar">
-          <div class="back-btn">←</div>
+          <button class="back-btn" aria-label="Back" onclick="goTo(0)">←</button>
           <div style="flex:1"><div class="bar-title">AAPL</div><div class="bar-sub">Apple Inc.</div></div>
-          <div class="icon-btn">♡</div><div class="icon-btn">⋯</div>
+          <button class="icon-btn" aria-label="Watchlist">♡</button>
+          <button class="icon-btn" aria-label="More">⋯</button>
         </div>
         <div class="asset-strip">
-          <div class="asset-logo">AAPL</div>
+          <div class="asset-logo" aria-hidden="true">AAPL</div>
           <div><div class="asset-name">Apple Inc.</div><div class="asset-sub">NASDAQ · Real Stock</div></div>
           <div class="asset-price-col"><div class="asset-price">$186.42</div><div class="asset-change up">+1.24 (+0.67%)</div></div>
         </div>
-        <div class="seg-wrap"><div class="seg"><button class="active buy">BUY</button><button>SELL</button></div></div>
+        <div class="seg-wrap"><div class="seg" role="group" aria-label="Direction">
+          <button class="active buy" aria-pressed="true">BUY</button>
+          <button aria-pressed="false">SELL</button>
+        </div></div>
         <div class="order-tabs-wrap">
-          <div class="order-tabs">
-            <div class="order-tab tap-zone" onclick="goTo(0)"><div class="order-tab-label">Market Order</div><div class="order-tab-hint">Best available price</div></div>
-            <div class="order-tab tlo-active"><div class="order-tab-label">True Limit Order</div><div class="order-tab-hint">Your price or better</div></div>
+          <div class="order-tabs" role="tablist">
+            <button class="order-tab" role="tab" aria-selected="false" onclick="goTo(0)">
+              <div class="order-tab-label">Market Order</div>
+              <div class="order-tab-hint">Best available price</div>
+            </button>
+            <button class="order-tab tlo-active" role="tab" aria-selected="true">
+              <div class="order-tab-label">True Limit Order</div>
+              <div class="order-tab-hint">Your price or better</div>
+            </button>
           </div>
         </div>
         <div class="form-sec" style="padding-bottom:0;">
-          <div class="tlo-bar"><div class="tlo-bar-icon">🎯</div><div class="tlo-bar-text"><b>True Limit Order</b>Your order rests in the market until filled at your price or better. No slippage. Ticket fee applies. Valid today only (DAY).</div></div>
-          <div class="mkt-strip">
+          <div class="tlo-bar" role="note">
+            <div class="tlo-bar-icon" aria-hidden="true">🎯</div>
+            <div class="tlo-bar-text"><b>True Limit Order</b>Your order rests in the market until filled at your price or better. No slippage. $1.99 ticket fee. Valid today only (DAY).</div>
+          </div>
+          <div class="mkt-strip" role="region" aria-label="Live market data">
             <div class="mkt-i"><div class="mkt-l">Ask</div><div class="mkt-v up">$186.45</div></div>
             <div class="mkt-i"><div class="mkt-l">Bid</div><div class="mkt-v down">$186.39</div></div>
             <div class="mkt-i"><div class="mkt-l">Spread</div><div class="mkt-v">$0.06</div></div>
             <div class="mkt-i"><div class="mkt-l">Tick</div><div class="mkt-v">$0.01</div></div>
           </div>
           <div class="form-row">
-            <div class="form-label">Limit Price <span class="form-hint">Whole cents · aligned to tick size</span></div>
-            <div class="input-wrap"><span class="input-pre" style="font-weight:800;color:var(--color-text-primary);">$</span><input class="input-f focused" value="185.00" readonly></div>
-            <div class="chips"><div class="chip">Ask $186.45</div><div class="chip">−1% $184.56</div><div class="chip sel">−0.77% $185.00</div></div>
-            <div class="tick-note">· Configured per instrument</div>
+            <div class="form-label" id="lbl-price">Limit Price <span class="form-hint">Whole cents · aligned to tick size</span></div>
+            <div class="input-wrap">
+              <span class="input-pre" style="font-weight:800;color:var(--color-text-primary);" aria-hidden="true">$</span>
+              <input class="input-f focused" value="185.00" readonly aria-labelledby="lbl-price">
+            </div>
+            <div class="chips" role="group" aria-label="Price shortcuts">
+              <button class="chip">Ask $186.45</button>
+              <button class="chip">-1% $184.56</button>
+              <button class="chip sel" aria-pressed="true">-2% $182.78</button>
+              <button class="chip">-5% $177.13</button>
+            </div>
+            <div class="tick-note">· Tick size &amp; tolerance % configurable per instrument</div>
           </div>
           <div class="form-row" style="margin-bottom:var(--x3);">
-            <div class="form-label">Shares <span class="form-hint">Whole shares only — no fractional</span></div>
-            <div class="input-wrap"><input class="input-f shares" value="5" readonly><span class="input-suf">shares</span></div>
-            <div class="chips"><div class="chip">1</div><div class="chip sel">5</div><div class="chip">10</div><div class="chip">25</div></div>
+            <div class="form-label" id="lbl-shares">Shares <span class="form-hint">Whole shares only — no fractional</span></div>
+            <div class="input-wrap">
+              <input class="input-f shares" value="5" readonly aria-labelledby="lbl-shares">
+              <span class="input-suf" aria-hidden="true">shares</span>
+            </div>
+            <div class="chips" role="group" aria-label="Share quantity shortcuts">
+              <button class="chip">1</button>
+              <button class="chip sel" aria-pressed="true">5</button>
+              <button class="chip">10</button>
+              <button class="chip">25</button>
+            </div>
           </div>
-          <div class="val-banner ok"><span class="val-icon">✓</span><div><b>Price valid — below Ask</b>$185.00 is 0.78% below current ask. Order will rest until price reaches your level.</div></div>
-          <div class="val-banner info"><span class="val-icon">ℹ</span><div><b>Balance reserved at limit price</b>$925.00 (5 × $185.00) held until filled or cancelled.</div></div>
-          <div class="summary">
+          <div class="val-banner ok" role="status">
+            <span class="val-icon" aria-hidden="true">✓</span>
+            <div><b>Price valid — below Ask</b>$185.00 is 0.78% below current ask. Order rests until price hits your level.</div>
+          </div>
+          <div class="val-banner info" role="note">
+            <span class="val-icon" aria-hidden="true">ℹ</span>
+            <div><b>Balance reserved at limit price</b>$925.00 (5 × $185.00) held until filled or cancelled.</div>
+          </div>
+          <div class="summary" role="region" aria-label="Order summary">
             <div class="s-row"><span class="s-k">Order type</span><span class="s-v tlo">True Limit Order (DAY)</span></div>
             <div class="s-row"><span class="s-k">Limit price</span><span class="s-v">$185.00</span></div>
             <div class="s-row"><span class="s-k">Quantity</span><span class="s-v">5 shares</span></div>
             <div class="s-row"><span class="s-k">Reserved</span><span class="s-v">$925.00</span></div>
+            <div class="s-row"><span class="s-k">Ticket fee</span><span class="s-v">$1.99</span></div>
           </div>
         </div>
-        <div class="cta-row"><button class="btn-buy tap-zone" onclick="goTo(2)">Place Limit Order</button></div>
+        <div class="cta-row">
+          <button class="btn-buy" onclick="goTo(3)" aria-label="Place limit order to buy 5 shares of AAPL at $185.00">Place Limit Order</button>
+        </div>
       </div>
     `
   },
+
+  /* ── 3. Price Validation Error ───────────────────────────── */
   {
     id: 'validation-error',
-    label: 'Price Validation',
+    label: 'Validation Error',
     tag: 'Execution · Screen 3',
     title: 'Price Validation — Error State',
-    desc: 'Client enters a limit buy price above Ask + tolerance threshold. Submission is blocked with a clear error.',
+    desc: 'Client enters a buy limit price above Ask + tolerance. Submit is blocked. Asymmetric logic: buy above ask+X% is blocked; buy below ask is fine. Inverse for sell.',
     points: [
-      { type: 'warn', text: '<strong>Input turns red</strong> — immediate inline feedback' },
-      { type: 'warn', text: '<strong>Error banner</strong> explains the rule: X% above Ask is blocked (configurable per instrument)' },
-      { type: 'default', text: 'Submit button is <strong>disabled</strong> until price is corrected' },
-      { type: 'default', text: 'Asymmetric logic: buy above ask blocked; buy below ask allowed. Inverse for sell.' },
+      { type: 'warn', text: '<strong>Input border turns red</strong> — immediate inline feedback' },
+      { type: 'warn', text: '<strong>Error banner</strong>: explains tolerance rule (configurable % per instrument)' },
+      { type: 'default', text: '<strong>Submit disabled</strong> — button greyed out, not tappable' },
+      { type: 'default', text: 'Asymmetry: buy above ask blocked; below ask unrestricted. Sell: inverse.' },
     ],
-    cta: 'Tap → to continue to Portfolio',
+    cta: 'Use ← → arrows to navigate',
     html: () => `
       <div class="screen-content">
         <div class="app-bar">
-          <div class="back-btn tap-zone" onclick="goTo(1)">←</div>
+          <button class="back-btn" aria-label="Back" onclick="goTo(1)">←</button>
           <div style="flex:1"><div class="bar-title">AAPL</div><div class="bar-sub">Apple Inc.</div></div>
         </div>
         <div class="asset-strip">
-          <div class="asset-logo">AAPL</div>
+          <div class="asset-logo" aria-hidden="true">AAPL</div>
           <div><div class="asset-name">Apple Inc.</div><div class="asset-sub">NASDAQ · Real Stock</div></div>
           <div class="asset-price-col"><div class="asset-price">$186.42</div><div class="asset-change up">+1.24 (+0.67%)</div></div>
         </div>
-        <div class="seg-wrap"><div class="seg"><button class="active buy">BUY</button><button>SELL</button></div></div>
+        <div class="seg-wrap"><div class="seg" role="group">
+          <button class="active buy" aria-pressed="true">BUY</button>
+          <button aria-pressed="false">SELL</button>
+        </div></div>
         <div class="order-tabs-wrap">
-          <div class="order-tabs">
-            <div class="order-tab"><div class="order-tab-label">Market Order</div><div class="order-tab-hint">Best available price</div></div>
-            <div class="order-tab tlo-active"><div class="order-tab-label">True Limit Order</div><div class="order-tab-hint">Your price or better</div></div>
+          <div class="order-tabs" role="tablist">
+            <button class="order-tab" role="tab" aria-selected="false">
+              <div class="order-tab-label">Market Order</div>
+              <div class="order-tab-hint">Best available price</div>
+            </button>
+            <button class="order-tab tlo-active" role="tab" aria-selected="true">
+              <div class="order-tab-label">True Limit Order</div>
+              <div class="order-tab-hint">Your price or better</div>
+            </button>
           </div>
         </div>
         <div class="form-sec">
-          <div class="mkt-strip">
+          <div class="mkt-strip" role="region" aria-label="Live market data">
             <div class="mkt-i"><div class="mkt-l">Ask</div><div class="mkt-v up">$186.45</div></div>
             <div class="mkt-i"><div class="mkt-l">Bid</div><div class="mkt-v down">$186.39</div></div>
             <div class="mkt-i"><div class="mkt-l">Spread</div><div class="mkt-v">$0.06</div></div>
           </div>
           <div class="form-row">
-            <div class="form-label" style="color:var(--color-negative);">Limit Price — Error</div>
-            <div class="input-wrap"><span class="input-pre" style="color:var(--color-negative);font-weight:800;">$</span><input class="input-f error" value="191.00" readonly style="color:var(--color-negative);border-color:var(--color-negative);"></div>
+            <div class="form-label" style="color:var(--color-negative);" id="lbl-price-err">Limit Price</div>
+            <div class="input-wrap">
+              <span class="input-pre" style="color:var(--color-negative);font-weight:800;" aria-hidden="true">$</span>
+              <input class="input-f error" value="191.00" readonly aria-labelledby="lbl-price-err" aria-invalid="true" aria-describedby="price-err-msg" style="color:var(--color-negative);">
+            </div>
           </div>
-          <div class="val-banner err"><span class="val-icon">⚠</span><div><b>Price exceeds Ask + tolerance</b>$191.00 is 2.44% above current ask ($186.45). Max allowed for a buy limit is 2% above ask. Please reduce your price.</div></div>
+          <div class="val-banner err" role="alert" id="price-err-msg">
+            <span class="val-icon" aria-hidden="true">⚠</span>
+            <div><b>Price exceeds Ask + tolerance</b>$191.00 is 2.44% above Ask ($186.45). Max allowed on a buy limit is +2% above Ask. Reduce your price.</div>
+          </div>
           <div class="form-row">
-            <div class="form-label">Shares</div>
-            <div class="input-wrap"><input class="input-f shares" value="5" readonly><span class="input-suf">shares</span></div>
+            <div class="form-label" id="lbl-sh-err">Shares</div>
+            <div class="input-wrap">
+              <input class="input-f shares" value="5" readonly aria-labelledby="lbl-sh-err">
+              <span class="input-suf" aria-hidden="true">shares</span>
+            </div>
           </div>
-          <div class="summary" style="opacity:.5;">
+          <div class="summary" style="opacity:.45;" aria-hidden="true">
             <div class="s-row"><span class="s-k">Order type</span><span class="s-v tlo">True Limit Order (DAY)</span></div>
             <div class="s-row"><span class="s-k">Limit price</span><span class="s-v" style="color:var(--color-negative);">$191.00 ✕</span></div>
             <div class="s-row"><span class="s-k">Quantity</span><span class="s-v">5 shares</span></div>
           </div>
         </div>
-        <div class="cta-row"><button class="btn-buy btn-disabled" style="cursor:not-allowed;">Place Limit Order</button></div>
+        <div class="cta-row">
+          <button class="btn-buy btn-disabled" disabled aria-disabled="true" aria-label="Cannot place order — price is invalid">Place Limit Order</button>
+        </div>
       </div>
     `
   },
+
+  /* ── 4. Order Confirmed ──────────────────────────────────── */
   {
     id: 'order-confirm',
     label: 'Order Confirmed',
     tag: 'Execution · Screen 4',
     title: 'Order Placed — Confirmation',
-    desc: 'Order successfully submitted to the exchange. Client sees a clear confirmation with the key details.',
+    desc: 'Order submitted. Confirmation shows PENDING status, not Bought. Limit price, 5 shares, $925 reserved, $1.99 ticket fee, EOD expiry.',
     points: [
-      { type: 'green', text: '<strong>TLO confirmation</strong> — distinct from a filled trade. Status is "Pending" not "Bought"' },
-      { type: 'green', text: 'Limit price, shares, reserved balance, and EOD expiry all confirmed' },
-      { type: 'green', text: '"View in Portfolio" CTA takes client directly to their pending orders' },
+      { type: 'green', text: '<strong>Status: PENDING</strong> — not "Bought". Client knows it\'s resting, not filled.' },
+      { type: 'green', text: 'Ticket fee $1.99 shown explicitly — consistent with order entry screen' },
+      { type: 'green', text: 'EOD expiry prominent — sets correct expectation before client leaves' },
     ],
     cta: 'Tap "View in Portfolio" →',
     html: () => `
       <div class="screen-content">
         <div class="app-bar" style="justify-content:flex-end;">
-          <div class="icon-btn">✕</div>
+          <button class="icon-btn" aria-label="Close">✕</button>
         </div>
         <div class="confirm-screen">
-          <div class="confirm-icon">🎯</div>
+          <div class="confirm-icon" aria-hidden="true">🎯</div>
           <div class="confirm-title">Limit Order Placed</div>
           <div class="confirm-sub">Your order is resting in the market.<br>You'll be notified when it fills.</div>
-          <div class="confirm-card">
+          <div class="confirm-card" role="region" aria-label="Order details">
             <div class="confirm-row"><span class="ck">Asset</span><span class="cv">AAPL — Apple Inc.</span></div>
             <div class="confirm-row"><span class="ck">Order type</span><span class="cv" style="color:var(--color-brand);">True Limit Order</span></div>
             <div class="confirm-row"><span class="ck">Direction</span><span class="cv" style="color:var(--color-brand);">BUY</span></div>
             <div class="confirm-row"><span class="ck">Limit price</span><span class="cv">$185.00</span></div>
             <div class="confirm-row"><span class="ck">Quantity</span><span class="cv">5 shares</span></div>
             <div class="confirm-row"><span class="ck">Reserved</span><span class="cv">$925.00</span></div>
+            <div class="confirm-row"><span class="ck">Ticket fee</span><span class="cv">$1.99</span></div>
             <div class="confirm-row"><span class="ck">Expires</span><span class="cv" style="color:var(--color-warning);">Today · EOD 16:00 ET</span></div>
+            <div class="confirm-row"><span class="ck">Status</span><span class="cv"><span class="status-chip chip-pending" style="font-size:10px;"><span class="chip-dot"></span>PENDING</span></span></div>
           </div>
-          <button class="btn-port tap-zone" onclick="goTo(4)">View in Portfolio →</button>
+          <button class="btn-port" onclick="goTo(4)" aria-label="View your portfolio">View in Portfolio →</button>
         </div>
       </div>
     `
   },
+
+  /* ── 5. Portfolio ────────────────────────────────────────── */
   {
     id: 'portfolio',
     label: 'Portfolio',
     tag: 'Portfolio · Screen 5',
     title: 'Portfolio — Pending & Partial Orders',
-    desc: 'The portfolio now shows all limit orders with live fill progress, status chips, and cancel buttons.',
+    desc: 'Portfolio shows 3 limit orders: AAPL just placed (2/5 partial fills already in), TSLA pending 0/5, NVDA fully filled. Cancel only shows on active orders.',
     points: [
-      { type: 'blue', text: '<strong>PARTIAL</strong> (AAPL) — 3 of 10 shares filled. Blue progress bar at 30%.' },
-      { type: 'warn', text: '<strong>PENDING</strong> (TSLA) — 0 of 8 shares. Pulsing amber dot. Balance reserved.' },
-      { type: 'green', text: '<strong>FILLED</strong> (NVDA) — 5/5 shares, execution price shown.' },
-      { type: 'default', text: '<strong>Cancel button</strong> visible only on PENDING and PARTIAL orders.' },
-      { type: 'default', text: 'Tap <strong>Cancel Order</strong> on TSLA to see the cancel flow →' },
+      { type: 'blue', text: '<strong>AAPL PARTIAL</strong> — 2 of 5 shares filled (from our just-placed order). $1.99 fee already deducted.' },
+      { type: 'warn', text: '<strong>TSLA PENDING</strong> — 0 of 5 shares. Pulsing dot. $1,090 reserved.' },
+      { type: 'green', text: '<strong>NVDA FILLED</strong> — 5/5 complete. P&L shown.' },
+      { type: 'default', text: 'Cancel + View Details only on active orders (PENDING/PARTIAL).' },
+      { type: 'default', text: 'Tap <strong>Cancel Order</strong> on TSLA → cancel flow' },
     ],
     cta: 'Tap "✕ Cancel Order" on TSLA',
     html: () => `
       <div class="screen-content">
         <div class="port-header">
           <div class="port-title">Portfolio</div>
-          <div class="port-sub">3 positions · 2 pending limit orders</div>
+          <div class="port-sub">3 positions · 2 active limit orders</div>
           <div class="port-stats">
             <div><div class="ps-k">Invested</div><div class="ps-v">$12,440</div></div>
             <div><div class="ps-k">P&L</div><div class="ps-v pos">+$284.20</div></div>
             <div><div class="ps-k">Return</div><div class="ps-v pos">+2.28%</div></div>
           </div>
         </div>
-        <div class="filter-bar">
-          <div class="f-chip on">All (3)</div>
-          <div class="f-chip">Pending (2)</div>
-          <div class="f-chip">Open</div>
-          <div class="f-chip">Closed</div>
+        <div class="filter-bar" role="tablist" aria-label="Filter positions">
+          <button class="f-chip on" role="tab" aria-selected="true">All (3)</button>
+          <button class="f-chip" role="tab" aria-selected="false">Active (2)</button>
+          <button class="f-chip" role="tab" aria-selected="false">Filled</button>
         </div>
-        <div class="pos-list">
-          <!-- AAPL partial -->
-          <div class="pos-card tap-zone" onclick="goTo(6)">
+        <div class="pos-list" role="list">
+
+          <!-- AAPL partial — same order as confirmation (5 shares, 2 filled) -->
+          <article class="pos-card" role="listitem">
             <div class="pos-head">
-              <div class="pos-logo aapl">AAPL</div>
-              <div class="pos-asset" style="flex:1">
+              <div class="pos-logo aapl" aria-hidden="true">AAPL</div>
+              <div style="flex:1">
                 <div class="pos-name">Apple Inc.</div>
-                <div class="pos-meta">REAL <span class="status-chip chip-partial"><span class="chip-dot"></span>PARTIAL</span> <span class="tlo-badge"><span class="tlo-dot"></span>TLO</span></div>
+                <div class="pos-meta">REAL
+                  <span class="status-chip chip-partial"><span class="chip-dot" aria-hidden="true"></span><span>PARTIAL</span></span>
+                  <span class="tlo-badge"><span class="tlo-dot" aria-hidden="true"></span>TLO</span>
+                </div>
               </div>
-              <div class="pos-price-col"><div class="pos-price">$185.00</div><div class="pos-pl" style="color:var(--color-text-muted);">Limit price</div></div>
+              <div class="pos-price-col">
+                <div class="pos-price">$185.00</div>
+                <div class="pos-pl" style="color:var(--color-text-muted);">Limit price</div>
+              </div>
             </div>
             <div class="fill-sec">
-              <div class="fill-head"><span class="fill-label">Fill progress</span><span class="fill-count"><span class="fn">3</span> / 10 shares</span></div>
-              <div class="fill-track"><div class="fill-fill partial" style="width:30%"></div></div>
+              <div class="fill-head">
+                <span class="fill-label">Fill progress</span>
+                <span class="fill-count"><span class="fn">2</span> / 5 shares</span>
+              </div>
+              <div class="fill-track" role="progressbar" aria-valuenow="40" aria-valuemin="0" aria-valuemax="100" aria-label="40% filled">
+                <div class="fill-fill partial" style="width:40%"></div>
+              </div>
             </div>
             <div class="card-actions">
-              <button class="act-cancel tap-zone" onclick="event.stopPropagation();goTo(6)">✕ Cancel Order</button>
-              <button class="act-detail tap-zone" onclick="event.stopPropagation();goTo(6)">View Details</button>
+              <button class="act-cancel" onclick="goTo(7)" aria-label="Cancel AAPL limit order">✕ Cancel Order</button>
+              <button class="act-detail" onclick="goTo(7)" aria-label="View AAPL position details">View Details</button>
             </div>
-          </div>
+          </article>
+
           <!-- TSLA pending -->
-          <div class="pos-card tap-zone" onclick="goTo(5)">
+          <article class="pos-card" role="listitem">
             <div class="pos-head">
-              <div class="pos-logo tsla">TSLA</div>
-              <div class="pos-asset" style="flex:1">
+              <div class="pos-logo tsla" aria-hidden="true">TSLA</div>
+              <div style="flex:1">
                 <div class="pos-name">Tesla Inc.</div>
-                <div class="pos-meta">REAL <span class="status-chip chip-pending"><span class="chip-dot"></span>PENDING</span> <span class="tlo-badge"><span class="tlo-dot"></span>TLO</span></div>
+                <div class="pos-meta">REAL
+                  <span class="status-chip chip-pending"><span class="chip-dot" aria-hidden="true"></span><span>PENDING</span></span>
+                  <span class="tlo-badge"><span class="tlo-dot" aria-hidden="true"></span>TLO</span>
+                </div>
               </div>
-              <div class="pos-price-col"><div class="pos-price">$218.00</div><div class="pos-pl" style="color:var(--color-text-muted);">Limit price</div></div>
+              <div class="pos-price-col">
+                <div class="pos-price">$218.00</div>
+                <div class="pos-pl" style="color:var(--color-text-muted);">Limit price</div>
+              </div>
             </div>
             <div class="fill-sec">
-              <div class="fill-head"><span class="fill-label">Fill progress</span><span class="fill-count"><span class="fn">0</span> / 8 shares</span></div>
-              <div class="fill-track"><div class="fill-fill zero"></div></div>
+              <div class="fill-head">
+                <span class="fill-label">Fill progress</span>
+                <span class="fill-count"><span class="fn">0</span> / 5 shares</span>
+              </div>
+              <div class="fill-track" role="progressbar" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100" aria-label="0% filled">
+                <div class="fill-fill zero"></div>
+              </div>
             </div>
-            <div class="card-actions">
-              <button class="act-cancel tap-zone" onclick="event.stopPropagation();goTo(5)" style="position:relative;">✕ Cancel Order<div class="tap-hint">Tap here</div></button>
-              <button class="act-detail tap-zone" onclick="event.stopPropagation();">View Details</button>
+            <div class="card-actions" style="position:relative;">
+              <button class="act-cancel" onclick="goTo(5)" aria-label="Cancel TSLA limit order">
+                ✕ Cancel Order
+                <div class="tap-hint">Tap here</div>
+              </button>
+              <button class="act-detail" onclick="goTo(6)" aria-label="View TSLA position details">View Details</button>
             </div>
-          </div>
+          </article>
+
           <!-- NVDA filled -->
-          <div class="pos-card">
+          <article class="pos-card" role="listitem">
             <div class="pos-head">
-              <div class="pos-logo nvda">NVDA</div>
-              <div class="pos-asset" style="flex:1">
+              <div class="pos-logo nvda" aria-hidden="true">NVDA</div>
+              <div style="flex:1">
                 <div class="pos-name">NVIDIA Corp.</div>
-                <div class="pos-meta">REAL <span class="status-chip chip-filled"><span class="chip-dot"></span>FILLED</span> <span class="tlo-badge"><span class="tlo-dot"></span>TLO</span></div>
+                <div class="pos-meta">REAL
+                  <span class="status-chip chip-filled"><span class="chip-dot" aria-hidden="true"></span><span>FILLED</span></span>
+                  <span class="tlo-badge"><span class="tlo-dot" aria-hidden="true"></span>TLO</span>
+                </div>
               </div>
-              <div class="pos-price-col"><div class="pos-price">$874.50</div><div class="pos-pl up">+$68.00</div></div>
+              <div class="pos-price-col">
+                <div class="pos-price">$874.50</div>
+                <div class="pos-pl up">+$68.00</div>
+              </div>
             </div>
             <div class="fill-sec">
-              <div class="fill-head"><span class="fill-label">Filled at limit</span><span class="fill-count"><span class="fn">5</span> / 5 shares</span></div>
-              <div class="fill-track"><div class="fill-fill" style="width:100%"></div></div>
+              <div class="fill-head">
+                <span class="fill-label">Filled at limit</span>
+                <span class="fill-count"><span class="fn">5</span> / 5 shares</span>
+              </div>
+              <div class="fill-track" role="progressbar" aria-valuenow="100" aria-valuemin="0" aria-valuemax="100" aria-label="100% filled">
+                <div class="fill-fill" style="width:100%"></div>
+              </div>
             </div>
-          </div>
+          </article>
+
         </div>
       </div>
     `
   },
+
+  /* ── 6. Cancel Sheet (TSLA) ──────────────────────────────── */
   {
     id: 'cancel-sheet',
-    label: 'Cancel Order',
+    label: 'Cancel Sheet',
     tag: 'Portfolio · Screen 6',
-    title: 'Cancel Confirmation Sheet',
-    desc: 'Client taps Cancel on a pending TSLA order. A bottom sheet appears with full order details and an edge-case warning.',
+    title: 'Cancel Confirmation — TSLA',
+    desc: 'Cancel sheet shows full TSLA order details, reserved balance to be released, and the race-condition warning required by the PRD.',
     points: [
-      { type: 'default', text: '<strong>Order summary</strong> — shows exactly what will be cancelled, how many shares filled so far, and reserved balance to be released' },
-      { type: 'warn', text: '<strong>Race condition warning</strong> — if exchange fills simultaneously with cancel, trade still goes through. CS alert is triggered automatically.' },
-      { type: 'default', text: '"Keep Order" dismisses. "Cancel Order" sends OCR to exchange.' },
+      { type: 'default', text: '<strong>Full order detail</strong>: requested qty, filled so far, balance to release' },
+      { type: 'warn', text: '<strong>Race-condition warning (PRD requirement)</strong>: if exchange fills simultaneously with OCR, trade still executes. CS alert is auto-triggered.' },
+      { type: 'default', text: '"Keep Order" → back. "Cancel Order" → sends OCR → cancelled state.' },
     ],
-    cta: 'Tap "Keep Order" → back, or → next for Position Detail',
+    cta: 'Tap "Cancel Order" to see result',
     html: () => `
       <div class="screen-content sheet-wrap">
-        <div class="sheet-bg-content" style="opacity:.32;pointer-events:none;padding:var(--x4);">
+        <div class="sheet-bg-content" style="opacity:.3;pointer-events:none;padding:var(--x4);" aria-hidden="true">
           <div class="port-header" style="border-radius:var(--radius-md);border:1px solid var(--color-border);padding:var(--x3);">
             <div class="port-title" style="font-size:14px;">Portfolio</div>
-            <div class="port-sub">3 positions · 2 pending</div>
+            <div class="port-sub">3 positions · 2 active</div>
           </div>
           <div style="margin-top:var(--x2);">
             <div class="pos-card">
               <div class="pos-head">
                 <div class="pos-logo tsla">TSLA</div>
-                <div style="flex:1"><div class="pos-name">Tesla Inc.</div><div class="pos-meta">REAL <span class="status-chip chip-pending"><span class="chip-dot"></span>PENDING</span></div></div>
+                <div style="flex:1"><div class="pos-name">Tesla Inc.</div>
+                  <div class="pos-meta">REAL <span class="status-chip chip-pending"><span class="chip-dot"></span>PENDING</span></div>
+                </div>
                 <div class="pos-price-col"><div class="pos-price">$218.00</div></div>
               </div>
             </div>
           </div>
         </div>
-        <div class="sheet-bg"></div>
-        <div class="bottom-sheet">
-          <div class="sheet-handle"></div>
-          <div class="sheet-title">Cancel Limit Order?</div>
-          <div class="sheet-desc">An Order Cancel Request (OCR) will be sent to the exchange. Any shares already filled remain in your account.</div>
-          <div class="sheet-card">
+        <div class="sheet-bg" aria-hidden="true"></div>
+        <div class="bottom-sheet" role="dialog" aria-modal="true" aria-labelledby="sheet-title">
+          <div class="sheet-handle" aria-hidden="true"></div>
+          <h2 class="sheet-title" id="sheet-title">Cancel Limit Order?</h2>
+          <p class="sheet-desc">An Order Cancel Request (OCR) will be sent to the exchange. Any shares already filled remain in your account.</p>
+          <div class="sheet-card" role="region" aria-label="Order being cancelled">
             <div class="sheet-row"><span class="sr-k">Asset</span><span class="sr-v">TSLA — Tesla Inc.</span></div>
             <div class="sheet-row"><span class="sr-k">Order type</span><span class="sr-v" style="color:var(--color-brand);">True Limit Order</span></div>
             <div class="sheet-row"><span class="sr-k">Limit price</span><span class="sr-v">$218.00</span></div>
-            <div class="sheet-row"><span class="sr-k">Requested</span><span class="sr-v">8 shares</span></div>
+            <div class="sheet-row"><span class="sr-k">Requested</span><span class="sr-v">5 shares</span></div>
             <div class="sheet-row"><span class="sr-k">Filled so far</span><span class="sr-v" style="color:var(--color-brand);">0 shares</span></div>
-            <div class="sheet-row"><span class="sr-k">Released balance</span><span class="sr-v">$1,744.00</span></div>
+            <div class="sheet-row"><span class="sr-k">Balance released</span><span class="sr-v">$1,090.00</span></div>
           </div>
-          <div class="sheet-warn"><span>⚡</span><span>If the exchange fills your order at the same time you cancel, the trade will still execute. You'll be notified if this happens.</span></div>
+          <div class="sheet-warn" role="alert">
+            <span aria-hidden="true">⚡</span>
+            <span>If the exchange fills your order at the same time you cancel, the trade will still execute. You'll be notified if this happens.</span>
+          </div>
           <div class="sheet-btns">
-            <button class="s-btn keep tap-zone" onclick="goTo(4)">Keep Order</button>
-            <button class="s-btn confirm tap-zone" onclick="goTo(4)">Cancel Order</button>
+            <button class="s-btn keep" onclick="goTo(4)" aria-label="Keep the order open">Keep Order</button>
+            <button class="s-btn confirm" onclick="goTo(8)" aria-label="Confirm cancel and send OCR">Cancel Order</button>
           </div>
         </div>
       </div>
     `
   },
+
+  /* ── 7. TSLA View Details (pending) ──────────────────────── */
   {
-    id: 'position-detail',
-    label: 'Position Detail',
+    id: 'tsla-detail',
+    label: 'TSLA Detail',
     tag: 'Portfolio · Screen 7',
-    title: 'Position Detail — Partial Fill',
-    desc: 'Client drills into a partially filled position. Big fill counter, progress bar, and EOD expiry are front and centre.',
+    title: 'Position Detail — TSLA (Pending)',
+    desc: 'TSLA detail view. 0/5 shares filled, full balance reserved, EOD expiry shown. Cancel Remaining CTA available.',
     points: [
-      { type: 'blue', text: '<strong>Big fill counter</strong>: "3 / 10 shares" — unmistakable at a glance. 30% blue bar.' },
-      { type: 'blue', text: 'Filled units and pending units broken out clearly' },
-      { type: 'warn', text: '<strong>EOD expiry</strong> shown explicitly — "Expires: Today · 16:00 ET"' },
-      { type: 'default', text: '"Cancel Remaining" CTA — only shows when unfilled shares remain' },
-      { type: 'default', text: 'Unfilled shares at EOD are auto-cancelled; partial fills settle normally' },
+      { type: 'warn', text: '<strong>0/5 filled</strong> — amber bar shows nothing filled yet, expectation managed' },
+      { type: 'warn', text: 'Full $1,090.00 reserved at limit price ($218.00 × 5)' },
+      { type: 'default', text: 'EOD expiry explicit: unfilled shares auto-cancelled at 16:00 ET' },
+      { type: 'default', text: '"Cancel Order" wires directly to cancel sheet flow' },
     ],
-    cta: 'End of flow',
+    cta: 'Use ← → arrows to navigate',
     html: () => `
       <div class="screen-content">
         <div class="app-bar">
-          <div class="back-btn tap-zone" onclick="goTo(4)">←</div>
-          <div style="flex:1"><div class="bar-title">AAPL Position</div><div class="bar-sub">True Limit Order · Partial</div></div>
+          <button class="back-btn" aria-label="Back to portfolio" onclick="goTo(4)">←</button>
+          <div style="flex:1"><div class="bar-title">TSLA Position</div><div class="bar-sub">True Limit Order · Pending</div></div>
         </div>
         <div style="background:var(--color-surface);padding:var(--x4);border-bottom:1px solid var(--color-border);">
           <div style="display:flex;align-items:center;gap:var(--x3);margin-bottom:var(--x3);">
-            <div class="pos-logo aapl" style="width:42px;height:42px;font-size:12px;">AAPL</div>
+            <div class="pos-logo tsla" style="width:42px;height:42px;font-size:12px;" aria-hidden="true">TSLA</div>
             <div>
-              <div style="font-size:16px;font-weight:700;">Apple Inc.</div>
+              <div style="font-size:16px;font-weight:700;">Tesla Inc.</div>
               <div style="font-size:11px;color:var(--color-text-secondary);">NASDAQ · Real Stock</div>
             </div>
-            <div style="margin-left:auto;"><span class="status-chip chip-partial" style="font-size:10px;padding:4px 9px;"><span class="chip-dot"></span>PARTIAL FILL</span></div>
+            <div style="margin-left:auto;">
+              <span class="status-chip chip-pending" style="font-size:10px;padding:4px 9px;">
+                <span class="chip-dot" aria-hidden="true"></span><span>PENDING</span>
+              </span>
+            </div>
           </div>
           <div class="detail-fill-box">
             <div style="font-size:11px;color:var(--color-text-muted);margin-bottom:var(--x2);">Fill Progress</div>
-            <div class="big-fill"><span class="fn">3</span><span class="sep">/</span><span>10</span></div>
-            <div class="fill-label-sm">shares filled</div>
-            <div class="fill-track fill-bar-big">
-              <div class="fill-fill partial" style="width:30%;height:8px;"></div>
+            <div class="big-fill" aria-label="0 of 5 shares filled">
+              <span class="fn" style="color:var(--color-warning);">0</span>
+              <span class="sep">/</span>
+              <span>5</span>
             </div>
-            <div class="fill-pct-row"><span>30% filled</span><span>70% pending</span></div>
+            <div class="fill-label-sm">shares filled</div>
+            <div class="fill-track fill-bar-big" role="progressbar" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100">
+              <div class="fill-fill zero" style="height:8px;"></div>
+            </div>
+            <div class="fill-pct-row"><span style="color:var(--color-warning);">0% filled</span><span>100% pending</span></div>
           </div>
         </div>
         <div style="background:var(--color-surface);">
-          <div class="summary" style="margin:0;border-radius:0;border:none;border-bottom:1px solid var(--color-border);">
+          <div class="summary" style="margin:0;border-radius:0;border:none;">
             <div class="s-row"><span class="s-k">Order type</span><span class="s-v tlo" style="display:flex;align-items:center;gap:4px;"><span class="tlo-dot"></span>True Limit Order</span></div>
-            <div class="s-row"><span class="s-k">Limit price</span><span class="s-v">$185.00</span></div>
-            <div class="s-row"><span class="s-k">Fills received</span><span class="s-v" style="color:var(--color-blue);">3 shares @ $185.00</span></div>
-            <div class="s-row"><span class="s-k">Remaining</span><span class="s-v">7 shares pending</span></div>
-            <div class="s-row"><span class="s-k">Balance reserved</span><span class="s-v">$1,295.00</span></div>
+            <div class="s-row"><span class="s-k">Limit price</span><span class="s-v">$218.00</span></div>
+            <div class="s-row"><span class="s-k">Requested</span><span class="s-v">5 shares</span></div>
+            <div class="s-row"><span class="s-k">Fills received</span><span class="s-v" style="color:var(--color-text-muted);">None yet</span></div>
+            <div class="s-row"><span class="s-k">Balance reserved</span><span class="s-v">$1,090.00</span></div>
+            <div class="s-row"><span class="s-k">Ticket fee</span><span class="s-v">$1.99 (on fill)</span></div>
             <div class="s-row"><span class="s-k">Expires</span><span class="s-v" style="color:var(--color-warning);">Today · 16:00 ET</span></div>
             <div class="s-row"><span class="s-k">Unfilled at EOD</span><span class="s-v" style="color:var(--color-text-muted);">Auto-cancelled</span></div>
           </div>
         </div>
         <div class="cta-row">
-          <button class="act-cancel tap-zone" onclick="goTo(5)" style="flex:1;height:46px;border-radius:var(--radius-md);font-size:14px;font-weight:700;padding:0;">✕ Cancel Remaining 7 Shares</button>
+          <button class="act-cancel" onclick="goTo(5)" style="flex:1;height:46px;border-radius:var(--radius-md);font-size:14px;font-weight:700;" aria-label="Cancel all 5 pending TSLA shares">
+            ✕ Cancel Order
+          </button>
+        </div>
+      </div>
+    `
+  },
+
+  /* ── 8. AAPL Position Detail (partial) ───────────────────── */
+  {
+    id: 'aapl-detail',
+    label: 'AAPL Detail',
+    tag: 'Portfolio · Screen 8',
+    title: 'Position Detail — AAPL (Partial, 2/5)',
+    desc: 'AAPL from the order placed in Screen 2. 2 of 5 shares filled at $185. 3 shares still pending. $555 reserved. EOD kill applies to remaining unfilled.',
+    points: [
+      { type: 'blue', text: '<strong>2/5 filled</strong> — consistent with Screen 4 (5 shares ordered) and the partial fills since' },
+      { type: 'blue', text: '$370 already settled (2 × $185). $555 reserved for remaining 3 shares.' },
+      { type: 'warn', text: 'EOD auto-cancel for unfilled 3 shares — explicitly shown' },
+      { type: 'default', text: '"Cancel Remaining 3 Shares" CTA — wired to cancel sheet' },
+    ],
+    cta: 'End of flow — use ← arrows to review',
+    html: () => `
+      <div class="screen-content">
+        <div class="app-bar">
+          <button class="back-btn" aria-label="Back to portfolio" onclick="goTo(4)">←</button>
+          <div style="flex:1"><div class="bar-title">AAPL Position</div><div class="bar-sub">True Limit Order · Partial Fill</div></div>
+        </div>
+        <div style="background:var(--color-surface);padding:var(--x4);border-bottom:1px solid var(--color-border);">
+          <div style="display:flex;align-items:center;gap:var(--x3);margin-bottom:var(--x3);">
+            <div class="pos-logo aapl" style="width:42px;height:42px;font-size:12px;" aria-hidden="true">AAPL</div>
+            <div>
+              <div style="font-size:16px;font-weight:700;">Apple Inc.</div>
+              <div style="font-size:11px;color:var(--color-text-secondary);">NASDAQ · Real Stock</div>
+            </div>
+            <div style="margin-left:auto;">
+              <span class="status-chip chip-partial" style="font-size:10px;padding:4px 9px;">
+                <span class="chip-dot" aria-hidden="true"></span><span>PARTIAL</span>
+              </span>
+            </div>
+          </div>
+          <div class="detail-fill-box">
+            <div style="font-size:11px;color:var(--color-text-muted);margin-bottom:var(--x2);">Fill Progress</div>
+            <div class="big-fill" aria-label="2 of 5 shares filled">
+              <span class="fn">2</span><span class="sep">/</span><span>5</span>
+            </div>
+            <div class="fill-label-sm">shares filled</div>
+            <div class="fill-track fill-bar-big" role="progressbar" aria-valuenow="40" aria-valuemin="0" aria-valuemax="100">
+              <div class="fill-fill partial" style="width:40%;height:8px;"></div>
+            </div>
+            <div class="fill-pct-row"><span>40% filled</span><span>60% pending</span></div>
+          </div>
+        </div>
+        <div style="background:var(--color-surface);">
+          <div class="summary" style="margin:0;border-radius:0;border:none;">
+            <div class="s-row"><span class="s-k">Order type</span><span class="s-v tlo" style="display:flex;align-items:center;gap:4px;"><span class="tlo-dot"></span>True Limit Order</span></div>
+            <div class="s-row"><span class="s-k">Limit price</span><span class="s-v">$185.00</span></div>
+            <div class="s-row"><span class="s-k">Fills received</span><span class="s-v" style="color:var(--color-blue);">2 shares @ $185.00</span></div>
+            <div class="s-row"><span class="s-k">Remaining</span><span class="s-v">3 shares pending</span></div>
+            <div class="s-row"><span class="s-k">Balance reserved</span><span class="s-v">$555.00 (3 × $185)</span></div>
+            <div class="s-row"><span class="s-k">Ticket fee</span><span class="s-v">$1.99 (charged on fill)</span></div>
+            <div class="s-row"><span class="s-k">Expires</span><span class="s-v" style="color:var(--color-warning);">Today · 16:00 ET</span></div>
+            <div class="s-row"><span class="s-k">Unfilled at EOD</span><span class="s-v" style="color:var(--color-text-muted);">Auto-cancelled</span></div>
+          </div>
+        </div>
+        <div class="cta-row">
+          <button class="act-cancel" onclick="goTo(5)" style="flex:1;height:46px;border-radius:var(--radius-md);font-size:14px;font-weight:700;" aria-label="Cancel remaining 3 AAPL shares">
+            ✕ Cancel Remaining 3 Shares
+          </button>
+        </div>
+      </div>
+    `
+  },
+
+  /* ── 9. Post-Cancel State ────────────────────────────────── */
+  {
+    id: 'post-cancel',
+    label: 'Order Cancelled',
+    tag: 'Portfolio · Screen 9',
+    title: 'After Cancel — TSLA Shows Cancelled',
+    desc: 'Result of the cancel action. TSLA is now CANCELLED in the portfolio. Balance $1,090 released. Cancel buttons are gone.',
+    points: [
+      { type: 'default', text: '<strong>TSLA chip → CANCELLED</strong> (grey). No fill progress bar. No cancel button.' },
+      { type: 'green', text: '<strong>Balance released</strong>: $1,090.00 returned to available balance. Shown in confirmation strip.' },
+      { type: 'default', text: 'AAPL still shows PARTIAL — only that order was affected' },
+      { type: 'default', text: 'Filter "Active (1)" updates — TSLA no longer counted' },
+    ],
+    cta: 'End of flow',
+    html: () => `
+      <div class="screen-content">
+        <div class="port-header">
+          <div class="port-title">Portfolio</div>
+          <div class="port-sub">3 positions · 1 active limit order</div>
+          <div class="port-stats">
+            <div><div class="ps-k">Invested</div><div class="ps-v">$12,440</div></div>
+            <div><div class="ps-k">P&L</div><div class="ps-v pos">+$284.20</div></div>
+          </div>
+        </div>
+        <!-- Cancellation confirmation strip -->
+        <div style="background:var(--color-brand-bg);border-bottom:1px solid color-mix(in srgb,var(--color-brand) 20%,transparent);padding:var(--x3) var(--x4);display:flex;align-items:center;gap:var(--x2);" role="status">
+          <span style="font-size:16px;" aria-hidden="true">✓</span>
+          <span style="font-size:12px;color:var(--color-brand);font-weight:600;">TSLA order cancelled · $1,090.00 released to your balance</span>
+        </div>
+        <div class="filter-bar" role="tablist">
+          <button class="f-chip on" role="tab" aria-selected="true">All (3)</button>
+          <button class="f-chip" role="tab" aria-selected="false">Active (1)</button>
+          <button class="f-chip" role="tab" aria-selected="false">Cancelled</button>
+        </div>
+        <div class="pos-list" role="list">
+
+          <!-- AAPL still partial -->
+          <article class="pos-card" role="listitem">
+            <div class="pos-head">
+              <div class="pos-logo aapl" aria-hidden="true">AAPL</div>
+              <div style="flex:1">
+                <div class="pos-name">Apple Inc.</div>
+                <div class="pos-meta">REAL
+                  <span class="status-chip chip-partial"><span class="chip-dot" aria-hidden="true"></span>PARTIAL</span>
+                  <span class="tlo-badge"><span class="tlo-dot" aria-hidden="true"></span>TLO</span>
+                </div>
+              </div>
+              <div class="pos-price-col">
+                <div class="pos-price">$185.00</div>
+                <div class="pos-pl" style="color:var(--color-text-muted);">Limit price</div>
+              </div>
+            </div>
+            <div class="fill-sec">
+              <div class="fill-head"><span class="fill-label">Fill progress</span><span class="fill-count"><span class="fn">2</span> / 5 shares</span></div>
+              <div class="fill-track" role="progressbar" aria-valuenow="40" aria-valuemin="0" aria-valuemax="100">
+                <div class="fill-fill partial" style="width:40%"></div>
+              </div>
+            </div>
+            <div class="card-actions">
+              <button class="act-cancel" onclick="goTo(5)" aria-label="Cancel AAPL limit order">✕ Cancel Order</button>
+              <button class="act-detail" onclick="goTo(7)" aria-label="View AAPL details">View Details</button>
+            </div>
+          </article>
+
+          <!-- TSLA cancelled -->
+          <article class="pos-card" role="listitem" style="opacity:.7;">
+            <div class="pos-head">
+              <div class="pos-logo tsla" aria-hidden="true" style="filter:grayscale(1);opacity:.5;">TSLA</div>
+              <div style="flex:1">
+                <div class="pos-name">Tesla Inc.</div>
+                <div class="pos-meta">REAL
+                  <span class="status-chip" style="background:var(--color-surface-inset);color:var(--color-text-muted);border:1px solid var(--color-border);">
+                    <span class="chip-dot" style="background:var(--color-text-muted);" aria-hidden="true"></span>CANCELLED
+                  </span>
+                  <span class="tlo-badge"><span class="tlo-dot" aria-hidden="true"></span>TLO</span>
+                </div>
+              </div>
+              <div class="pos-price-col">
+                <div class="pos-price" style="color:var(--color-text-muted);">$218.00</div>
+                <div class="pos-pl" style="color:var(--color-text-muted);">0/5 filled</div>
+              </div>
+            </div>
+            <div style="padding:var(--x2) var(--x3);font-size:11px;color:var(--color-text-muted);border-top:1px solid var(--color-border);">
+              OCR confirmed · $1,090.00 released · No shares filled
+            </div>
+          </article>
+
+          <!-- NVDA filled -->
+          <article class="pos-card" role="listitem">
+            <div class="pos-head">
+              <div class="pos-logo nvda" aria-hidden="true">NVDA</div>
+              <div style="flex:1">
+                <div class="pos-name">NVIDIA Corp.</div>
+                <div class="pos-meta">REAL
+                  <span class="status-chip chip-filled"><span class="chip-dot" aria-hidden="true"></span>FILLED</span>
+                  <span class="tlo-badge"><span class="tlo-dot" aria-hidden="true"></span>TLO</span>
+                </div>
+              </div>
+              <div class="pos-price-col">
+                <div class="pos-price">$874.50</div>
+                <div class="pos-pl up">+$68.00</div>
+              </div>
+            </div>
+            <div class="fill-sec">
+              <div class="fill-head"><span class="fill-label">Filled at limit</span><span class="fill-count"><span class="fn">5</span> / 5 shares</span></div>
+              <div class="fill-track" role="progressbar" aria-valuenow="100" aria-valuemin="0" aria-valuemax="100">
+                <div class="fill-fill" style="width:100%"></div>
+              </div>
+            </div>
+          </article>
+
         </div>
       </div>
     `
@@ -1075,27 +1408,24 @@ function buildStepNav() {
   nav.innerHTML = STEPS.map((s, i) => {
     const visited = i < currentStep ? 'visited' : '';
     const active = i === currentStep ? 'active' : '';
-    const arrow = i < STEPS.length - 1 ? '<span class="step-arrow">›</span>' : '';
-    return `
-      <div class="step-item ${active} ${visited}" onclick="goTo(${i})">
-        <div class="step-num">${i + 1}</div>
+    const arrow = i < STEPS.length - 1 ? '<span class="step-arrow" aria-hidden="true">›</span>' : '';
+    return `<button class="step-item ${active} ${visited}" onclick="goTo(${i})" aria-label="Go to screen ${i+1}: ${s.label}" aria-current="${i === currentStep ? 'step' : 'false'}">
+        <div class="step-num" aria-hidden="true">${i + 1}</div>
         <span class="step-label">${s.label}</span>
-      </div>${arrow}
-    `;
+      </button>${arrow}`;
   }).join('');
 }
 
 function buildDots() {
   const dots = document.getElementById('stepDots');
-  dots.innerHTML = STEPS.map((_, i) =>
-    `<div class="step-dot ${i === currentStep ? 'active' : ''}"></div>`
+  dots.innerHTML = STEPS.map((s, i) =>
+    `<div class="step-dot ${i === currentStep ? 'active' : ''}" role="presentation" aria-hidden="true"></div>`
   ).join('');
 }
 
 function buildAnnotation() {
   const s = STEPS[currentStep];
   const ann = document.getElementById('annotationPanel');
-  const typeColor = { green: 'default', warn: 'warn', blue: 'blue', default: 'default' };
   ann.innerHTML = `
     <div class="ann-card">
       <div class="ann-screen-tag">${s.tag}</div>
@@ -1104,13 +1434,13 @@ function buildAnnotation() {
       <ul class="ann-points">
         ${s.points.map(p => `
           <li>
-            <div class="ann-dot ${p.type === 'warn' ? 'warn' : p.type === 'blue' ? 'blue' : ''}">${'✓'}</div>
+            <div class="ann-dot ${p.type === 'warn' ? 'warn' : p.type === 'blue' ? 'blue' : ''}" aria-hidden="true">✓</div>
             <span>${p.text}</span>
           </li>
         `).join('')}
       </ul>
       <div class="ann-cta">
-        <span style="font-size:16px;">👆</span>
+        <span style="font-size:16px;" aria-hidden="true">👆</span>
         <span>${s.cta}</span>
       </div>
     </div>
@@ -1140,7 +1470,6 @@ function goTo(idx) {
   document.getElementById('stepCounter').textContent = `${currentStep + 1} / ${STEPS.length}`;
   document.getElementById('prevBtn').disabled = currentStep === 0;
   document.getElementById('nextBtn').disabled = currentStep === STEPS.length - 1;
-  // Scroll step nav to active
   const activeItem = document.querySelector('.step-item.active');
   if (activeItem) activeItem.scrollIntoView({ behavior: 'smooth', block: 'nearest', inline: 'center' });
 }
@@ -1152,7 +1481,6 @@ function toggleTheme() {
   document.querySelector('.theme-btn').textContent = isDark ? '🌙' : '☀️';
 }
 
-// Keyboard navigation
 document.addEventListener('keydown', e => {
   if (e.key === 'ArrowRight' || e.key === 'ArrowDown') goTo(currentStep + 1);
   if (e.key === 'ArrowLeft'  || e.key === 'ArrowUp')   goTo(currentStep - 1);
