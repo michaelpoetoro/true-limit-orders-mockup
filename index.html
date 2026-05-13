@@ -2023,6 +2023,8 @@ function validateAndSubmit() {
 
   // All valid — store state and navigate to confirmation
   orderState = { price, shares, reserved: (price * shares).toFixed(2) };
+  const submitBtn = document.getElementById('place-limit-btn');
+  if (submitBtn) { submitBtn.style.background = ''; submitBtn.style.opacity = ''; }
   goTo(3);
 }
 
@@ -2033,56 +2035,50 @@ function validateForm() {
   if (!priceEl || !sharesEl || !btn) return;
 
   const price = parseFloat(priceEl.value);
-  const sharesRaw = sharesEl.value;
+  const sharesRaw = sharesEl ? sharesEl.value : '5';
   const sharesFloat = parseFloat(sharesRaw);
   const shares = Math.floor(sharesFloat);
   const ask = 186.45;
 
-  let priceErr = '', sharesErr = '', isValid = true;
+  let isValid = true, priceErr = '', sharesErr = '';
 
-  if (isNaN(price) || price <= 0) {
-    priceErr = 'Enter a valid price'; isValid = false;
-  } else if (price > ask * 1.02) {
-    priceErr = 'Price exceeds Ask + 2% tolerance (' + (ask * 1.02).toFixed(2) + ')'; isValid = false;
+  if (isNaN(price) || price <= 0) { priceErr = 'Enter a valid price'; isValid = false; }
+  else if (price > ask * 1.02) { priceErr = 'Price ' + price.toFixed(2) + ' exceeds Ask+2% (' + (ask*1.02).toFixed(2) + ')'; isValid = false; }
+
+  if (isNaN(sharesFloat) || sharesFloat < 1) { sharesErr = 'Minimum 1 whole share'; isValid = false; }
+  else if (sharesRaw.includes('.') || sharesFloat !== shares) { sharesErr = 'Whole shares only (' + sharesFloat + ' not allowed)'; isValid = false; }
+
+  // Inline error elements — create if missing
+  function ensureErr(id, afterEl) {
+    let el = document.getElementById(id);
+    if (!el && afterEl) {
+      el = document.createElement('div');
+      el.id = id;
+      el.style.cssText = 'font-size:11px;color:var(--color-negative);margin-top:4px;font-weight:600;min-height:14px;';
+      afterEl.parentNode.insertBefore(el, afterEl.nextSibling);
+    }
+    return el;
   }
+  const pErrEl = ensureErr('price-inline-err', priceEl.parentElement);
+  const sErrEl = ensureErr('shares-inline-err', sharesEl ? sharesEl.parentElement : null);
+  if (pErrEl) pErrEl.textContent = priceErr;
+  if (sErrEl) sErrEl.textContent = sharesErr;
 
-  if (isNaN(sharesFloat) || sharesFloat < 1) {
-    sharesErr = 'Minimum 1 whole share'; isValid = false;
-  } else if (sharesFloat !== shares) {
-    sharesErr = 'Whole shares only — ' + sharesFloat + ' not allowed'; isValid = false;
-  }
+  // Borders
+  priceEl.style.borderColor = priceErr ? 'var(--color-negative)' : '';
+  if (sharesEl) sharesEl.style.borderColor = sharesErr ? 'var(--color-negative)' : '';
 
-  // Update price error
-  let priceErrEl = document.getElementById('price-inline-err');
-  if (!priceErrEl) {
-    priceErrEl = document.createElement('div');
-    priceErrEl.id = 'price-inline-err';
-    priceErrEl.style.cssText = 'font-size:11px;color:var(--color-negative);margin-top:4px;font-weight:600;';
-    priceEl.parentElement.insertAdjacentElement('afterend', priceErrEl);
-  }
-  priceErrEl.textContent = priceErr;
-
-  // Update shares error
-  let sharesErrEl = document.getElementById('shares-inline-err');
-  if (!sharesErrEl) {
-    sharesErrEl = document.createElement('div');
-    sharesErrEl.id = 'shares-inline-err';
-    sharesErrEl.style.cssText = 'font-size:11px;color:var(--color-negative);margin-top:4px;font-weight:600;';
-    sharesEl.parentElement.insertAdjacentElement('afterend', sharesErrEl);
-  }
-  sharesErrEl.textContent = sharesErr;
-
-  // Update button visual state
+  // Button — change background color for unmistakable disabled state
   if (isValid) {
-    btn.classList.remove('btn-form-invalid');
-    priceEl.style.borderColor = '';
-    sharesEl.style.borderColor = '';
+    btn.style.background = '';
+    btn.style.opacity = '';
+    btn.style.cursor = '';
+    btn.setAttribute('data-valid', 'true');
   } else {
-    btn.classList.add('btn-form-invalid');
-    if (priceErr) priceEl.style.borderColor = 'var(--color-negative)';
-    else priceEl.style.borderColor = '';
-    if (sharesErr) sharesEl.style.borderColor = 'var(--color-negative)';
-    else sharesEl.style.borderColor = '';
+    btn.style.background = 'var(--color-border-strong)';
+    btn.style.opacity = '0.7';
+    btn.style.cursor = 'not-allowed';
+    btn.setAttribute('data-valid', 'false');
   }
 }
 
