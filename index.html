@@ -581,6 +581,264 @@ input{font-family:inherit;}
 .sell-table .t-no{color:var(--neg);font-weight:700;}
 
 @media(max-width:780px){.annotation-panel{display:none;}.proto-stage{padding:var(--s12) var(--s8);}}
+
+/* ── Ticket-specific components (ProductClaw redline v2) ── */
+
+/* Phone frame: nearly invisible */
+.phone-frame {
+  border: 1px solid var(--border-mid) !important;
+  border-radius: 12px !important;
+  box-shadow: 0 2px 12px rgba(0,0,0,.2) !important;
+}
+.phone-status {
+  height: 16px !important;
+  background: var(--surface) !important;
+  border-bottom: 1px solid var(--border);
+}
+.phone-status-time, .phone-status-icons { color: var(--text-3) !important; font-size: 9px !important; }
+
+/* Header: compact 56px */
+.ticket-header {
+  height: 56px;
+  background: var(--surface);
+  display: flex; align-items: center;
+  padding: 0 var(--s12);
+  gap: var(--s10);
+  border-bottom: 1px solid var(--border);
+}
+.ticket-header .back-btn { margin: 0; }
+.header-titles { flex: 1; display: flex; flex-direction: column; }
+.header-ticker { font-size: 14px; font-weight: 700; line-height: 1.1; }
+.header-name { font-size: 10px; color: var(--text-3); }
+
+/* Instrument row: compact single line */
+.instr-row {
+  background: var(--surface);
+  padding: var(--s8) var(--s12);
+  display: flex; align-items: center; gap: var(--s8);
+  border-bottom: 1px solid var(--border);
+}
+.instr-icon {
+  width: 24px; height: 24px; border-radius: var(--rfull);
+  background: linear-gradient(135deg,#0052b4,#0095e8);
+  display: flex; align-items: center; justify-content: center;
+  font-size: 7px; font-weight: 800; color: #fff; flex-shrink: 0;
+}
+.instr-ticker-label { font-size: 13px; font-weight: 700; }
+.instr-exch-label { font-size: 10px; color: var(--text-3); }
+.instr-quote { margin-left: auto; text-align: right; }
+.quote-price { font-size: 14px; font-weight: 700; font-variant-numeric: tabular-nums; display: block; }
+.quote-chg { font-size: 10px; font-weight: 600; }
+.quote-up { color: var(--brand); }
+.quote-dn { color: var(--neg); }
+
+/* Segmented controls: flat, 38px */
+.seg-row {
+  background: var(--surface);
+  padding: var(--s8) var(--s12);
+  border-bottom: 1px solid var(--border);
+}
+.seg-flat {
+  display: flex;
+  height: 38px;
+  border: 1px solid var(--border);
+  border-radius: var(--r6);
+  overflow: hidden;
+  background: var(--surface-sub);
+}
+.seg-flat button {
+  flex: 1; font-size: 12px; font-weight: 600;
+  color: var(--text-3); background: transparent; cursor: pointer;
+  transition: all .1s; border: none;
+}
+.seg-flat button.f-buy { background: var(--brand); color: #fff; }
+.seg-flat button.f-sell { background: var(--neg); color: #fff; }
+.seg-flat button:hover:not(.f-buy):not(.f-sell) { background: var(--border); color: var(--text-2); }
+
+/* Order type tabs: flat inline, no card */
+.ot-row {
+  background: var(--surface);
+  padding: 0 var(--s12);
+  border-bottom: 1px solid var(--border);
+  display: flex; gap: 0;
+}
+.ot-flat-btn {
+  padding: var(--s8) var(--s10); font-size: 11px; font-weight: 500;
+  color: var(--text-3); cursor: pointer; background: none; border: none;
+  border-bottom: 2px solid transparent; transition: all .1s;
+}
+.ot-flat-btn.ot-active { color: var(--brand); border-bottom-color: var(--brand); font-weight: 700; }
+.ot-flat-btn:hover:not(.ot-active) { color: var(--text-2); }
+
+/* Single inline TLO note */
+.tlo-inline {
+  font-size: 10px; color: var(--text-3);
+  padding: var(--s6) var(--s12) 0;
+  background: var(--surface);
+}
+
+/* Quote strip: one dense row */
+.quote-strip {
+  background: var(--surface);
+  padding: var(--s6) var(--s12);
+  display: flex; align-items: center; gap: 0;
+  border-bottom: 1px solid var(--border);
+}
+.qs-item { display: flex; align-items: baseline; gap: 3px; flex: 1; }
+.qs-lbl { font-size: 9px; font-weight: 600; color: var(--text-3); text-transform: uppercase; }
+.qs-val { font-size: 11px; font-weight: 700; font-variant-numeric: tabular-nums; }
+.qs-ask { color: var(--brand); }
+.qs-bid { color: var(--neg); }
+.qs-sep { font-size: 10px; color: var(--border-mid); padding: 0 4px; }
+
+/* Ticket body */
+.ticket-body { background: var(--surface); padding: var(--s10) var(--s12); }
+
+/* Field groups */
+.field-group { margin-bottom: var(--s8); }
+.field-label {
+  font-size: 10px; font-weight: 600; color: var(--text-3);
+  text-transform: uppercase; letter-spacing: .5px;
+  display: block; margin-bottom: var(--s4);
+}
+.field-wrap { position: relative; }
+.field-input {
+  width: 100%; height: 44px;
+  border: 1px solid var(--border); border-radius: var(--r4);
+  background: var(--surface-sub);
+  font-size: 17px; font-weight: 700; font-variant-numeric: tabular-nums;
+  color: var(--text-1); padding: 0 var(--s10) 0 22px;
+  outline: none; transition: border-color .12s; cursor: text;
+}
+.field-input:focus { border-color: var(--brand); border-width: 1.5px; background: var(--surface); }
+.field-input.f-shares { padding-left: var(--s10); padding-right: 44px; }
+.field-input.error { border-color: var(--neg) !important; }
+.field-pre {
+  position: absolute; left: var(--s6); top: 50%; transform: translateY(-50%);
+  font-size: 12px; font-weight: 600; color: var(--text-3); pointer-events: none;
+}
+.field-suf {
+  position: absolute; right: var(--s8); top: 50%; transform: translateY(-50%);
+  font-size: 10px; font-weight: 600; color: var(--text-3); pointer-events: none;
+}
+.field-error { font-size: 11px; color: var(--neg); margin-top: 3px; font-weight: 500; min-height: 14px; }
+.field-ok { font-size: 10px; color: var(--brand); margin-top: 3px; }
+
+/* Shortcut pills: tiny utility */
+.sc-pills { display: flex; gap: var(--s4); margin-top: var(--s4); }
+.sc-pill {
+  padding: 2px var(--s6); border-radius: var(--r2); font-size: 10px; font-weight: 500;
+  background: transparent; border: 1px solid var(--border); color: var(--text-3);
+  cursor: pointer; transition: all .1s;
+}
+.sc-pill.sel, .sc-pill:hover { border-color: var(--brand); color: var(--brand); }
+
+/* Order summary: dense k-v, no card */
+.order-summary {
+  border-top: 1px solid var(--border); padding-top: var(--s8); margin-top: var(--s8);
+}
+.os-row {
+  display: flex; justify-content: space-between; align-items: center;
+  padding: 4px 0;
+}
+.os-k { font-size: 11px; color: var(--text-3); }
+.os-v { font-size: 12px; font-weight: 700; font-variant-numeric: tabular-nums; }
+.os-v.brand { color: var(--brand); }
+.os-v.warn { color: var(--warn); }
+
+/* CTA: 44px, 6px, solid */
+.ticket-cta {
+  padding: var(--s8) var(--s12);
+  background: var(--surface);
+  border-top: 1px solid var(--border);
+}
+.cta-buy {
+  width: 100%; height: 44px; border-radius: var(--r6);
+  font-size: 14px; font-weight: 700; cursor: pointer;
+  border: none; background: var(--brand); color: #fff;
+  transition: background .12s;
+}
+.cta-buy:hover { background: var(--brand-dim); }
+.cta-buy.btn-form-invalid {
+  background: var(--border-mid) !important;
+  color: var(--text-3) !important;
+  cursor: not-allowed;
+  opacity: 1;
+}
+
+/* Portfolio: flat list rows */
+.pos-list-flat { background: var(--bg); }
+.pos-row {
+  background: var(--surface);
+  border-bottom: 1px solid var(--border);
+  padding: var(--s8) var(--s12);
+  cursor: pointer;
+  transition: background .1s;
+}
+.pos-row:hover { background: var(--surface-sub); }
+.pos-row-main {
+  display: flex; align-items: center; gap: var(--s8); margin-bottom: 4px;
+}
+.pos-row-logo {
+  width: 22px; height: 22px; border-radius: var(--rfull); flex-shrink: 0;
+  display: flex; align-items: center; justify-content: center;
+  font-size: 7px; font-weight: 800; color: #fff;
+}
+.pos-row-logo.aapl { background: linear-gradient(135deg,#555,#222); }
+.pos-row-logo.tsla { background: linear-gradient(135deg,#CC0000,#e31010); }
+.pos-row-logo.nvda { background: linear-gradient(135deg,#76b900,#529900); }
+.pos-row-name { font-size: 13px; font-weight: 700; flex: 1; }
+.pos-row-status { /* use sc-chip */ }
+.pos-row-price { font-size: 12px; font-weight: 700; font-variant-numeric: tabular-nums; }
+.pos-row-meta { display: flex; align-items: center; gap: var(--s6); }
+.pos-row-exch { font-size: 10px; color: var(--text-3); }
+.pos-row-fill { display: flex; align-items: center; gap: var(--s6); margin-top: 3px; }
+.pos-row-fill-label { font-size: 10px; color: var(--text-3); }
+.pos-row-fill-bar { flex: 1; height: 3px; background: var(--border); border-radius: var(--rfull); overflow: hidden; }
+.pos-row-fill-bar-inner { height: 100%; border-radius: var(--rfull); background: var(--brand); }
+.pos-row-fill-bar-inner.partial { background: var(--blue); }
+.pos-row-fill-bar-inner.zero { background: var(--warn); width: 3px; }
+.pos-row-actions { display: flex; gap: var(--s6); margin-top: var(--s6); padding-top: var(--s4); border-top: 1px solid var(--border); }
+.pos-act-cancel {
+  font-size: 11px; font-weight: 600; color: var(--neg); cursor: pointer;
+  background: none; border: none; padding: 0;
+}
+.pos-act-detail {
+  font-size: 11px; font-weight: 500; color: var(--text-3); cursor: pointer;
+  background: none; border: none; padding: 0;
+}
+
+/* Compact confirmation */
+.confirm-compact {
+  background: var(--surface); padding: var(--s12); min-height: 640px;
+}
+.confirm-top {
+  display: flex; align-items: center; justify-content: space-between;
+  padding-bottom: var(--s10); border-bottom: 1px solid var(--border); margin-bottom: var(--s10);
+}
+.confirm-top-title { font-size: 15px; font-weight: 700; }
+.confirm-top-badge {
+  font-size: 9px; font-weight: 700; padding: 2px 6px;
+  border-radius: var(--r2); background: var(--warn-bg); color: var(--warn);
+  border: 1px solid var(--warn); text-transform: uppercase; letter-spacing: .2px;
+}
+.confirm-asset-row {
+  display: flex; align-items: center; gap: var(--s8);
+  padding: var(--s8) 0; border-bottom: 1px solid var(--border); margin-bottom: var(--s8);
+}
+.confirm-asset-label { font-size: 12px; font-weight: 700; }
+.confirm-asset-sub { font-size: 10px; color: var(--text-3); }
+.confirm-kv { display: flex; flex-direction: column; }
+.confirm-kv-row {
+  display: flex; justify-content: space-between; align-items: center;
+  padding: 5px 0; border-bottom: 1px solid var(--border);
+}
+.confirm-kv-row:last-child { border: none; }
+.ckk { font-size: 11px; color: var(--text-3); }
+.ckv { font-size: 12px; font-weight: 700; font-variant-numeric: tabular-nums; }
+.ckv.brand { color: var(--brand); }
+.ckv.warn { color: var(--warn); }
+
 </style>
 </head>
 <body>
@@ -654,58 +912,58 @@ const STEPS = [
     cta: 'Tap "Switch to Limit Order" button',
     html: () => `
       <div class="screen-content">
-        <div class="app-bar">
-          <button class="back-btn" aria-label="Back" onclick="showToast('Navigate to asset page')">←</button>
-          <div style="flex:1"><div class="bar-title">Apple Inc.</div><div class="bar-sub">AAPL · NASDAQ</div></div>
-          <button class="icon-btn" onclick="showToast('Added to watchlist ♡')">♡</button>
-          <button class="icon-btn" onclick="showToast('More options')">⋯</button>
-        </div>
-        <div class="instr-header">
-          <div class="instr-left">
-            <div class="instr-logo">AAPL</div>
-            <div><div class="instr-name">AAPL</div><div class="instr-exch">Real Stock · NASDAQ</div></div>
+        <div class="ticket-header">
+          <button class="back-btn" onclick="showToast('Navigate to asset page')" aria-label="Back">←</button>
+          <div class="header-titles">
+            <span class="header-ticker">AAPL</span>
+            <span class="header-name">Apple Inc.</span>
           </div>
-          <div class="instr-right">
-            <div class="instr-price">$186.42</div>
-            <div class="instr-chg chg-up">+1.24 (+0.67%)</div>
-          </div>
+          <button class="icon-btn" onclick="showToast('Watchlisted')">♡</button>
         </div>
-        <div class="dir-wrap">
-          <div class="dir-tabs" role="group" aria-label="Direction">
-            <button class="dir-tab active-buy" aria-pressed="true" onclick="toggleDir(this)">BUY</button>
-            <button class="dir-tab" aria-pressed="false" onclick="toggleDir(this)">SELL</button>
+        <div class="instr-row">
+          <div class="instr-icon">AAPL</div>
+          <div style="flex:1">
+            <div class="instr-ticker-label">AAPL</div>
+            <div class="instr-exch-label">NASDAQ · Real Stock</div>
+          </div>
+          <div class="instr-quote">
+            <span class="quote-price">$186.42</span>
+            <span class="quote-chg quote-up">+0.67%</span>
           </div>
         </div>
-        <div class="ot-wrap">
-          <div class="ot-tabs" role="tablist">
-            <div class="ot-tab active" role="tab" aria-selected="true">Market Order</div>
+        <div class="seg-row">
+          <div class="seg-flat" role="group" aria-label="Direction">
+            <button class="f-buy" aria-pressed="true" onclick="toggleDir(this)">BUY</button>
+            <button aria-pressed="false" onclick="toggleDir(this)">SELL</button>
           </div>
         </div>
-        <div class="form-sec">
-          <div class="form-row">
-            <div class="f-label">Amount <span class="f-hint">Dollar amount</span></div>
-            <div class="input-wrap">
-              <span class="input-pre">$</span>
-              <input class="input-f" id="mkt-amount-input" value="$1,000.00" inputmode="decimal" aria-labelledby="lbl-mkt-amt">
+        <div class="ot-row" role="tablist">
+          <button class="ot-flat-btn ot-active" role="tab" aria-selected="true">Market Order</button>
+        </div>
+        <div class="ticket-body">
+          <div class="field-group">
+            <label class="field-label">Amount</label>
+            <div class="field-wrap">
+              <span class="field-pre">$</span>
+              <input class="field-input" id="mkt-amount-input" value="$1,000.00" inputmode="decimal" aria-label="Amount">
             </div>
-            <div class="shortcuts" role="group">
-              <button class="sc-btn" data-amount="100">$100</button>
-              <button class="sc-btn sel" data-amount="1000">$1K</button>
-              <button class="sc-btn" data-amount="5000">$5K</button>
-              <button class="sc-btn" data-amount="10000">$10K</button>
+            <div class="sc-pills" role="group">
+              <button class="sc-pill" data-amount="100">$100</button>
+              <button class="sc-pill sel" data-amount="1000">$1K</button>
+              <button class="sc-pill" data-amount="5000">$5K</button>
+              <button class="sc-pill" data-amount="10000">$10K</button>
             </div>
           </div>
-          <div class="summary">
-            <div class="s-row"><span class="s-k">Est. shares</span><span class="s-v" id="mkt-est-shares">~5 shares</span></div>
-            <div class="s-row"><span class="s-k">Est. price</span><span class="s-v" id="mkt-est-price">~$186.42</span></div>
-            <div class="s-row"><span class="s-k">Ticket fee</span><span class="s-v">$1.99</span></div>
-            <div class="s-row"><span class="s-k">Total</span><span class="s-v brand" id="mkt-total">$934.09</span></div>
+          <div class="order-summary">
+            <div class="os-row"><span class="os-k">Est. shares</span><span class="os-v" id="mkt-est-shares">~5 shares</span></div>
+            <div class="os-row"><span class="os-k">Est. price</span><span class="os-v" id="mkt-est-price">~$186.42</span></div>
+            <div class="os-row"><span class="os-k">Ticket fee</span><span class="os-v">$1.99</span></div>
+            <div class="os-row"><span class="os-k">Total</span><span class="os-v brand" id="mkt-total">$934.09</span></div>
           </div>
-          <button class="switch-btn" onclick="goTo(1)">⇄ Switch to True Limit Order</button>
+          <button class="switch-btn" style="margin-top:var(--s8);" onclick="goTo(1)">⇄ Switch to True Limit Order</button>
         </div>
-        <div class="cta-bar">
-          <button class="btn-primary btn-buy">Buy AAPL</button>
-          <button class="btn-primary btn-sell-cta">Sell</button>
+        <div class="ticket-cta">
+          <button class="cta-buy">Buy AAPL</button>
         </div>
       </div>
     `
@@ -728,81 +986,86 @@ const STEPS = [
     cta: 'Tap "Place Limit Order" to submit',
     html: () => `
       <div class="screen-content">
-        <div class="app-bar">
-          <button class="back-btn" aria-label="Back" onclick="goTo(0)">←</button>
-          <div style="flex:1"><div class="bar-title">Apple Inc.</div><div class="bar-sub">AAPL · NASDAQ</div></div>
-          <button class="icon-btn">♡</button><button class="icon-btn">⋯</button>
-        </div>
-        <div class="instr-header">
-          <div class="instr-left">
-            <div class="instr-logo">AAPL</div>
-            <div><div class="instr-name">AAPL</div><div class="instr-exch">Real Stock · NASDAQ</div></div>
+        <div class="ticket-header">
+          <button class="back-btn" onclick="goTo(0)" aria-label="Back">←</button>
+          <div class="header-titles">
+            <span class="header-ticker">AAPL</span>
+            <span class="header-name">Apple Inc.</span>
           </div>
-          <div class="instr-right">
-            <div class="instr-price">$186.42</div>
-            <div class="instr-chg chg-up">+1.24 (+0.67%)</div>
-          </div>
+          <button class="icon-btn" onclick="showToast('Watchlisted')">♡</button>
         </div>
-        <div class="dir-wrap">
-          <div class="dir-tabs" role="group" aria-label="Direction">
-            <button class="dir-tab active-buy" aria-pressed="true" onclick="toggleDir(this)">BUY</button>
-            <button class="dir-tab" aria-pressed="false" onclick="toggleDir(this)">SELL</button>
+        <div class="instr-row">
+          <div class="instr-icon">AAPL</div>
+          <div style="flex:1">
+            <div class="instr-ticker-label">AAPL</div>
+            <div class="instr-exch-label">NASDAQ · Real Stock</div>
+          </div>
+          <div class="instr-quote">
+            <span class="quote-price">$186.42</span>
+            <span class="quote-chg quote-up">+0.67%</span>
           </div>
         </div>
-        <div class="ot-wrap">
-          <div class="ot-tabs" role="tablist">
-            <button class="ot-tab" role="tab" aria-selected="false" onclick="goTo(0)">Market Order</button>
-            <button class="ot-tab active active-tlo" role="tab" aria-selected="true">True Limit Order</button>
+        <div class="seg-row">
+          <div class="seg-flat" role="group" aria-label="Direction">
+            <button class="f-buy" aria-pressed="true" onclick="toggleDir(this)">BUY</button>
+            <button aria-pressed="false" onclick="toggleDir(this)">SELL</button>
           </div>
         </div>
-        <div class="form-sec">
-          <div class="mkt-grid">
-            <div class="mkt-cell"><div class="mkt-lbl">Ask</div><div class="mkt-val mkt-ask">$186.45</div></div>
-            <div class="mkt-cell"><div class="mkt-lbl">Bid</div><div class="mkt-val mkt-bid">$186.39</div></div>
-            <div class="mkt-cell"><div class="mkt-lbl">Spread</div><div class="mkt-val">$0.06</div></div>
-            <div class="mkt-cell"><div class="mkt-lbl">Tick</div><div class="mkt-val">$0.01</div></div>
-          </div>
-          <div class="form-row">
-            <div class="f-label">Limit Price <span class="f-hint">Per instrument tick size</span></div>
-            <div class="input-wrap">
-              <span class="input-pre">$</span>
-              <input class="input-f" id="tlo-price-input" value="184.56" inputmode="decimal" aria-labelledby="lbl-price">
+        <div class="ot-row" role="tablist">
+          <button class="ot-flat-btn" role="tab" aria-selected="false" onclick="goTo(0)">Market Order</button>
+          <button class="ot-flat-btn ot-active" role="tab" aria-selected="true">True Limit Order</button>
+        </div>
+        <div class="tlo-inline">Executes only at your price or better. DAY expiry. $1.99 ticket fee.</div>
+        <div class="quote-strip">
+          <div class="qs-item"><span class="qs-lbl">Ask</span><span class="qs-val qs-ask">$186.45</span></div>
+          <span class="qs-sep">·</span>
+          <div class="qs-item"><span class="qs-lbl">Bid</span><span class="qs-val qs-bid">$186.39</span></div>
+          <span class="qs-sep">·</span>
+          <div class="qs-item"><span class="qs-lbl">Spread</span><span class="qs-val">$0.06</span></div>
+          <span class="qs-sep">·</span>
+          <div class="qs-item"><span class="qs-lbl">Tick</span><span class="qs-val">$0.01</span></div>
+        </div>
+        <div class="ticket-body">
+          <div class="field-group">
+            <label class="field-label">Limit Price</label>
+            <div class="field-wrap">
+              <span class="field-pre">$</span>
+              <input class="field-input" id="tlo-price-input" value="184.56" inputmode="decimal" aria-label="Limit price">
             </div>
-            <div class="shortcuts" role="group">
-              <button class="sc-btn" data-price="186.45">Ask</button>
-              <button class="sc-btn sel" data-price="184.56">-1%</button>
-              <button class="sc-btn" data-price="182.78">-2%</button>
-              <button class="sc-btn" data-price="177.13">-5%</button>
+            <div class="sc-pills" role="group">
+              <button class="sc-pill" data-price="186.45">Ask</button>
+              <button class="sc-pill sel" data-price="184.56">-1%</button>
+              <button class="sc-pill" data-price="182.78">-2%</button>
+              <button class="sc-pill" data-price="177.13">-5%</button>
             </div>
-            <div class="field-err" id="price-inline-err"></div>
+            <div class="field-error" id="price-inline-err"></div>
+            <div class="field-ok" id="price-validation">✓ $184.56 is 1.01% below Ask</div>
           </div>
-          <div class="form-row">
-            <div class="f-label">Shares <span class="f-hint">Whole shares only</span></div>
-            <div class="input-wrap">
-              <input class="input-f shares" id="tlo-shares-input" value="5" inputmode="numeric" aria-labelledby="lbl-shares">
-              <span class="input-suf">shares</span>
+          <div class="field-group">
+            <label class="field-label">Shares <span style="font-size:9px;font-weight:400;text-transform:none;letter-spacing:0;color:var(--text-3);">Whole shares only</span></label>
+            <div class="field-wrap">
+              <input class="field-input f-shares" id="tlo-shares-input" value="5" inputmode="numeric" aria-label="Shares">
+              <span class="field-suf">shares</span>
             </div>
-            <div class="shortcuts" role="group">
-              <button class="sc-btn" data-shares="1">1</button>
-              <button class="sc-btn sel" data-shares="5">5</button>
-              <button class="sc-btn" data-shares="10">10</button>
-              <button class="sc-btn" data-shares="25">25</button>
+            <div class="sc-pills" role="group">
+              <button class="sc-pill" data-shares="1">1</button>
+              <button class="sc-pill sel" data-shares="5">5</button>
+              <button class="sc-pill" data-shares="10">10</button>
+              <button class="sc-pill" data-shares="25">25</button>
             </div>
-            <div class="field-err" id="shares-inline-err"></div>
+            <div class="field-error" id="shares-inline-err"></div>
           </div>
-          <div style="font-size:10px;color:var(--brand);margin-top:3px;margin-bottom:8px;" id="price-validation">✓ $184.56 is 1.01% below Ask</div>
-
-          <div class="summary">
-            <div class="s-row"><span class="s-k">Order type</span><span class="s-v brand">True Limit Order (DAY)</span></div>
-            <div class="s-row"><span class="s-k">Limit price</span><span class="s-v" id="tlo-summary-price">$184.56</span></div>
-            <div class="s-row"><span class="s-k">Quantity</span><span class="s-v" id="tlo-summary-qty">5 shares</span></div>
-            <div class="s-row"><span class="s-k">Reserved</span><span class="s-v" id="tlo-summary-reserved">$922.80</span></div>
-            <div class="s-row"><span class="s-k">Ticket fee</span><span class="s-v">$1.99</span></div>
+          <div class="order-summary">
+            <div class="os-row"><span class="os-k">Limit price</span><span class="os-v" id="tlo-summary-price">$184.56</span></div>
+            <div class="os-row"><span class="os-k">Quantity</span><span class="os-v" id="tlo-summary-qty">5 shares</span></div>
+            <div class="os-row"><span class="os-k">Reserved</span><span class="os-v" id="tlo-summary-reserved">$922.80</span></div>
+            <div class="os-row"><span class="os-k">Ticket fee</span><span class="os-v">$1.99</span></div>
+            <div class="os-row"><span class="os-k">Expires</span><span class="os-v warn">Today · EOD 16:00 ET</span></div>
           </div>
-          <div style="font-size:10px;color:var(--text-3);margin-top:6px;" id="tlo-reserve-text">$922.80 reserved (5 × $184.56) · released on cancel or fill</div>
         </div>
-        <div class="cta-bar">
-          <button class="btn-primary btn-buy" id="place-limit-btn" onclick="validateAndSubmit()">Place Limit Order</button>
+        <div id="tlo-reserve-text" style="display:none">$922.80 (5 × $184.56)</div>
+        <div class="ticket-cta">
+          <button class="cta-buy" id="place-limit-btn" onclick="validateAndSubmit()">Place Limit Order</button>
         </div>
       </div>
     `
@@ -900,28 +1163,28 @@ const STEPS = [
     ],
     cta: 'Tap "View in Portfolio" →',
     html: () => `
-      <div class="screen-content confirm-screen">
-        <div class="confirm-header">
-          <div class="confirm-title">Order Placed</div>
-          <div class="confirm-status">PENDING</div>
+      <div class="screen-content confirm-compact">
+        <div class="confirm-top">
+          <span class="confirm-top-title">Order Placed</span>
+          <span class="confirm-top-badge">PENDING</span>
         </div>
-        <div class="confirm-asset">
-          <div class="instr-logo">AAPL</div>
-          <div>
-            <div style="font-size:13px;font-weight:700;">Apple Inc. · BUY</div>
-            <div style="font-size:10px;color:var(--text-3);">True Limit Order · DAY</div>
+        <div class="confirm-asset-row">
+          <div class="instr-icon">AAPL</div>
+          <div style="flex:1">
+            <div class="confirm-asset-label">AAPL · Apple Inc.</div>
+            <div class="confirm-asset-sub">True Limit Order · BUY · DAY</div>
           </div>
         </div>
-        <div class="confirm-rows">
-          <div class="confirm-row"><span class="ck">Limit price</span><span class="cv">${'$' + orderState.price.toFixed(2)}</span></div>
-          <div class="confirm-row"><span class="ck">Quantity</span><span class="cv">${orderState.shares} shares</span></div>
-          <div class="confirm-row"><span class="ck">Reserved</span><span class="cv">${'$' + parseFloat(orderState.reserved).toLocaleString('en-US',{minimumFractionDigits:2})}</span></div>
-          <div class="confirm-row"><span class="ck">Ticket fee</span><span class="cv">$1.99</span></div>
-          <div class="confirm-row"><span class="ck">Expires</span><span class="cv warn">Today · EOD 16:00 ET</span></div>
-          <div class="confirm-row"><span class="ck">Status</span><span class="cv brand">Pending fill</span></div>
+        <div class="confirm-kv">
+          <div class="confirm-kv-row"><span class="ckk">Limit price</span><span class="ckv">${'$' + orderState.price.toFixed(2)}</span></div>
+          <div class="confirm-kv-row"><span class="ckk">Quantity</span><span class="ckv">${orderState.shares} shares</span></div>
+          <div class="confirm-kv-row"><span class="ckk">Reserved</span><span class="ckv">${'$' + parseFloat(orderState.reserved).toLocaleString('en-US',{minimumFractionDigits:2})}</span></div>
+          <div class="confirm-kv-row"><span class="ckk">Ticket fee</span><span class="ckv">$1.99</span></div>
+          <div class="confirm-kv-row"><span class="ckk">Status</span><span class="ckv brand">Pending fill</span></div>
+          <div class="confirm-kv-row"><span class="ckk">Expires</span><span class="ckv warn">Today · EOD 16:00 ET</span></div>
         </div>
-        <div class="cta-bar" style="position:absolute;bottom:0;left:0;right:0;">
-          <button class="btn-primary btn-buy" onclick="goTo(4)">View in Portfolio →</button>
+        <div class="ticket-cta" style="position:absolute;bottom:0;left:0;right:0;">
+          <button class="cta-buy" onclick="goTo(4)">View in Portfolio →</button>
         </div>
       </div>
     `
@@ -950,107 +1213,83 @@ const STEPS = [
           <div class="port-stats">
             <div><div class="ps-k">Invested</div><div class="ps-v">$12,440</div></div>
             <div><div class="ps-k">P&L</div><div class="ps-v pos">+$284.20</div></div>
-            <div><div class="ps-k">Return</div><div class="ps-v pos">+2.28%</div></div>
           </div>
         </div>
-        <div class="filter-bar" role="tablist" aria-label="Filter positions">
-          <button class="f-chip on" role="tab" aria-selected="true">All (3)</button>
-          <button class="f-chip" role="tab" aria-selected="false">Active (2)</button>
-          <button class="f-chip" role="tab" aria-selected="false">Filled</button>
+        <div class="filter-bar" role="tablist">
+          <button class="f-chip on" role="tab" aria-selected="true" onclick="selectFChip(this)">All</button>
+          <button class="f-chip" role="tab" aria-selected="false" onclick="selectFChip(this)">Active (2)</button>
+          <button class="f-chip" role="tab" aria-selected="false" onclick="selectFChip(this)">Filled</button>
         </div>
-        <div class="pos-list" role="list">
+        <div class="pos-list-flat" role="list">
 
-          <!-- AAPL — just placed order from orderState -->
-          <article class="pos-card" role="listitem">
-            <div class="pos-head">
-              <div class="pos-logo aapl" aria-hidden="true">AAPL</div>
-              <div style="flex:1">
-                <div class="pos-name">Apple Inc.</div>
-                <div class="pos-meta">REAL
-                  <span class="sc-chip chip-pending"><span>PENDING</span></span>
-                  <span class="tlo-mark"><span class="tlo-dot" aria-hidden="true"></span>TLO</span>
-                </div>
-              </div>
-              <div class="pos-price-col">
-                <div class="pos-price">${'$' + orderState.price.toFixed(2)}</div>
-                <div class="pos-pl" style="color:var(--color-text-muted);">Limit price</div>
+          <!-- AAPL: just placed (pending, 0 fills) -->
+          <div class="pos-row" role="listitem" onclick="goTo(7)">
+            <div class="pos-row-main">
+              <div class="pos-row-logo aapl">AAPL</div>
+              <span class="pos-row-name">AAPL</span>
+              <span class="sc-chip chip-pending">PENDING</span>
+              <span class="tlo-mark">TLO</span>
+              <span class="pos-row-price" style="margin-left:auto;">${'$' + orderState.price.toFixed(2)}</span>
+            </div>
+            <div class="pos-row-meta">
+              <span class="pos-row-exch">Real Stock · 0 / ${orderState.shares} shares filled</span>
+            </div>
+            <div class="pos-row-fill">
+              <div class="pos-row-fill-bar" role="progressbar" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100">
+                <div class="pos-row-fill-bar-inner zero"></div>
               </div>
             </div>
-            <div class="fill-sec">
-              <div class="fill-head">
-                <span class="fill-lbl">Fill progress</span>
-                <span class="fill-cnt"><span class="fn">0</span> / ${orderState.shares} shares</span>
-              </div>
-              <div class="fill-track" role="progressbar" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100" aria-label="0% filled — pending">
-                <div class="fill-bar zero"></div>
-              </div>
+            <div class="pos-row-actions">
+              <button class="pos-act-cancel" onclick="event.stopPropagation();goTo(9)" aria-label="Cancel AAPL">✕ Cancel</button>
+              <button class="pos-act-detail" onclick="event.stopPropagation();goTo(7)" aria-label="AAPL details">Details</button>
             </div>
-            <div class="card-actions">
-              <button class="act-cancel" onclick="goTo(9)" aria-label="Cancel AAPL limit order">✕ Cancel Order</button>
-              <button class="act-detail" onclick="goTo(7)" aria-label="View AAPL position details">View Details</button>
-            </div>
-          </article>
+          </div>
 
-          <!-- TSLA pending -->
-          <article class="pos-card" role="listitem">
-            <div class="pos-head">
-              <div class="pos-logo tsla" aria-hidden="true">TSLA</div>
-              <div style="flex:1">
-                <div class="pos-name">Tesla Inc.</div>
-                <div class="pos-meta">REAL
-                  <span class="sc-chip chip-pending"><span>PENDING</span></span>
-                  <span class="tlo-mark"><span class="tlo-dot" aria-hidden="true"></span>TLO</span>
-                </div>
-              </div>
-              <div class="pos-price-col">
-                <div class="pos-price">$218.00</div>
-                <div class="pos-pl" style="color:var(--color-text-muted);">Limit price</div>
+          <!-- TSLA: pending -->
+          <div class="pos-row" role="listitem" onclick="goTo(6)">
+            <div class="pos-row-main">
+              <div class="pos-row-logo tsla">TSLA</div>
+              <span class="pos-row-name">TSLA</span>
+              <span class="sc-chip chip-pending">PENDING</span>
+              <span class="tlo-mark">TLO</span>
+              <span class="pos-row-price" style="margin-left:auto;">$218.00</span>
+            </div>
+            <div class="pos-row-meta">
+              <span class="pos-row-exch">Real Stock · 0 / 5 shares filled</span>
+            </div>
+            <div class="pos-row-fill">
+              <div class="pos-row-fill-bar" role="progressbar" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100">
+                <div class="pos-row-fill-bar-inner zero"></div>
               </div>
             </div>
-            <div class="fill-sec">
-              <div class="fill-head">
-                <span class="fill-lbl">Fill progress</span>
-                <span class="fill-cnt"><span class="fn">0</span> / 5 shares</span>
-              </div>
-              <div class="fill-track" role="progressbar" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100" aria-label="0% filled">
-                <div class="fill-bar zero"></div>
-              </div>
-            </div>
-            <div class="card-actions" style="position:relative;">
-              <button class="act-cancel" onclick="goTo(5)" aria-label="Cancel TSLA limit order">
-                ✕ Cancel Order
+            <div class="pos-row-actions">
+              <button class="pos-act-cancel" onclick="event.stopPropagation();goTo(5)" aria-label="Cancel TSLA" style="position:relative;">
+                ✕ Cancel
                 <div class="tap-hint">Tap here</div>
               </button>
-              <button class="act-detail" onclick="goTo(6)" aria-label="View TSLA position details">View Details</button>
+              <button class="pos-act-detail" onclick="event.stopPropagation();goTo(6)" aria-label="TSLA details">Details</button>
             </div>
-          </article>
+          </div>
 
-          <!-- NVDA filled -->
-          <article class="pos-card" role="listitem">
-            <div class="pos-head">
-              <div class="pos-logo nvda" aria-hidden="true">NVDA</div>
-              <div style="flex:1">
-                <div class="pos-name">NVIDIA Corp.</div>
-                <div class="pos-meta">REAL
-                  <span class="sc-chip chip-filled"><span>FILLED</span></span>
-                  <span class="tlo-mark"><span class="tlo-dot" aria-hidden="true"></span>TLO</span>
-                </div>
-              </div>
-              <div class="pos-price-col">
-                <div class="pos-price">$874.50</div>
-                <div class="pos-pl up">+$68.00</div>
+          <!-- NVDA: filled -->
+          <div class="pos-row" role="listitem">
+            <div class="pos-row-main">
+              <div class="pos-row-logo nvda">NVDA</div>
+              <span class="pos-row-name">NVDA</span>
+              <span class="sc-chip chip-filled">FILLED</span>
+              <span class="tlo-mark">TLO</span>
+              <span class="pos-row-price" style="margin-left:auto;">$874.50</span>
+            </div>
+            <div class="pos-row-meta">
+              <span class="pos-row-exch">Real Stock · 5/5 shares · </span>
+              <span style="font-size:10px;color:var(--brand);font-weight:600;">+$68.00</span>
+            </div>
+            <div class="pos-row-fill">
+              <div class="pos-row-fill-bar" role="progressbar" aria-valuenow="100" aria-valuemin="0" aria-valuemax="100">
+                <div class="pos-row-fill-bar-inner" style="width:100%"></div>
               </div>
             </div>
-            <div class="fill-sec">
-              <div class="fill-head">
-                <span class="fill-lbl">Filled at limit</span>
-                <span class="fill-cnt"><span class="fn">5</span> / 5 shares</span>
-              </div>
-              <div class="fill-track" role="progressbar" aria-valuenow="100" aria-valuemin="0" aria-valuemax="100" aria-label="100% filled">
-                <div class="fill-bar" style="width:100%"></div>
-              </div>
-            </div>
-          </article>
+          </div>
 
         </div>
       </div>
