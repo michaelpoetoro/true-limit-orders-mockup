@@ -1448,7 +1448,7 @@ const STEPS = [
           </div>
           <div class="sheet-btns">
             <button class="s-btn keep" onclick="goTo(4)" aria-label="Keep the remaining shares open">Keep Order</button>
-            <button class="s-btn confirm" onclick="goTo(8)" aria-label="Confirm cancel of remaining 3 AAPL shares">Cancel Remaining</button>
+            <button class="s-btn confirm" onclick="goTo(10)" aria-label="Confirm cancel of remaining 3 AAPL shares">Cancel Remaining</button>
           </div>
         </div>
       </div>
@@ -1508,7 +1508,120 @@ function buildAnnotation() {
 
 function renderScreen(dir) {
   const screen = document.getElementById('phoneScreen');
-  const s = STEPS[currentStep];
+  const s = STEPS[currentStep,
+
+  /* ── 11. Post-Cancel — AAPL (remaining 3 shares cancelled) ── */
+  {
+    id: 'post-cancel-aapl',
+    label: 'AAPL Cancelled',
+    tag: 'Portfolio · Screen 11',
+    title: 'After Cancel — AAPL Remaining Shares Cancelled',
+    desc: 'Result of cancelling the 3 remaining AAPL shares. 2 filled shares stay. $555 released. TSLA still pending.',
+    points: [
+      { type: 'blue', text: '<strong>AAPL → PARTIAL</strong> chip stays (2 of 5 filled and kept)' },
+      { type: 'green', text: '<strong>$555.00 released</strong> (3 × $185.00 unfilled reserved balance)' },
+      { type: 'warn', text: 'TSLA still PENDING — unaffected by this cancel' },
+    ],
+    cta: 'End of AAPL cancel flow',
+    html: () => `
+      <div class="screen-content">
+        <div class="port-header">
+          <div class="port-title">Portfolio</div>
+          <div class="port-sub">3 positions · 1 active limit order</div>
+          <div class="port-stats">
+            <div><div class="ps-k">Invested</div><div class="ps-v">$12,440</div></div>
+            <div><div class="ps-k">P&L</div><div class="ps-v pos">+$284.20</div></div>
+          </div>
+        </div>
+        <div style="background:var(--color-brand-bg);border-bottom:1px solid color-mix(in srgb,var(--color-brand) 20%,transparent);padding:var(--x3) var(--x4);display:flex;align-items:center;gap:var(--x2);" role="status">
+          <span style="font-size:16px;" aria-hidden="true">✓</span>
+          <span style="font-size:12px;color:var(--color-brand);font-weight:600;">AAPL remaining 3 shares cancelled · $555.00 released to your balance</span>
+        </div>
+        <div class="filter-bar" role="tablist">
+          <button class="f-chip on" role="tab" aria-selected="true" onclick="selectFChip(this)">All (3)</button>
+          <button class="f-chip" role="tab" aria-selected="false" onclick="selectFChip(this)">Active (1)</button>
+          <button class="f-chip" role="tab" aria-selected="false" onclick="selectFChip(this)">Cancelled</button>
+        </div>
+        <div class="pos-list" role="list">
+
+          <!-- AAPL: 2 shares filled, remaining 3 cancelled → show as partial filled/cancelled -->
+          <article class="pos-card" role="listitem">
+            <div class="pos-head">
+              <div class="pos-logo aapl" aria-hidden="true">AAPL</div>
+              <div style="flex:1">
+                <div class="pos-name">Apple Inc.</div>
+                <div class="pos-meta">REAL
+                  <span class="status-chip chip-partial"><span class="chip-dot" aria-hidden="true"></span>2 FILLED</span>
+                  <span class="tlo-badge"><span class="tlo-dot" aria-hidden="true"></span>TLO</span>
+                </div>
+              </div>
+              <div class="pos-price-col">
+                <div class="pos-price">$185.00</div>
+                <div class="pos-pl up">2/5 settled</div>
+              </div>
+            </div>
+            <div style="padding:var(--x2) var(--x3);font-size:11px;color:var(--color-text-muted);border-top:1px solid var(--color-border);">
+              2 shares filled and kept · 3 remaining shares cancelled · $555.00 released
+            </div>
+          </article>
+
+          <!-- TSLA still pending -->
+          <article class="pos-card" role="listitem">
+            <div class="pos-head">
+              <div class="pos-logo tsla" aria-hidden="true">TSLA</div>
+              <div style="flex:1">
+                <div class="pos-name">Tesla Inc.</div>
+                <div class="pos-meta">REAL
+                  <span class="status-chip chip-pending"><span class="chip-dot" aria-hidden="true"></span>PENDING</span>
+                  <span class="tlo-badge"><span class="tlo-dot" aria-hidden="true"></span>TLO</span>
+                </div>
+              </div>
+              <div class="pos-price-col">
+                <div class="pos-price">$218.00</div>
+                <div class="pos-pl" style="color:var(--color-text-muted);">Limit price</div>
+              </div>
+            </div>
+            <div class="fill-sec">
+              <div class="fill-head"><span class="fill-label">Fill progress</span><span class="fill-count"><span class="fn">0</span> / 5 shares</span></div>
+              <div class="fill-track" role="progressbar" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100">
+                <div class="fill-fill zero"></div>
+              </div>
+            </div>
+            <div class="card-actions">
+              <button class="act-cancel" onclick="goTo(5)" aria-label="Cancel TSLA limit order">✕ Cancel Order</button>
+              <button class="act-detail" onclick="goTo(6)" aria-label="View TSLA details">View Details</button>
+            </div>
+          </article>
+
+          <!-- NVDA filled -->
+          <article class="pos-card" role="listitem">
+            <div class="pos-head">
+              <div class="pos-logo nvda" aria-hidden="true">NVDA</div>
+              <div style="flex:1">
+                <div class="pos-name">NVIDIA Corp.</div>
+                <div class="pos-meta">REAL
+                  <span class="status-chip chip-filled"><span class="chip-dot" aria-hidden="true"></span>FILLED</span>
+                  <span class="tlo-badge"><span class="tlo-dot" aria-hidden="true"></span>TLO</span>
+                </div>
+              </div>
+              <div class="pos-price-col">
+                <div class="pos-price">$874.50</div>
+                <div class="pos-pl up">+$68.00</div>
+              </div>
+            </div>
+            <div class="fill-sec">
+              <div class="fill-head"><span class="fill-label">Filled</span><span class="fill-count"><span class="fn">5</span> / 5 shares</span></div>
+              <div class="fill-track" role="progressbar" aria-valuenow="100" aria-valuemin="0" aria-valuemax="100">
+                <div class="fill-fill" style="width:100%"></div>
+              </div>
+            </div>
+          </article>
+
+        </div>
+      </div>
+    `
+  }
+];
   const animClass = dir === 'forward' ? 'slide-in-right' : 'slide-in-left';
   screen.innerHTML = s.html();
   const content = screen.querySelector('.screen-content, .sheet-wrap');
