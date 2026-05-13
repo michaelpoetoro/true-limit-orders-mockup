@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en" data-theme="dark">
+<html lang="en" data-theme="light">
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -9,1114 +9,614 @@
 <link href="https://fonts.googleapis.com/css2?family=Inter:ital,opsz,wght@0,14..32,300..900;1,14..32,300..900&display=swap" rel="stylesheet">
 <style>
 /* ============================================================
-   eToro Plus — True Limit Orders · Execution-native Design
-   Dense / Sharp / Operational
+   eToro Design System v2 — True Limit Orders Prototype
    ============================================================ */
 :root {
-  --bg:          #F2F3F5;
-  --surface:     #FFFFFF;
-  --surface-sub: #F7F8F9;
-  --border:      #E2E5EB;
-  --border-mid:  #C8CDD8;
-  --text-1:      #0F1117;
-  --text-2:      #596174;
-  --text-3:      #9199AC;
-  --brand:       #0EB12E;
-  --brand-dim:   #0A9827;
-  --brand-bg:    #EBF9EE;
-  --neg:         #E53535;
-  --neg-dim:     #CC2E2E;
-  --neg-bg:      #FCEAEA;
-  --warn:        #D97706;
-  --warn-bg:     #FEF3D4;
-  --blue:        #2563EB;
-  --blue-bg:     #EFF4FF;
-  --muted:       #8D95A6;
-
-  /* radius — sharp product style */
-  --r2:   2px;
-  --r4:   4px;
-  --r6:   6px;
-  --r8:   8px;
-  --rfull: 9999px;
-
-  /* spacing — tight density */
-  --s2:  2px;  --s4:  4px;  --s6:  6px;  --s8:  8px;
-  --s10: 10px; --s12: 12px; --s14: 14px; --s16: 16px;
-  --s20: 20px; --s24: 24px;
-
-  /* typography */
-  --t-price: 20px;
-  --t-h1:    16px;
-  --t-body:  14px;
-  --t-sm:    12px;
-  --t-xs:    11px;
-  --t-label: 11px;
-
-  --font: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
-  --mono: 'Inter', -apple-system, monospace;
-
-  --shadow-sm: 0 1px 3px rgba(0,0,0,.06);
-  --shadow-md: 0 2px 8px rgba(0,0,0,.08);
+  --color-bg:               #F5F7FA;
+  --color-surface:          #FFFFFF;
+  --color-surface-inset:    #F0F2F7;
+  --color-text-primary:     #1A1C24;
+  --color-text-secondary:   #5A6178;
+  --color-text-muted:       #9299AE;
+  --color-border:           #DFE3EE;
+  --color-border-strong:    #C4CAD9;
+  --color-brand:            #0EB12E;
+  --color-brand-hover:      #0A9824;
+  --color-brand-bg:         #E7F7EB;
+  --color-negative:         #F23D40;
+  --color-negative-bg:      #FDECEC;
+  --color-warning:          #F4A100;
+  --color-warning-bg:       #FEF3D9;
+  --color-blue:             #2A84F7;
+  --color-blue-bg:          #E8F1FE;
+  --x1:4px;--x2:8px;--x3:12px;--x4:16px;--x5:20px;--x6:24px;--x8:32px;--x10:40px;
+  --radius-xs:4px;--radius-sm:8px;--radius-md:12px;--radius-lg:16px;--radius-full:9999px;
+  --shadow-1:0 1px 2px rgba(16,24,40,.06),0 1px 3px rgba(16,24,40,.04);
+  --shadow-2:0 4px 8px -2px rgba(16,24,40,.08),0 2px 4px -2px rgba(16,24,40,.04);
+  --shadow-3:0 12px 32px -4px rgba(16,24,40,.14),0 4px 8px -2px rgba(16,24,40,.08);
+  --font:'Inter',-apple-system,BlinkMacSystemFont,sans-serif;
 }
-
 [data-theme="dark"] {
-  --bg:        #0B0D11;
-  --surface:   #141720;
-  --surface-sub:#1A1E27;
-  --border:    #252A36;
-  --border-mid:#3C4358;
-  --text-1:    #F0F2F7;
-  --text-2:    #9199AC;
-  --text-3:    #5A6178;
-  --brand:     #26CC48;
-  --brand-dim: #1DB53E;
-  --brand-bg:  rgba(38,204,72,.1);
-  --neg:       #EF4444;
-  --neg-dim:   #DC2626;
-  --neg-bg:    rgba(239,68,68,.1);
-  --warn:      #F59E0B;
-  --warn-bg:   rgba(245,158,11,.1);
-  --blue:      #60A5FA;
-  --blue-bg:   rgba(96,165,250,.1);
+  --color-bg:#0E1014;--color-surface:#16191F;--color-surface-inset:#0E1014;
+  --color-text-primary:#FFFFFF;--color-text-secondary:#B8BDCC;--color-text-muted:#717890;
+  --color-border:#2A2F3E;--color-border-strong:#424966;
+  --color-brand:#2ECC4E;--color-brand-hover:#26B545;--color-brand-bg:rgba(46,204,78,.13);
+  --color-negative:#E95550;--color-negative-bg:rgba(233,85,80,.13);
+  --color-warning:#FFB832;--color-warning-bg:rgba(255,184,50,.12);
+  --color-blue:#5AA3FF;--color-blue-bg:rgba(90,163,255,.13);
 }
-
 *,*::before,*::after{margin:0;padding:0;box-sizing:border-box;}
 html{font-size:16px;}
-body{font-family:var(--font);background:var(--bg);color:var(--text-1);min-height:100vh;-webkit-font-smoothing:antialiased;overflow-x:hidden;}
+body{font-family:var(--font);background:var(--color-bg);color:var(--color-text-primary);min-height:100vh;-webkit-font-smoothing:antialiased;overflow-x:hidden;}
 button{font-family:inherit;border:none;background:none;cursor:pointer;color:inherit;}
-input{font-family:inherit;}
 
-/* ── Proto shell ── */
-.proto-shell{min-height:100vh;display:flex;flex-direction:column;}
-
-.proto-bar{
-  position:sticky;top:0;z-index:200;background:var(--surface);
-  border-bottom:1px solid var(--border);padding:0 var(--s16);
-  display:flex;align-items:center;gap:var(--s12);height:48px;
-}
-.proto-logo{display:flex;align-items:center;gap:var(--s8);font-weight:700;font-size:15px;}
-.proto-logo-mark{
-  width:24px;height:24px;border-radius:var(--r4);background:var(--brand);
-  display:flex;align-items:center;justify-content:center;
-  color:#fff;font-weight:900;font-size:11px;
-}
-.proto-title{font-size:12px;font-weight:500;color:var(--text-2);}
-.proto-badge{
-  padding:2px 7px;border-radius:var(--r2);font-size:10px;font-weight:600;
-  background:var(--warn-bg);color:var(--warn);border:1px solid var(--warn);
-  letter-spacing:.2px;
-}
-.proto-bar-right{margin-left:auto;display:flex;align-items:center;gap:var(--s8);}
-.theme-btn{
-  width:28px;height:28px;border-radius:var(--r4);background:var(--surface-sub);
-  display:flex;align-items:center;justify-content:center;font-size:13px;cursor:pointer;
-}
-
-.step-nav{
-  background:var(--surface);border-bottom:1px solid var(--border);
-  padding:0 var(--s12);display:flex;align-items:center;
-  overflow-x:auto;scrollbar-width:none;
-}
-.step-nav::-webkit-scrollbar{display:none;}
-.step-item{
-  display:flex;align-items:center;gap:var(--s6);padding:var(--s8) var(--s8);
-  cursor:pointer;white-space:nowrap;border-bottom:2px solid transparent;
-  transition:all .12s;flex-shrink:0;
-}
-.step-item:hover{background:var(--surface-sub);}
-.step-item.active{border-bottom-color:var(--brand);}
-.step-num{
-  width:18px;height:18px;border-radius:var(--rfull);
-  background:var(--surface-sub);border:1px solid var(--border);
-  font-size:9px;font-weight:700;color:var(--text-3);
-  display:flex;align-items:center;justify-content:center;
-}
-.step-item.active .step-num,.step-item.visited .step-num{
-  background:var(--brand);border-color:var(--brand);color:#fff;
-}
-.step-label{font-size:11px;font-weight:500;color:var(--text-3);}
-.step-item.active .step-label{color:var(--text-1);font-weight:600;}
-.step-item.visited .step-label{color:var(--text-2);}
-.step-arrow{font-size:10px;color:var(--border-mid);padding:0 2px;}
-
-.proto-stage{
-  flex:1;display:flex;align-items:flex-start;justify-content:center;
-  padding:var(--s20) var(--s16);gap:var(--s24);
-}
-
-/* ── Phone frame — minimal ── */
-.phone-wrap{display:flex;flex-direction:column;align-items:center;gap:var(--s12);}
-.phone-frame{
-  width:375px;flex-shrink:0;
-  background:var(--surface);
-  border-radius:16px;
-  border:1.5px solid var(--text-1);
-  box-shadow:var(--shadow-md);
-  overflow:hidden;
-}
-.phone-status{
-  height:20px;background:var(--text-1);
-  display:flex;align-items:center;justify-content:space-between;
-  padding:0 var(--s16);
-}
-.phone-status-time{font-size:9px;font-weight:700;color:rgba(255,255,255,.7);}
-.phone-status-icons{font-size:8px;color:rgba(255,255,255,.6);}
-.phone-screen{background:var(--bg);min-height:640px;position:relative;overflow:hidden;}
-
-/* nav controls */
-.phone-nav{display:flex;align-items:center;gap:var(--s12);}
-.nav-btn{
-  width:36px;height:36px;border-radius:var(--r6);
-  background:var(--surface);border:1px solid var(--border);
-  display:flex;align-items:center;justify-content:center;
-  font-size:13px;cursor:pointer;color:var(--text-2);
-  transition:all .12s;
-}
-.nav-btn:hover:not(:disabled){background:var(--text-1);color:var(--surface);}
-.nav-btn:disabled{opacity:.3;cursor:default;}
-.step-counter{font-size:11px;font-weight:600;color:var(--text-3);min-width:44px;text-align:center;}
-.step-dots{display:flex;gap:4px;align-items:center;}
-.step-dot{width:5px;height:5px;border-radius:var(--rfull);background:var(--border-mid);transition:all .15s;}
-.step-dot.active{width:14px;border-radius:2px;background:var(--brand);}
-
-/* animation */
-.screen-content.slide-in-right{animation:slideInR .22s cubic-bezier(.4,0,.2,1) both;}
-.screen-content.slide-in-left{animation:slideInL .22s cubic-bezier(.4,0,.2,1) both;}
-@keyframes slideInR{from{transform:translateX(32px);opacity:0}to{transform:translateX(0);opacity:1}}
-@keyframes slideInL{from{transform:translateX(-32px);opacity:0}to{transform:translateX(0);opacity:1}}
-
-/* annotation */
-.annotation-panel{width:280px;flex-shrink:0;padding-top:4px;}
-.ann-card{
-  background:var(--surface);border-radius:var(--r6);
-  border:1px solid var(--border);padding:var(--s12) var(--s14);
-  box-shadow:var(--shadow-sm);
-}
-.ann-screen-tag{
-  display:inline-flex;align-items:center;gap:4px;
-  padding:2px 7px;border-radius:var(--r2);
-  font-size:10px;font-weight:700;letter-spacing:.3px;text-transform:uppercase;
-  background:var(--blue-bg);color:var(--blue);margin-bottom:var(--s8);
-  border:1px solid var(--blue);
-}
-.ann-title{font-size:13px;font-weight:700;margin-bottom:var(--s4);}
-.ann-desc{font-size:12px;color:var(--text-2);line-height:1.5;margin-bottom:var(--s12);}
-.ann-points{list-style:none;display:flex;flex-direction:column;gap:var(--s6);}
-.ann-points li{display:flex;gap:var(--s6);font-size:11px;color:var(--text-2);line-height:1.5;}
-.ann-dot{
-  width:14px;height:14px;border-radius:var(--rfull);
-  background:var(--brand);color:#fff;font-size:8px;font-weight:700;
-  display:flex;align-items:center;justify-content:center;flex-shrink:0;margin-top:2px;
-}
-.ann-dot.warn{background:var(--warn);}
-.ann-dot.blue{background:var(--blue);}
-.ann-cta{
-  margin-top:var(--s10);padding-top:var(--s10);border-top:1px solid var(--border);
-  font-size:11px;color:var(--text-3);display:flex;align-items:center;gap:var(--s6);
-}
-
-/* ── App chrome ── */
-.app-bar{
-  background:var(--surface);padding:var(--s8) var(--s12);
-  display:flex;align-items:center;border-bottom:1px solid var(--border);gap:var(--s8);
-  height:44px;
-}
-.back-btn{
-  width:28px;height:28px;border-radius:var(--r4);
-  background:var(--surface-sub);display:flex;align-items:center;justify-content:center;
-  font-size:12px;color:var(--text-2);flex-shrink:0;cursor:pointer;
-}
-.bar-title{font-size:14px;font-weight:700;flex:1;letter-spacing:-.2px;}
-.bar-sub{font-size:10px;color:var(--text-2);}
-.icon-btn{
-  width:28px;height:28px;border-radius:var(--r4);background:var(--surface-sub);
-  display:flex;align-items:center;justify-content:center;font-size:12px;cursor:pointer;
-}
-
-/* ── Instrument header (compact) ── */
-.instr-header{
-  background:var(--surface);padding:var(--s8) var(--s12);
-  display:flex;align-items:center;justify-content:space-between;
-  border-bottom:1px solid var(--border);
-}
-.instr-left{display:flex;align-items:center;gap:var(--s8);}
-.instr-logo{
-  width:28px;height:28px;border-radius:var(--rfull);
-  background:linear-gradient(135deg,#0052b4,#0095e8);
-  display:flex;align-items:center;justify-content:center;
-  font-size:9px;font-weight:800;color:#fff;flex-shrink:0;
-}
-.instr-name{font-size:14px;font-weight:700;}
-.instr-exch{font-size:10px;color:var(--text-3);}
-.instr-right{text-align:right;}
-.instr-price{font-size:16px;font-weight:700;font-variant-numeric:tabular-nums;}
-.instr-chg{font-size:11px;font-weight:600;}
-.chg-up{color:var(--brand);}
-.chg-dn{color:var(--neg);}
-
-/* ── Direction toggle ── */
-.dir-wrap{
-  background:var(--surface);padding:var(--s8) var(--s12);
-  border-bottom:1px solid var(--border);
-}
-.dir-tabs{
-  display:flex;border:1px solid var(--border);border-radius:var(--r4);overflow:hidden;
-}
-.dir-tab{
-  flex:1;height:32px;font-size:12px;font-weight:600;
-  background:var(--surface-sub);color:var(--text-3);
-  cursor:pointer;transition:all .1s;
-}
-.dir-tab.active-buy{background:var(--brand);color:#fff;}
-.dir-tab.active-sell{background:var(--neg);color:#fff;}
-.dir-tab:hover:not(.active-buy):not(.active-sell){background:var(--border);color:var(--text-2);}
-
-/* ── Order type tabs ── */
-.ot-wrap{
-  background:var(--surface);padding:var(--s6) var(--s12);
-  border-bottom:1px solid var(--border);
-}
-.ot-tabs{display:flex;gap:0;}
-.ot-tab{
-  padding:4px var(--s10);font-size:11px;font-weight:500;
-  color:var(--text-3);cursor:pointer;transition:all .1s;
-  border-bottom:2px solid transparent;
-}
-.ot-tab.active{color:var(--brand);border-bottom-color:var(--brand);font-weight:600;}
-.ot-tab.active-tlo{color:var(--brand);border-bottom-color:var(--brand);font-weight:700;}
-
-/* ── Form section ── */
-.form-sec{background:var(--surface);padding:var(--s12);}
-.form-row{margin-bottom:var(--s10);}
-.f-label{
-  font-size:var(--t-label);font-weight:600;color:var(--text-3);
-  text-transform:uppercase;letter-spacing:.4px;margin-bottom:var(--s4);
-  display:flex;justify-content:space-between;align-items:center;
-}
-.f-hint{font-size:10px;color:var(--muted);text-transform:none;letter-spacing:0;font-weight:400;}
-
-.input-wrap{position:relative;}
-.input-f{
-  width:100%;height:40px;
-  border:1.5px solid var(--border);border-radius:var(--r4);
-  background:var(--surface);
-  font-size:16px;font-weight:700;font-variant-numeric:tabular-nums;
-  color:var(--text-1);padding:0 var(--s10) 0 24px;
-  outline:none;transition:border-color .12s;cursor:text;
-}
-.input-f:focus{border-color:var(--brand);}
-.input-f.error{border-color:var(--neg) !important;}
-.input-f.shares{padding-left:var(--s10);padding-right:40px;}
-.input-pre{
-  position:absolute;left:var(--s8);top:50%;transform:translateY(-50%);
-  font-size:13px;font-weight:500;color:var(--text-3);pointer-events:none;
-}
-.input-suf{
-  position:absolute;right:var(--s8);top:50%;transform:translateY(-50%);
-  font-size:11px;font-weight:600;color:var(--text-3);pointer-events:none;
-}
-.field-err{font-size:11px;color:var(--neg);margin-top:3px;font-weight:500;min-height:14px;}
-
-/* compact shortcuts */
-.shortcuts{
-  display:flex;gap:var(--s6);margin-top:var(--s4);flex-wrap:wrap;
-}
-.sc-btn{
-  padding:2px var(--s8);border-radius:var(--r2);font-size:11px;font-weight:500;
-  background:transparent;border:1px solid var(--border);color:var(--text-2);cursor:pointer;
-  transition:all .1s;
-}
-.sc-btn.sel,.sc-btn:hover{
-  border-color:var(--brand);color:var(--brand);background:var(--brand-bg);
-}
-.tick-note{font-size:10px;color:var(--text-3);margin-top:3px;}
-
-/* market data strip */
-.mkt-grid{
-  display:grid;grid-template-columns:1fr 1fr 1fr 1fr;
-  background:var(--surface-sub);border-radius:var(--r4);
-  padding:var(--s6) var(--s8);gap:0;margin-bottom:var(--s8);
-}
-.mkt-cell{text-align:center;}
-.mkt-lbl{font-size:9px;font-weight:600;color:var(--text-3);text-transform:uppercase;letter-spacing:.3px;}
-.mkt-val{font-size:12px;font-weight:700;font-variant-numeric:tabular-nums;margin-top:1px;}
-.mkt-ask{color:var(--brand);}
-.mkt-bid{color:var(--neg);}
-
-/* TLO note (compact inline) */
-.tlo-note{
-  font-size:11px;color:var(--blue);
-  background:var(--blue-bg);border-left:2px solid var(--blue);
-  padding:4px var(--s8);border-radius:0 var(--r2) var(--r2) 0;
-  margin-bottom:var(--s8);line-height:1.4;
-}
-
-/* summary — dense key-value */
-.summary{border-top:1px solid var(--border);margin-top:var(--s8);}
-.s-row{
-  display:flex;justify-content:space-between;align-items:center;
-  padding:var(--s6) 0;border-bottom:1px solid var(--border);
-}
-.s-row:last-child{border-bottom:none;}
-.s-k{font-size:11px;color:var(--text-3);}
-.s-v{font-size:12px;font-weight:700;font-variant-numeric:tabular-nums;color:var(--text-1);}
-.s-v.brand{color:var(--brand);}
-.s-v.err{color:var(--neg);}
-
-/* validation inline banner (compact) */
-.val-note{
-  font-size:11px;padding:4px var(--s8);margin-bottom:var(--s8);
-  border-radius:var(--r2);display:flex;gap:var(--s6);align-items:flex-start;
-}
-.val-note.ok{background:var(--brand-bg);color:var(--brand);border-left:2px solid var(--brand);}
-.val-note.err{background:var(--neg-bg);color:var(--neg);border-left:2px solid var(--neg);}
-.val-note.info{background:var(--blue-bg);color:var(--blue);border-left:2px solid var(--blue);}
-.val-note b{font-weight:700;}
-
-/* ── CTA ── */
-.cta-bar{
-  display:flex;gap:var(--s8);padding:var(--s8) var(--s12);
-  background:var(--surface);border-top:1px solid var(--border);
-}
-.btn-primary{
-  flex:1;height:42px;border-radius:var(--r6);
-  font-size:14px;font-weight:700;cursor:pointer;
-  border:none;transition:background .12s;
-}
-.btn-buy{background:var(--brand);color:#fff;}
-.btn-buy:hover{background:var(--brand-dim);}
-.btn-sell-cta{background:var(--neg);color:#fff;}
-.btn-sell-cta:hover{background:var(--neg-dim);}
-.btn-buy.btn-form-invalid{background:var(--border-mid) !important;opacity:.6;cursor:not-allowed;}
-.btn-sec{
-  flex:1;height:42px;border-radius:var(--r6);font-size:14px;font-weight:600;
-  cursor:pointer;background:var(--surface-sub);color:var(--text-2);
-  border:1px solid var(--border);
-}
-
-/* ── Confirmation (less celebratory) ── */
-.confirm-screen{
-  background:var(--surface);min-height:640px;
-  padding:var(--s20) var(--s16);
-}
-.confirm-header{
-  display:flex;align-items:center;justify-content:space-between;
-  padding-bottom:var(--s12);border-bottom:1px solid var(--border);
-  margin-bottom:var(--s16);
-}
-.confirm-title{font-size:16px;font-weight:700;}
-.confirm-status{
-  font-size:10px;font-weight:700;padding:2px 8px;border-radius:var(--r2);
-  background:var(--warn-bg);color:var(--warn);border:1px solid var(--warn);
-  text-transform:uppercase;letter-spacing:.3px;
-}
-.confirm-asset{
-  display:flex;align-items:center;gap:var(--s8);
-  padding:var(--s10) 0;border-bottom:1px solid var(--border);margin-bottom:var(--s12);
-}
-.confirm-rows{display:flex;flex-direction:column;}
-.confirm-row{
-  display:flex;justify-content:space-between;align-items:center;
-  padding:var(--s8) 0;border-bottom:1px solid var(--border);
-}
-.confirm-row:last-child{border:none;}
-.ck{font-size:11px;color:var(--text-3);}
-.cv{font-size:13px;font-weight:700;font-variant-numeric:tabular-nums;}
-.cv.brand{color:var(--brand);}
-.cv.warn{color:var(--warn);}
-
-/* ── Portfolio ── */
-.port-header{
-  background:var(--surface);padding:var(--s10) var(--s12);
-  border-bottom:1px solid var(--border);
-}
-.port-title{font-size:15px;font-weight:700;}
-.port-sub{font-size:10px;color:var(--text-3);margin-top:1px;}
-.port-stats{display:flex;gap:var(--s16);margin-top:var(--s8);}
-.ps-k{font-size:9px;font-weight:600;color:var(--text-3);text-transform:uppercase;letter-spacing:.3px;}
-.ps-v{font-size:14px;font-weight:700;font-variant-numeric:tabular-nums;}
-.ps-v.pos{color:var(--brand);}
-
-.filter-bar{
-  padding:var(--s6) var(--s12);display:flex;gap:var(--s4);
-  background:var(--surface);border-bottom:1px solid var(--border);
-  overflow-x:auto;scrollbar-width:none;
-}
-.filter-bar::-webkit-scrollbar{display:none;}
-.f-chip{
-  padding:3px var(--s8);border-radius:var(--r2);font-size:11px;font-weight:500;
-  flex-shrink:0;background:var(--surface-sub);border:1px solid var(--border);
-  color:var(--text-2);cursor:pointer;transition:all .1s;
-}
-.f-chip.on{background:var(--brand-bg);border-color:var(--brand);color:var(--brand);font-weight:600;}
-
-.pos-list{padding:var(--s6) var(--s12);display:flex;flex-direction:column;gap:var(--s4);background:var(--bg);}
-.pos-card{
-  background:var(--surface);border:1px solid var(--border);
-  border-radius:var(--r4);overflow:hidden;cursor:pointer;
-}
-.pos-head{padding:var(--s8) var(--s10);display:flex;align-items:center;gap:var(--s8);}
-.pos-logo{
-  width:28px;height:28px;border-radius:var(--rfull);
-  display:flex;align-items:center;justify-content:center;
-  font-size:9px;font-weight:800;color:#fff;flex-shrink:0;
-}
-.pos-logo.aapl{background:linear-gradient(135deg,#555,#222);}
-.pos-logo.tsla{background:linear-gradient(135deg,#CC0000,#e31010);}
-.pos-logo.nvda{background:linear-gradient(135deg,#76b900,#529900);}
-.pos-name{font-size:13px;font-weight:700;}
-.pos-meta{font-size:10px;color:var(--text-3);margin-top:1px;display:flex;align-items:center;gap:4px;}
-.pos-price-col{margin-left:auto;text-align:right;}
-.pos-price{font-size:13px;font-weight:700;font-variant-numeric:tabular-nums;}
-.pos-pl{font-size:11px;font-weight:600;}
-.pos-pl.pos{color:var(--brand);}
-
-/* status chips — restrained */
-.sc-chip{
-  display:inline-flex;align-items:center;gap:3px;
-  padding:1px 5px;border-radius:var(--r2);
-  font-size:9px;font-weight:700;letter-spacing:.2px;text-transform:uppercase;
-}
-.chip-pending{background:var(--warn-bg);color:var(--warn);}
-.chip-partial{background:var(--blue-bg);color:var(--blue);}
-.chip-filled{background:var(--brand-bg);color:var(--brand);}
-.chip-cancelled{background:var(--surface-sub);color:var(--text-3);border:1px solid var(--border);}
-.tlo-mark{
-  display:inline-flex;padding:1px 4px;border-radius:var(--r2);
-  font-size:9px;font-weight:700;letter-spacing:.2px;
-  background:var(--brand-bg);color:var(--brand);border:1px solid var(--brand);
-}
-
-/* fill bar */
-.fill-sec{padding:0 var(--s10) var(--s8);}
-.fill-head{display:flex;justify-content:space-between;margin-bottom:3px;}
-.fill-lbl{font-size:10px;color:var(--text-3);}
-.fill-cnt{font-size:10px;font-weight:700;font-variant-numeric:tabular-nums;}
-.fill-cnt .fn{color:var(--brand);}
-.fill-track{height:4px;border-radius:var(--rfull);background:var(--surface-sub);overflow:hidden;}
-.fill-bar{height:100%;border-radius:var(--rfull);background:var(--brand);}
-.fill-bar.partial{background:var(--blue);}
-.fill-bar.zero{background:var(--warn);width:3px;}
-
-/* card actions */
-.card-actions{
-  padding:var(--s6) var(--s10);display:flex;gap:var(--s6);
-  border-top:1px solid var(--border);
-}
-.act-cancel{
-  flex:1;padding:5px;border-radius:var(--r4);font-size:11px;font-weight:600;
-  cursor:pointer;background:var(--neg-bg);color:var(--neg);
-  border:1px solid var(--neg);transition:all .1s;
-}
-.act-cancel:hover{background:var(--neg);color:#fff;}
-.act-detail{
-  flex:1;padding:5px;border-radius:var(--r4);font-size:11px;font-weight:600;
-  cursor:pointer;background:var(--surface-sub);color:var(--text-2);
-  border:1px solid var(--border);
-}
-
-/* bottom sheet */
-.sheet-wrap{position:relative;min-height:640px;}
-.sheet-bg{position:absolute;inset:0;background:rgba(0,0,0,.4);z-index:10;}
-.sheet-bg-content{position:relative;z-index:1;}
-.bottom-sheet{
-  position:absolute;bottom:0;left:0;right:0;z-index:20;
-  background:var(--surface);border-radius:12px 12px 0 0;
-  padding:var(--s16) var(--s12) var(--s20);border-top:1px solid var(--border);
-}
-.sheet-handle{width:32px;height:3px;border-radius:var(--rfull);background:var(--border-mid);margin:0 auto var(--s12);}
-.sheet-title{font-size:15px;font-weight:700;margin-bottom:var(--s4);}
-.sheet-desc{font-size:12px;color:var(--text-2);line-height:1.5;margin-bottom:var(--s12);}
-.sheet-card{
-  background:var(--surface-sub);border-radius:var(--r4);
-  padding:var(--s8) var(--s10);margin-bottom:var(--s10);border:1px solid var(--border);
-}
-.sheet-row{display:flex;justify-content:space-between;font-size:11px;padding:2px 0;}
-.sr-k{color:var(--text-3);}
-.sr-v{font-weight:700;font-variant-numeric:tabular-nums;}
-.sheet-warn{
-  background:var(--warn-bg);border-left:2px solid var(--warn);
-  padding:var(--s6) var(--s8);font-size:11px;color:var(--warn);
-  line-height:1.5;display:flex;gap:var(--s6);margin-bottom:var(--s12);
-}
-.sheet-btns{display:flex;gap:var(--s8);}
-.s-btn{flex:1;height:40px;border-radius:var(--r6);font-size:13px;font-weight:700;cursor:pointer;border:none;}
-.s-btn.confirm{background:var(--neg);color:#fff;}
-.s-btn.keep{background:var(--surface-sub);color:var(--text-1);border:1px solid var(--border);}
-
-/* detail fill counter */
-.detail-fill-box{
-  background:var(--surface-sub);border-radius:var(--r4);
-  padding:var(--s10) var(--s12);margin:0 var(--s12) var(--s8);
-  border:1px solid var(--border);text-align:center;
-}
-.big-fill{font-size:28px;font-weight:800;font-variant-numeric:tabular-nums;}
-.big-fill .fn{color:var(--blue);}
-.big-fill .sep{font-size:14px;color:var(--text-3);margin:0 3px;}
-.fill-sub{font-size:11px;color:var(--text-3);margin-top:2px;}
-
-/* Post-cancel strip */
-.cancel-confirm-strip{
-  background:var(--brand-bg);border-bottom:1px solid var(--brand);
-  padding:var(--s6) var(--s12);display:flex;align-items:center;gap:var(--s6);
-  font-size:11px;color:var(--brand);font-weight:600;
-}
-
-/* Switch button */
-.switch-btn{
-  width:100%;padding:7px;border-radius:var(--r4);
-  font-size:12px;font-weight:600;margin-top:var(--s6);
-  background:var(--brand-bg);color:var(--brand);
-  border:1px solid var(--brand);cursor:pointer;transition:background .1s;
-}
-.switch-btn:hover{background:var(--brand);color:#fff;}
-
-/* SELL validation table */
-.sell-table{width:100%;border-collapse:collapse;font-size:11px;margin-top:var(--s8);}
-.sell-table td{padding:5px var(--s8);border-bottom:1px solid var(--border);}
-.sell-table tr:last-child td{border:none;}
-.sell-table .t-k{color:var(--text-3);}
-.sell-table .t-ok{color:var(--brand);font-weight:700;}
-.sell-table .t-no{color:var(--neg);font-weight:700;}
-
-@media(max-width:780px){.annotation-panel{display:none;}.proto-stage{padding:var(--s12) var(--s8);}}
-
-/* ── Ticket-specific components (ProductClaw redline v2) ── */
-
-/* Phone frame: nearly invisible */
-.phone-frame {
-  border: 1px solid var(--border-mid) !important;
-  border-radius: 12px !important;
-  box-shadow: 0 2px 12px rgba(0,0,0,.2) !important;
-}
-.phone-status {
-  height: 16px !important;
-  background: var(--surface) !important;
-  border-bottom: 1px solid var(--border);
-}
-.phone-status-time, .phone-status-icons { color: var(--text-3) !important; font-size: 9px !important; }
-
-/* Header: compact 56px */
-.ticket-header {
-  height: 56px;
-  background: var(--surface);
-  display: flex; align-items: center;
-  padding: 0 var(--s12);
-  gap: var(--s10);
-  border-bottom: 1px solid var(--border);
-}
-.ticket-header .back-btn { margin: 0; }
-.header-titles { flex: 1; display: flex; flex-direction: column; }
-.header-ticker { font-size: 14px; font-weight: 700; line-height: 1.1; }
-.header-name { font-size: 10px; color: var(--text-3); }
-
-/* Instrument row: compact single line */
-.instr-row {
-  background: var(--surface);
-  padding: var(--s8) var(--s12);
-  display: flex; align-items: center; gap: var(--s8);
-  border-bottom: 1px solid var(--border);
-}
-.instr-icon {
-  width: 24px; height: 24px; border-radius: var(--rfull);
-  background: linear-gradient(135deg,#0052b4,#0095e8);
-  display: flex; align-items: center; justify-content: center;
-  font-size: 7px; font-weight: 800; color: #fff; flex-shrink: 0;
-}
-.instr-ticker-label { font-size: 13px; font-weight: 700; }
-.instr-exch-label { font-size: 10px; color: var(--text-3); }
-.instr-quote { margin-left: auto; text-align: right; }
-.quote-price { font-size: 14px; font-weight: 700; font-variant-numeric: tabular-nums; display: block; }
-.quote-chg { font-size: 10px; font-weight: 600; }
-.quote-up { color: var(--brand); }
-.quote-dn { color: var(--neg); }
-
-/* Segmented controls: flat, 38px */
-.seg-row {
-  background: var(--surface);
-  padding: var(--s8) var(--s12);
-  border-bottom: 1px solid var(--border);
-}
-.seg-flat {
+/* ============================================================
+   PROTOTYPE SHELL
+   ============================================================ */
+.proto-shell {
+  min-height: 100vh;
   display: flex;
-  height: 38px;
-  border: 1px solid var(--border);
-  border-radius: var(--r6);
-  overflow: hidden;
-  background: var(--surface-sub);
-}
-.seg-flat button {
-  flex: 1; font-size: 12px; font-weight: 600;
-  color: var(--text-3); background: transparent; cursor: pointer;
-  transition: all .1s; border: none;
-}
-.seg-flat button.f-buy { background: var(--brand); color: #fff; }
-.seg-flat button.f-sell { background: var(--neg); color: #fff; }
-.seg-flat button:hover:not(.f-buy):not(.f-sell) { background: var(--border); color: var(--text-2); }
-
-/* Order type tabs: flat inline, no card */
-.ot-row {
-  background: var(--surface);
-  padding: 0 var(--s12);
-  border-bottom: 1px solid var(--border);
-  display: flex; gap: 0;
-}
-.ot-flat-btn {
-  padding: var(--s8) var(--s10); font-size: 11px; font-weight: 500;
-  color: var(--text-3); cursor: pointer; background: none; border: none;
-  border-bottom: 2px solid transparent; transition: all .1s;
-}
-.ot-flat-btn.ot-active { color: var(--brand); border-bottom-color: var(--brand); font-weight: 700; }
-.ot-flat-btn:hover:not(.ot-active) { color: var(--text-2); }
-
-/* Single inline TLO note */
-.tlo-inline {
-  font-size: 10px; color: var(--text-3);
-  padding: var(--s6) var(--s12) 0;
-  background: var(--surface);
+  flex-direction: column;
 }
 
-/* Quote strip: one dense row */
-.quote-strip {
-  background: var(--surface);
-  padding: var(--s6) var(--s12);
-  display: flex; align-items: center; gap: 0;
-  border-bottom: 1px solid var(--border);
+/* Top bar */
+.proto-bar {
+  position: sticky; top: 0; z-index: 200;
+  background: var(--color-surface);
+  border-bottom: 1px solid var(--color-border);
+  padding: 0 var(--x6);
+  display: flex; align-items: center; gap: var(--x4); height: 52px;
 }
-.qs-item { display: flex; align-items: baseline; gap: 3px; flex: 1; }
-.qs-lbl { font-size: 9px; font-weight: 600; color: var(--text-3); text-transform: uppercase; }
-.qs-val { font-size: 11px; font-weight: 700; font-variant-numeric: tabular-nums; }
-.qs-ask { color: var(--brand); }
-.qs-bid { color: var(--neg); }
-.qs-sep { font-size: 10px; color: var(--border-mid); padding: 0 4px; }
-
-/* Ticket body */
-.ticket-body { background: var(--surface); padding: var(--s10) var(--s12); }
-
-/* Field groups */
-.field-group { margin-bottom: var(--s8); }
-.field-label {
-  font-size: 10px; font-weight: 600; color: var(--text-3);
-  text-transform: uppercase; letter-spacing: .5px;
-  display: block; margin-bottom: var(--s4);
+.proto-logo {
+  display: flex; align-items: center; gap: var(--x2);
+  font-weight: 700; font-size: 16px;
 }
-.field-wrap { position: relative; }
-.field-input {
-  width: 100%; height: 44px;
-  border: 1px solid var(--border); border-radius: var(--r4);
-  background: var(--surface-sub);
-  font-size: 17px; font-weight: 700; font-variant-numeric: tabular-nums;
-  color: var(--text-1); padding: 0 var(--s10) 0 22px;
-  outline: none; transition: border-color .12s; cursor: text;
-}
-.field-input:focus { border-color: var(--brand); border-width: 1.5px; background: var(--surface); }
-.field-input.f-shares { padding-left: var(--s10); padding-right: 44px; }
-.field-input.error { border-color: var(--neg) !important; }
-.field-pre {
-  position: absolute; left: var(--s6); top: 50%; transform: translateY(-50%);
-  font-size: 12px; font-weight: 600; color: var(--text-3); pointer-events: none;
-}
-.field-suf {
-  position: absolute; right: var(--s8); top: 50%; transform: translateY(-50%);
-  font-size: 10px; font-weight: 600; color: var(--text-3); pointer-events: none;
-}
-.field-error { font-size: 11px; color: var(--neg); margin-top: 3px; font-weight: 500; min-height: 14px; }
-.field-ok { font-size: 10px; color: var(--brand); margin-top: 3px; }
-
-/* Shortcut pills: tiny utility */
-.sc-pills { display: flex; gap: var(--s4); margin-top: var(--s4); }
-.sc-pill {
-  padding: 2px var(--s6); border-radius: var(--r2); font-size: 10px; font-weight: 500;
-  background: transparent; border: 1px solid var(--border); color: var(--text-3);
-  cursor: pointer; transition: all .1s;
-}
-.sc-pill.sel, .sc-pill:hover { border-color: var(--brand); color: var(--brand); }
-
-/* Order summary: dense k-v, no card */
-.order-summary {
-  border-top: 1px solid var(--border); padding-top: var(--s8); margin-top: var(--s8);
-}
-.os-row {
-  display: flex; justify-content: space-between; align-items: center;
-  padding: 4px 0;
-}
-.os-k { font-size: 11px; color: var(--text-3); }
-.os-v { font-size: 12px; font-weight: 700; font-variant-numeric: tabular-nums; }
-.os-v.brand { color: var(--brand); }
-.os-v.warn { color: var(--warn); }
-
-/* CTA: 44px, 6px, solid */
-.ticket-cta {
-  padding: var(--s8) var(--s12);
-  background: var(--surface);
-  border-top: 1px solid var(--border);
-}
-.cta-buy {
-  width: 100%; height: 44px; border-radius: var(--r6);
-  font-size: 14px; font-weight: 700; cursor: pointer;
-  border: none; background: var(--brand); color: #fff;
-  transition: background .12s;
-}
-.cta-buy:hover { background: var(--brand-dim); }
-.cta-buy.btn-form-invalid {
-  background: var(--border-mid) !important;
-  color: var(--text-3) !important;
-  cursor: not-allowed;
-  opacity: 1;
-}
-
-/* Portfolio: flat list rows */
-.pos-list-flat { background: var(--bg); }
-.pos-row {
-  background: var(--surface);
-  border-bottom: 1px solid var(--border);
-  padding: var(--s8) var(--s12);
-  cursor: pointer;
-  transition: background .1s;
-}
-.pos-row:hover { background: var(--surface-sub); }
-.pos-row-main {
-  display: flex; align-items: center; gap: var(--s8); margin-bottom: 4px;
-}
-.pos-row-logo {
-  width: 22px; height: 22px; border-radius: var(--rfull); flex-shrink: 0;
+.proto-logo-mark {
+  width: 26px; height: 26px; border-radius: 6px;
+  background: var(--color-brand);
   display: flex; align-items: center; justify-content: center;
-  font-size: 7px; font-weight: 800; color: #fff;
+  color: #fff; font-weight: 900; font-size: 12px;
 }
-.pos-row-logo.aapl { background: linear-gradient(135deg,#555,#222); }
-.pos-row-logo.tsla { background: linear-gradient(135deg,#CC0000,#e31010); }
-.pos-row-logo.nvda { background: linear-gradient(135deg,#76b900,#529900); }
-.pos-row-name { font-size: 13px; font-weight: 700; flex: 1; }
-.pos-row-status { /* use sc-chip */ }
-.pos-row-price { font-size: 12px; font-weight: 700; font-variant-numeric: tabular-nums; }
-.pos-row-meta { display: flex; align-items: center; gap: var(--s6); }
-.pos-row-exch { font-size: 10px; color: var(--text-3); }
-.pos-row-fill { display: flex; align-items: center; gap: var(--s6); margin-top: 3px; }
-.pos-row-fill-label { font-size: 10px; color: var(--text-3); }
-.pos-row-fill-bar { flex: 1; height: 3px; background: var(--border); border-radius: var(--rfull); overflow: hidden; }
-.pos-row-fill-bar-inner { height: 100%; border-radius: var(--rfull); background: var(--brand); }
-.pos-row-fill-bar-inner.partial { background: var(--blue); }
-.pos-row-fill-bar-inner.zero { background: var(--warn); width: 3px; }
-.pos-row-actions { display: flex; gap: var(--s6); margin-top: var(--s6); padding-top: var(--s4); border-top: 1px solid var(--border); }
-.pos-act-cancel {
-  font-size: 11px; font-weight: 600; color: var(--neg); cursor: pointer;
-  background: none; border: none; padding: 0;
+.proto-title {
+  font-size: 13px; font-weight: 600; color: var(--color-text-secondary);
+  margin-left: var(--x2);
 }
-.pos-act-detail {
-  font-size: 11px; font-weight: 500; color: var(--text-3); cursor: pointer;
-  background: none; border: none; padding: 0;
+.proto-badge {
+  padding: 3px 8px; border-radius: var(--radius-full);
+  font-size: 10px; font-weight: 700; letter-spacing: .3px;
+  background: var(--color-warning-bg); color: var(--color-warning);
+}
+.proto-bar-right { margin-left: auto; display: flex; align-items: center; gap: var(--x3); }
+.theme-btn {
+  width: 30px; height: 30px; border-radius: var(--radius-full);
+  background: var(--color-surface-inset);
+  display: flex; align-items: center; justify-content: center; font-size: 14px;
+}
+.theme-btn:hover { background: var(--color-border); }
+
+/* ============================================================
+   STEP NAV
+   ============================================================ */
+.step-nav {
+  background: var(--color-surface);
+  border-bottom: 1px solid var(--color-border);
+  padding: 0 var(--x6);
+  display: flex; align-items: center; gap: 0;
+  overflow-x: auto; scrollbar-width: none;
+}
+.step-nav::-webkit-scrollbar { display: none; }
+.step-item {
+  display: flex; align-items: center; gap: var(--x2);
+  padding: var(--x3) var(--x3);
+  cursor: pointer; white-space: nowrap;
+  border-bottom: 2px solid transparent;
+  transition: all .15s; flex-shrink: 0;
+}
+.step-item:hover { background: var(--color-surface-inset); }
+.step-item.active { border-bottom-color: var(--color-brand); }
+.step-num {
+  width: 20px; height: 20px; border-radius: 50%;
+  background: var(--color-surface-inset); border: 1.5px solid var(--color-border);
+  font-size: 10px; font-weight: 700; color: var(--color-text-muted);
+  display: flex; align-items: center; justify-content: center; flex-shrink: 0;
+  transition: all .15s;
+}
+.step-item.active .step-num,
+.step-item.visited .step-num {
+  background: var(--color-brand); border-color: var(--color-brand); color: #fff;
+}
+.step-label { font-size: 12px; font-weight: 500; color: var(--color-text-muted); }
+.step-item.active .step-label { color: var(--color-text-primary); font-weight: 600; }
+.step-item.visited .step-label { color: var(--color-text-secondary); }
+.step-arrow { font-size: 10px; color: var(--color-border-strong); padding: 0 var(--x1); }
+
+/* ============================================================
+   STAGE
+   ============================================================ */
+.proto-stage {
+  flex: 1;
+  display: flex; align-items: flex-start; justify-content: center;
+  padding: var(--x8) var(--x6);
+  gap: var(--x8);
 }
 
-/* Compact confirmation */
-.confirm-compact {
-  background: var(--surface); padding: var(--s12); min-height: 640px;
+/* Phone frame */
+.phone-wrap {
+  display: flex; flex-direction: column; align-items: center; gap: var(--x5);
 }
-.confirm-top {
-  display: flex; align-items: center; justify-content: space-between;
-  padding-bottom: var(--s10); border-bottom: 1px solid var(--border); margin-bottom: var(--s10);
+.phone-frame {
+  width: 375px; flex-shrink: 0;
+  background: var(--color-surface);
+  border-radius: 44px;
+  border: 8px solid var(--color-text-primary);
+  box-shadow: var(--shadow-3), 0 0 0 1px var(--color-border);
+  overflow: hidden;
+  position: relative;
 }
-.confirm-top-title { font-size: 15px; font-weight: 700; }
-.confirm-top-badge {
-  font-size: 9px; font-weight: 700; padding: 2px 6px;
-  border-radius: var(--r2); background: var(--warn-bg); color: var(--warn);
-  border: 1px solid var(--warn); text-transform: uppercase; letter-spacing: .2px;
+.phone-notch {
+  width: 120px; height: 30px;
+  background: var(--color-text-primary);
+  border-radius: 0 0 18px 18px;
+  margin: 0 auto;
+  display: flex; align-items: center; justify-content: center; gap: 6px;
 }
-.confirm-asset-row {
-  display: flex; align-items: center; gap: var(--s8);
-  padding: var(--s8) 0; border-bottom: 1px solid var(--border); margin-bottom: var(--s8);
+.notch-bar { width: 48px; height: 4px; border-radius: 3px; background: rgba(255,255,255,.25); }
+.notch-dot { width: 7px; height: 7px; border-radius: 50%; background: rgba(255,255,255,.2); }
+.phone-screen {
+  background: var(--color-bg);
+  min-height: 680px;
+  position: relative;
+  overflow: hidden;
 }
-.confirm-asset-label { font-size: 12px; font-weight: 700; }
-.confirm-asset-sub { font-size: 10px; color: var(--text-3); }
-.confirm-kv { display: flex; flex-direction: column; }
-.confirm-kv-row {
-  display: flex; justify-content: space-between; align-items: center;
-  padding: 5px 0; border-bottom: 1px solid var(--border);
+/* Screen slide transition */
+.screen-content {
+  position: relative;
 }
-.confirm-kv-row:last-child { border: none; }
-.ckk { font-size: 11px; color: var(--text-3); }
-.ckv { font-size: 12px; font-weight: 700; font-variant-numeric: tabular-nums; }
-.ckv.brand { color: var(--brand); }
-.ckv.warn { color: var(--warn); }
+.screen-content.slide-in-right {
+  animation: slideInRight .25s cubic-bezier(.4,0,.2,1) both;
+}
+.screen-content.slide-in-left {
+  animation: slideInLeft .25s cubic-bezier(.4,0,.2,1) both;
+}
+@keyframes slideInRight {
+  from { transform: translateX(40px); opacity: 0; }
+  to   { transform: translateX(0);    opacity: 1; }
+}
+@keyframes slideInLeft {
+  from { transform: translateX(-40px); opacity: 0; }
+  to   { transform: translateX(0);     opacity: 1; }
+}
 
+/* Prev/Next nav */
+.phone-nav {
+  display: flex; align-items: center; gap: var(--x4);
+}
+.nav-btn {
+  width: 44px; height: 44px; border-radius: var(--radius-full);
+  background: var(--color-surface); border: 1.5px solid var(--color-border);
+  display: flex; align-items: center; justify-content: center;
+  font-size: 16px; cursor: pointer; box-shadow: var(--shadow-1);
+  transition: all .15s; color: var(--color-text-secondary);
+}
+.nav-btn:hover:not(:disabled) {
+  background: var(--color-text-primary); color: var(--color-surface);
+  border-color: var(--color-text-primary);
+}
+.nav-btn:disabled { opacity: .3; cursor: default; }
+.step-counter {
+  font-size: 12px; font-weight: 600; color: var(--color-text-muted);
+  min-width: 60px; text-align: center;
+}
+.step-dots {
+  display: flex; gap: 5px; align-items: center;
+}
+.step-dot {
+  width: 6px; height: 6px; border-radius: 50%;
+  background: var(--color-border-strong); transition: all .2s;
+}
+.step-dot.active {
+  width: 18px; border-radius: 3px; background: var(--color-brand);
+}
 
-/* ── Compatibility layer for unrebuilt screens (3, 6-12) ── */
-/* These screens still use old HTML — mapping old classes to new design system */
+/* Annotation panel */
+.annotation-panel {
+  width: 300px; flex-shrink: 0; padding-top: var(--x3);
+}
+.ann-card {
+  background: var(--color-surface);
+  border-radius: var(--radius-lg);
+  border: 1px solid var(--color-border);
+  padding: var(--x5);
+  box-shadow: var(--shadow-1);
+}
+.ann-screen-tag {
+  display: inline-flex; align-items: center; gap: 5px;
+  padding: 3px 10px; border-radius: var(--radius-full);
+  font-size: 10px; font-weight: 700; letter-spacing: .4px; text-transform: uppercase;
+  background: var(--color-blue-bg); color: var(--color-blue);
+  margin-bottom: var(--x3);
+}
+.ann-title { font-size: 15px; font-weight: 700; margin-bottom: var(--x2); }
+.ann-desc { font-size: 13px; color: var(--color-text-secondary); line-height: 1.6; margin-bottom: var(--x4); }
+.ann-points { list-style: none; display: flex; flex-direction: column; gap: var(--x2); }
+.ann-points li {
+  display: flex; gap: var(--x2); font-size: 12px; color: var(--color-text-secondary); line-height: 1.5;
+}
+.ann-dot {
+  width: 16px; height: 16px; border-radius: 50%;
+  background: var(--color-brand); color: #fff;
+  font-size: 9px; font-weight: 700;
+  display: flex; align-items: center; justify-content: center;
+  flex-shrink: 0; margin-top: 2px;
+}
+.ann-dot.warn { background: var(--color-warning); }
+.ann-dot.blue { background: var(--color-blue); }
+.ann-cta {
+  margin-top: var(--x4); padding-top: var(--x4); border-top: 1px solid var(--color-border);
+  font-size: 12px; color: var(--color-text-muted);
+  display: flex; align-items: center; gap: var(--x2);
+}
 
-/* App bar (used in validation-error, detail screens) */
+/* ============================================================
+   MOBILE APP COMPONENTS (shared)
+   ============================================================ */
 .app-bar {
-  background: var(--surface); padding: 8px 12px;
-  display: flex; align-items: center; border-bottom: 1px solid var(--border);
-  gap: 8px; height: 44px;
+  background: var(--color-surface); padding: var(--x3) var(--x4);
+  display: flex; align-items: center; border-bottom: 1px solid var(--color-border); gap: var(--x3);
 }
 .back-btn {
-  width: 28px; height: 28px; border-radius: var(--r4);
-  background: var(--surface-sub); display: flex; align-items: center; justify-content: center;
-  font-size: 12px; color: var(--text-2); flex-shrink: 0; cursor: pointer;
+  width: 30px; height: 30px; border-radius: var(--radius-full);
+  background: var(--color-surface-inset); display: flex; align-items: center; justify-content: center;
+  font-size: 13px; color: var(--color-text-secondary); flex-shrink: 0; cursor: pointer;
 }
-.bar-title { font-size: 14px; font-weight: 700; flex: 1; }
-.bar-sub { font-size: 10px; color: var(--text-3); }
+.bar-title { font-size: 15px; font-weight: 700; flex: 1; }
+.bar-sub { font-size: 11px; color: var(--color-text-secondary); }
 .icon-btn {
-  width: 28px; height: 28px; border-radius: var(--r4); background: var(--surface-sub);
-  display: flex; align-items: center; justify-content: center; font-size: 12px; cursor: pointer;
+  width: 30px; height: 30px; border-radius: var(--radius-full);
+  background: var(--color-surface-inset);
+  display: flex; align-items: center; justify-content: center; font-size: 13px;
 }
-
-/* Asset strip */
 .asset-strip {
-  background: var(--surface); padding: 8px 12px;
-  display: flex; align-items: center; gap: 8px;
-  border-bottom: 1px solid var(--border);
+  background: var(--color-surface); padding: var(--x3) var(--x4) var(--x2);
+  display: flex; align-items: center; gap: var(--x3);
+  border-bottom: 1px solid var(--color-border);
 }
 .asset-logo {
-  width: 28px; height: 28px; border-radius: 50%;
+  width: 38px; height: 38px; border-radius: 50%;
   background: linear-gradient(135deg,#0052b4,#0095e8);
   display: flex; align-items: center; justify-content: center;
-  font-size: 8px; font-weight: 800; color: #fff; flex-shrink: 0;
+  font-size: 11px; font-weight: 800; color: #fff; flex-shrink: 0;
 }
-.asset-name { font-size: 13px; font-weight: 700; }
-.asset-sub { font-size: 10px; color: var(--text-3); }
+.asset-name { font-size: 14px; font-weight: 700; }
+.asset-sub { font-size: 11px; color: var(--color-text-secondary); }
 .asset-price-col { margin-left: auto; text-align: right; }
-.asset-price { font-size: 15px; font-weight: 700; font-variant-numeric: tabular-nums; }
-.asset-change { font-size: 10px; font-weight: 600; }
-.up { color: var(--brand); }
-.down { color: var(--neg); }
+.asset-price { font-size: 16px; font-weight: 700; font-variant-numeric: tabular-nums; }
+.asset-change { font-size: 11px; font-weight: 600; }
+.up { color: var(--color-brand); }
+.down { color: var(--color-negative); }
 
-/* Segmented buy/sell */
-.seg-wrap { padding: 8px 12px 6px; background: var(--surface); border-bottom: 1px solid var(--border); }
+.seg-wrap { padding: var(--x3) var(--x4) var(--x2); background: var(--color-surface); }
 .seg {
-  display: flex; background: var(--surface-sub);
-  border: 1px solid var(--border); border-radius: var(--r6); padding: 2px; gap: 2px;
+  display: flex; background: var(--color-surface-inset);
+  border-radius: var(--radius-md); padding: 3px; gap: 2px;
 }
 .seg button {
-  flex: 1; padding: 6px; border-radius: 4px;
-  font-size: 12px; font-weight: 600; color: var(--text-3); transition: all .1s;
+  flex: 1; padding: 7px; border-radius: 9px;
+  font-size: 13px; font-weight: 500; color: var(--color-text-secondary); transition: all .15s;
 }
-.seg button.active { background: var(--surface); color: var(--text-1); box-shadow: 0 1px 2px rgba(0,0,0,.1); }
-.seg button.active.buy { color: var(--brand); }
-.seg button.active.sell { color: var(--neg); }
+.seg button.active {
+  background: var(--color-surface); color: var(--color-text-primary);
+  font-weight: 700; box-shadow: var(--shadow-1);
+}
+.seg button.active.buy { color: var(--color-brand); }
+.seg button.active.sell { color: var(--color-negative); }
 
-/* Order type tabs */
 .order-tabs-wrap {
-  padding: 0 12px; background: var(--surface); border-bottom: 1px solid var(--border);
+  padding: var(--x3) var(--x4); background: var(--color-surface);
+  border-bottom: 1px solid var(--color-border);
 }
-.order-tabs { display: flex; }
+.order-tabs { display: flex; background: var(--color-surface-inset); border-radius: var(--radius-sm); padding: 3px; gap: 2px; }
 .order-tab {
-  padding: 8px 10px; font-size: 11px; font-weight: 500; color: var(--text-3);
-  cursor: pointer; border-bottom: 2px solid transparent; transition: all .1s;
+  flex: 1; padding: 7px var(--x2); border-radius: 7px;
+  font-size: 12px; font-weight: 500; color: var(--color-text-secondary);
+  text-align: center; cursor: pointer; transition: all .15s;
 }
-.order-tab.active { color: var(--text-1); border-bottom-color: var(--text-1); font-weight: 600; }
-.order-tab.tlo-active { color: var(--brand); border-bottom-color: var(--brand); font-weight: 700; }
-.order-tab-label { font-size: 11px; font-weight: 600; }
-.order-tab-hint { font-size: 10px; color: var(--text-3); margin-top: 1px; }
+.order-tab.active {
+  background: var(--color-surface); color: var(--color-text-primary); font-weight: 600;
+  box-shadow: var(--shadow-1);
+}
+.order-tab.tlo-active {
+  background: var(--color-brand-bg) !important; color: var(--color-brand) !important;
+  box-shadow: none !important;
+}
+.order-tab-label { font-size: 12px; font-weight: 600; }
+.order-tab-hint { font-size: 10px; color: var(--color-text-muted); margin-top: 1px; }
+.order-tab.tlo-active .order-tab-hint { color: color-mix(in srgb, var(--color-brand) 65%, transparent); }
 
-/* Form section */
-.form-sec { background: var(--surface); padding: 12px; }
-.form-row { margin-bottom: 10px; }
+.form-sec { background: var(--color-surface); padding: var(--x4); margin-top: 1px; }
+.form-row { margin-bottom: var(--x4); }
 .form-label {
-  font-size: 10px; font-weight: 600; color: var(--text-3);
-  text-transform: uppercase; letter-spacing: .4px; margin-bottom: 4px;
+  font-size: 10px; font-weight: 700; color: var(--color-text-secondary);
+  text-transform: uppercase; letter-spacing: .5px; margin-bottom: var(--x2);
   display: flex; justify-content: space-between; align-items: center;
 }
-.form-hint { font-size: 10px; color: var(--muted); text-transform: none; letter-spacing: 0; font-weight: 400; }
+.form-hint { font-size: 10px; color: var(--color-text-muted); text-transform: none; letter-spacing: 0; font-weight: 400; }
 .input-wrap { position: relative; }
-.input-f {
-  width: 100%; height: 44px; border: 1px solid var(--border); border-radius: var(--r4);
-  background: var(--surface-sub); font-size: 16px; font-weight: 700;
-  font-variant-numeric: tabular-nums; color: var(--text-1);
-  padding: 0 12px 0 22px; outline: none; transition: border-color .12s; cursor: text;
+.input-f { cursor: text;
+  width: 100%; height: 46px; border: 1.5px solid var(--color-border);
+  border-radius: var(--radius-sm); background: var(--color-surface);
+  font-size: 16px; font-weight: 700; color: var(--color-text-primary);
+  padding: 0 var(--x3) 0 28px; outline: none; font-variant-numeric: tabular-nums;
+  transition: border-color .15s;
 }
-.input-f:focus { border-color: var(--brand); border-width: 1.5px; }
-.input-f.error { border-color: var(--neg) !important; color: var(--neg); }
-.input-f.shares { padding-left: 10px; padding-right: 44px; }
-.input-f.focused { border-color: var(--brand); border-width: 1.5px; }
+.input-f.shares { padding-left: var(--x3); padding-right: 52px; }
+.input-f.focused { border-color: var(--color-brand); box-shadow: 0 0 0 3px rgba(14,177,46,.15); }
+.input-f.error { border-color: var(--color-negative); }
 .input-pre {
-  position: absolute; left: 6px; top: 50%; transform: translateY(-50%);
-  font-size: 12px; font-weight: 600; color: var(--text-3); pointer-events: none;
+  position: absolute; left: var(--x2); top: 50%; transform: translateY(-50%);
+  font-size: 14px; font-weight: 600; color: var(--color-text-muted); pointer-events: none;
 }
 .input-suf {
-  position: absolute; right: 8px; top: 50%; transform: translateY(-50%);
-  font-size: 10px; font-weight: 600; color: var(--text-3); pointer-events: none;
+  position: absolute; right: var(--x3); top: 50%; transform: translateY(-50%);
+  font-size: 11px; font-weight: 600; color: var(--color-text-muted); pointer-events: none;
 }
-.tick-note { font-size: 10px; color: var(--text-3); margin-top: 3px; }
+.chips { display: flex; gap: var(--x2); margin-top: var(--x2); flex-wrap: wrap; }
+.chip {
+  padding: 4px 10px; border-radius: var(--radius-full); font-size: 11px; font-weight: 500;
+  background: var(--color-surface-inset); border: 1px solid var(--color-border);
+  color: var(--color-text-secondary); cursor: pointer; transition: all .1s;
+}
+.chip.sel { border-color: var(--color-brand); color: var(--color-brand); background: var(--color-brand-bg); }
+.tick-note { font-size: 10px; color: var(--color-text-muted); margin-top: 4px; display: flex; align-items: center; gap: 3px; }
 
-/* Market data strip (old) */
 .mkt-strip {
-  background: var(--surface-sub); border-radius: var(--r4);
-  padding: 6px 8px; display: flex; gap: 12px; margin-bottom: 8px;
+  background: var(--color-surface-inset); border-radius: var(--radius-sm);
+  padding: var(--x2) var(--x3); display: flex; gap: var(--x3); margin-bottom: var(--x3);
 }
 .mkt-i { flex: 1; text-align: center; }
-.mkt-l { font-size: 9px; font-weight: 600; color: var(--text-3); text-transform: uppercase; }
-.mkt-v { font-size: 11px; font-weight: 700; font-variant-numeric: tabular-nums; margin-top: 1px; }
-.mkt-v.up { color: var(--brand); }
-.mkt-v.down { color: var(--neg); }
+.mkt-l { font-size: 9px; color: var(--color-text-muted); font-weight: 600; text-transform: uppercase; letter-spacing: .3px; }
+.mkt-v { font-size: 12px; font-weight: 700; font-variant-numeric: tabular-nums; margin-top: 2px; }
 
-/* Chips (old shortcut chips) */
-.chips { display: flex; gap: 4px; margin-top: 4px; flex-wrap: wrap; }
-.chip {
-  padding: 2px 8px; border-radius: var(--r2); font-size: 10px; font-weight: 500;
-  background: transparent; border: 1px solid var(--border); color: var(--text-2); cursor: pointer;
+.tlo-bar {
+  background: var(--color-brand-bg);
+  border: 1px solid color-mix(in srgb, var(--color-brand) 22%, transparent);
+  border-radius: var(--radius-sm); padding: var(--x3);
+  display: flex; gap: var(--x2); align-items: flex-start; margin-bottom: var(--x3);
 }
-.chip.sel { border-color: var(--brand); color: var(--brand); }
+.tlo-bar-icon { font-size: 15px; flex-shrink: 0; }
+.tlo-bar-text { font-size: 11px; color: var(--color-brand); line-height: 1.5; }
+.tlo-bar-text b { font-weight: 700; display: block; }
 
-/* Validation banners (old) */
 .val-banner {
-  border-radius: var(--r4); padding: 6px 10px;
-  display: flex; gap: 6px; align-items: flex-start;
-  font-size: 11px; line-height: 1.5; margin-bottom: 8px;
+  border-radius: var(--radius-sm); padding: var(--x2) var(--x3);
+  display: flex; gap: var(--x2); align-items: flex-start;
+  font-size: 11px; line-height: 1.5; margin-bottom: var(--x3);
 }
-.val-banner b { font-weight: 700; }
-.val-banner.ok { background: var(--brand-bg); color: var(--brand); border-left: 2px solid var(--brand); }
-.val-banner.err { background: var(--neg-bg); color: var(--neg); border-left: 2px solid var(--neg); }
-.val-banner.info { background: var(--blue-bg); color: var(--blue); border-left: 2px solid var(--blue); }
-.val-icon { flex-shrink: 0; font-size: 12px; }
+.val-banner b { font-weight: 700; display: block; }
+.val-banner.ok { background: var(--color-brand-bg); border: 1px solid color-mix(in srgb,var(--color-brand) 22%,transparent); color: var(--color-brand); }
+.val-banner.err { background: var(--color-negative-bg); border: 1px solid color-mix(in srgb,var(--color-negative) 22%,transparent); color: var(--color-negative); }
+.val-banner.info { background: var(--color-blue-bg); border: 1px solid color-mix(in srgb,var(--color-blue) 22%,transparent); color: var(--color-blue); }
+.val-icon { flex-shrink: 0; font-size: 13px; }
 
-/* Summary rows (old) */
-.summary { border-top: 1px solid var(--border); margin-top: 8px; }
+.summary {
+  background: var(--color-surface-inset); border-radius: var(--radius-sm);
+  border: 1px solid var(--color-border); overflow: hidden; margin-bottom: var(--x4);
+}
 .s-row {
   display: flex; justify-content: space-between; align-items: center;
-  padding: 5px 0; border-bottom: 1px solid var(--border);
+  padding: var(--x2) var(--x3); border-bottom: 1px solid var(--color-border);
 }
 .s-row:last-child { border-bottom: none; }
-.s-k { font-size: 11px; color: var(--text-3); }
+.s-k { font-size: 11px; color: var(--color-text-secondary); }
 .s-v { font-size: 12px; font-weight: 700; font-variant-numeric: tabular-nums; }
-.s-v.tlo { color: var(--brand); }
+.s-v.tlo { color: var(--color-brand); }
 
-/* CTA (old) */
 .cta-row {
-  display: flex; gap: 8px; padding: 8px 12px;
-  background: var(--surface); border-top: 1px solid var(--border);
+  display: flex; gap: var(--x2); padding: var(--x3) var(--x4);
+  background: var(--color-surface); border-top: 1px solid var(--color-border);
 }
-.btn-buy { flex: 1; height: 42px; border-radius: var(--r6); font-size: 14px; font-weight: 700; background: var(--brand); color: #fff; cursor: pointer; border: none; }
-.btn-sell { flex: 1; height: 42px; border-radius: var(--r6); font-size: 14px; font-weight: 700; background: var(--neg); color: #fff; cursor: pointer; border: none; }
-.btn-buy.btn-form-invalid, .btn-disabled { background: var(--border-mid) !important; color: var(--text-3) !important; cursor: not-allowed; opacity: 1; }
+.btn-buy { flex: 1; height: 46px; border-radius: var(--radius-md); font-size: 14px; font-weight: 700; background: var(--color-brand); color: #fff; cursor: pointer; transition: background .15s; }
+.btn-buy:hover { background: var(--color-brand-hover); }
+.btn-sell { flex: 1; height: 46px; border-radius: var(--radius-md); font-size: 14px; font-weight: 700; background: var(--color-negative); color: #fff; cursor: pointer; }
+.btn-disabled { opacity: .4; cursor: not-allowed !important; }
 
-/* TLO info bar (old) */
-.tlo-bar {
-  background: var(--brand-bg); border-left: 2px solid var(--brand);
-  padding: 6px 8px; display: flex; gap: 6px; margin-bottom: 8px;
+/* TLO badge */
+.tlo-badge {
+  display: inline-flex; align-items: center; gap: 4px;
+  padding: 2px 7px; border-radius: var(--radius-full);
+  font-size: 9px; font-weight: 700; letter-spacing: .4px;
+  background: var(--color-brand-bg); color: var(--color-brand);
+  border: 1px solid color-mix(in srgb, var(--color-brand) 25%, transparent);
 }
-.tlo-bar-icon { font-size: 14px; flex-shrink: 0; }
-.tlo-bar-text { font-size: 11px; color: var(--brand); line-height: 1.5; }
-.tlo-bar-text b { font-weight: 700; display: block; font-size: 11px; }
+.tlo-dot { width: 5px; height: 5px; border-radius: 50%; background: var(--color-brand); }
 
-/* Portfolio position cards (old - detail screens) */
+/* Status chips */
+.status-chip {
+  display: inline-flex; align-items: center; gap: 4px;
+  padding: 2px 7px; border-radius: var(--radius-full);
+  font-size: 9px; font-weight: 700; letter-spacing: .3px;
+}
+.chip-pending { background: var(--color-warning-bg); color: var(--color-warning); }
+.chip-partial { background: var(--color-blue-bg); color: var(--color-blue); }
+.chip-filled { background: var(--color-brand-bg); color: var(--color-brand); }
+.chip-dot { width: 4px; height: 4px; border-radius: 50%; background: currentColor; }
+.chip-pending .chip-dot { animation: pulse-dot 1.8s infinite; }
+@keyframes pulse-dot { 0%,100%{opacity:1}50%{opacity:.3} }
+
+/* Portfolio */
+.port-header { background: var(--color-surface); padding: var(--x4); border-bottom: 1px solid var(--color-border); }
+.port-title { font-size: 16px; font-weight: 700; }
+.port-sub { font-size: 11px; color: var(--color-text-secondary); margin-top: 2px; }
+.port-stats { display: flex; gap: var(--x4); margin-top: var(--x3); }
+.ps-k { font-size: 9px; color: var(--color-text-muted); font-weight: 600; text-transform: uppercase; letter-spacing: .3px; }
+.ps-v { font-size: 14px; font-weight: 700; margin-top: 2px; font-variant-numeric: tabular-nums; }
+.ps-v.pos { color: var(--color-brand); }
+
+.filter-bar {
+  padding: var(--x2) var(--x4); display: flex; gap: var(--x2);
+  background: var(--color-surface); border-bottom: 1px solid var(--color-border);
+  overflow-x: auto; scrollbar-width: none;
+}
+.f-chip {
+  padding: 4px 10px; border-radius: var(--radius-full); font-size: 11px; font-weight: 500;
+  flex-shrink: 0; background: var(--color-surface-inset); border: 1px solid var(--color-border);
+  color: var(--color-text-secondary); cursor: pointer;
+}
+.f-chip.on { background: var(--color-blue-bg); border-color: var(--color-blue); color: var(--color-blue); font-weight: 600; }
+
+.pos-list { padding: var(--x2) var(--x4); display: flex; flex-direction: column; gap: var(--x2); background: var(--color-bg); }
 .pos-card {
-  background: var(--surface); border: 1px solid var(--border); border-radius: var(--r4);
-  overflow: hidden; cursor: pointer;
+  background: var(--color-surface); border-radius: var(--radius-md);
+  border: 1px solid var(--color-border); overflow: hidden; box-shadow: var(--shadow-1); cursor: pointer;
+  transition: box-shadow .15s;
 }
-.pos-head { padding: 8px 10px; display: flex; align-items: center; gap: 8px; }
-.pos-logo { width: 28px; height: 28px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 9px; font-weight: 800; color: #fff; flex-shrink: 0; }
+.pos-card:hover { box-shadow: var(--shadow-2); }
+.pos-head { padding: var(--x3) var(--x3) var(--x2); display: flex; align-items: flex-start; gap: var(--x3); }
+.pos-logo {
+  width: 34px; height: 34px; border-radius: 50%;
+  display: flex; align-items: center; justify-content: center;
+  font-size: 10px; font-weight: 800; color: #fff; flex-shrink: 0; margin-top: 1px;
+}
 .pos-logo.aapl { background: linear-gradient(135deg,#555,#222); }
 .pos-logo.tsla { background: linear-gradient(135deg,#CC0000,#e31010); }
 .pos-logo.nvda { background: linear-gradient(135deg,#76b900,#529900); }
-.pos-asset { flex: 1; }
 .pos-name { font-size: 13px; font-weight: 700; }
-.pos-meta { font-size: 10px; color: var(--text-3); margin-top: 1px; display: flex; align-items: center; gap: 4px; }
-.pos-price-col { text-align: right; }
+.pos-meta { font-size: 10px; color: var(--color-text-secondary); margin-top: 2px; display: flex; align-items: center; gap: 5px; }
+.pos-price-col { margin-left: auto; text-align: right; }
 .pos-price { font-size: 13px; font-weight: 700; font-variant-numeric: tabular-nums; }
 .pos-pl { font-size: 11px; font-weight: 600; }
-.pos-pl.pos { color: var(--brand); }
-.pos-pl.neg { color: var(--neg); }
 
-/* Fill section (old) */
-.fill-sec { padding: 0 10px 8px; }
-.fill-head { display: flex; justify-content: space-between; margin-bottom: 3px; }
-.fill-label { font-size: 10px; color: var(--text-3); }
-.fill-count { font-size: 10px; font-weight: 700; font-variant-numeric: tabular-nums; }
-.fill-count .fn { color: var(--brand); }
-.fill-track { height: 4px; border-radius: 999px; background: var(--surface-sub); overflow: hidden; }
-.fill-fill { height: 100%; border-radius: 999px; background: var(--brand); }
-.fill-fill.partial { background: var(--blue); }
-.fill-fill.zero { background: var(--warn); width: 3px; }
+.fill-sec { padding: 0 var(--x3) var(--x3); }
+.fill-head { display: flex; justify-content: space-between; margin-bottom: var(--x2); }
+.fill-label { font-size: 10px; color: var(--color-text-secondary); }
+.fill-count { font-size: 11px; font-weight: 700; font-variant-numeric: tabular-nums; }
+.fill-count .fn { color: var(--color-brand); }
+.fill-track { height: 5px; border-radius: var(--radius-full); background: var(--color-surface-inset); overflow: hidden; }
+.fill-fill { height: 100%; border-radius: var(--radius-full); background: var(--color-brand); transition: width .4s; }
+.fill-fill.partial { background: var(--color-blue); }
+.fill-fill.zero { background: var(--color-warning); width: 4px; }
 
-/* Card actions (old) */
-.card-actions { padding: 6px 10px; display: flex; gap: 6px; border-top: 1px solid var(--border); }
+.card-actions { padding: var(--x2) var(--x3); display: flex; gap: var(--x2); border-top: 1px solid var(--color-border); }
 .act-cancel {
-  flex: 1; padding: 5px; border-radius: var(--r4); font-size: 11px; font-weight: 600;
-  cursor: pointer; background: var(--neg-bg); color: var(--neg); border: 1px solid var(--neg);
+  flex: 1; padding: 7px; border-radius: var(--radius-sm); font-size: 11px; font-weight: 700;
+  cursor: pointer; background: var(--color-negative-bg); color: var(--color-negative);
+  border: 1px solid color-mix(in srgb, var(--color-negative) 22%, transparent);
+  transition: all .15s;
 }
-.act-cancel:hover { background: var(--neg); color: #fff; }
+.act-cancel:hover { background: var(--color-negative); color: #fff; }
 .act-detail {
-  flex: 1; padding: 5px; border-radius: var(--r4); font-size: 11px; font-weight: 600;
-  cursor: pointer; background: var(--surface-sub); color: var(--text-2); border: 1px solid var(--border);
+  flex: 1; padding: 7px; border-radius: var(--radius-sm); font-size: 11px; font-weight: 700;
+  cursor: pointer; background: var(--color-surface-inset); color: var(--color-text-secondary);
+  border: 1px solid var(--color-border);
 }
 
-/* Port header (already exists but ensure) */
-.port-header { background: var(--surface); padding: 10px 12px; border-bottom: 1px solid var(--border); }
-.port-title { font-size: 15px; font-weight: 700; }
-.port-sub { font-size: 10px; color: var(--text-3); margin-top: 1px; }
-.port-stats { display: flex; gap: 16px; margin-top: 8px; }
-.ps-k { font-size: 9px; font-weight: 600; color: var(--text-3); text-transform: uppercase; letter-spacing: .3px; }
-.ps-v { font-size: 14px; font-weight: 700; font-variant-numeric: tabular-nums; }
-.ps-v.pos { color: var(--brand); }
-
-/* Filter bar */
-.filter-bar {
-  padding: 6px 12px; display: flex; gap: 4px; background: var(--surface);
-  border-bottom: 1px solid var(--border); overflow-x: auto; scrollbar-width: none;
+/* Bottom sheet */
+.sheet-wrap {
+  position: relative; min-height: 680px;
 }
-.filter-bar::-webkit-scrollbar { display: none; }
-.f-chip {
-  padding: 3px 8px; border-radius: var(--r2); font-size: 11px; font-weight: 500;
-  flex-shrink: 0; background: var(--surface-sub); border: 1px solid var(--border);
-  color: var(--text-2); cursor: pointer;
+.sheet-bg { position: absolute; inset: 0; background: rgba(0,0,0,.38); backdrop-filter: blur(2px); z-index: 10; }
+.sheet-bg-content { position: relative; z-index: 1; }
+.bottom-sheet {
+  position: absolute; bottom: 0; left: 0; right: 0; z-index: 20;
+  background: var(--color-surface); border-radius: 20px 20px 0 0;
+  padding: var(--x5) var(--x4) var(--x6); border-top: 1px solid var(--color-border);
 }
-.f-chip.on { background: var(--brand-bg); border-color: var(--brand); color: var(--brand); }
-.f-chip.active { background: var(--brand-bg); border-color: var(--brand); color: var(--brand); }
+.sheet-handle { width: 36px; height: 4px; border-radius: var(--radius-full); background: var(--color-border-strong); margin: 0 auto var(--x4); }
+.sheet-title { font-size: 16px; font-weight: 700; margin-bottom: var(--x2); }
+.sheet-desc { font-size: 12px; color: var(--color-text-secondary); line-height: 1.5; margin-bottom: var(--x4); }
+.sheet-card { background: var(--color-surface-inset); border-radius: var(--radius-sm); padding: var(--x3); margin-bottom: var(--x4); border: 1px solid var(--color-border); }
+.sheet-row { display: flex; justify-content: space-between; font-size: 11px; margin-bottom: var(--x1); }
+.sheet-row:last-child { margin: 0; }
+.sr-k { color: var(--color-text-secondary); }
+.sr-v { font-weight: 700; font-variant-numeric: tabular-nums; }
+.sheet-warn { background: var(--color-warning-bg); border: 1px solid color-mix(in srgb, var(--color-warning) 22%, transparent); border-radius: var(--radius-sm); padding: var(--x2) var(--x3); font-size: 10px; color: var(--color-warning); line-height: 1.5; display: flex; gap: var(--x2); margin-bottom: var(--x4); }
+.sheet-btns { display: flex; gap: var(--x2); }
+.s-btn { flex: 1; height: 44px; border-radius: var(--radius-md); font-size: 13px; font-weight: 700; cursor: pointer; border: none; transition: background .15s; }
+.s-btn.confirm { background: var(--color-negative); color: #fff; }
+.s-btn.keep { background: var(--color-surface-inset); color: var(--color-text-primary); border: 1.5px solid var(--color-border); }
 
-/* Positions list */
-.pos-list { padding: 6px 12px; display: flex; flex-direction: column; gap: 4px; background: var(--bg); }
-
-/* Status chips */
-.status-chip { display: inline-flex; align-items: center; gap: 3px; padding: 1px 5px; border-radius: var(--r2); font-size: 9px; font-weight: 700; text-transform: uppercase; }
-.chip-pending { background: var(--warn-bg); color: var(--warn); }
-.chip-partial { background: var(--blue-bg); color: var(--blue); }
-.chip-filled { background: var(--brand-bg); color: var(--brand); }
-.tlo-badge { display: inline-flex; padding: 1px 4px; border-radius: var(--r2); font-size: 9px; font-weight: 700; background: var(--brand-bg); color: var(--brand); border: 1px solid var(--brand); }
-.tlo-mark { display: inline-flex; padding: 1px 4px; border-radius: var(--r2); font-size: 9px; font-weight: 700; background: var(--brand-bg); color: var(--brand); border: 1px solid var(--brand); }
-.chip-dot, .tlo-dot { display: none; }
-.status-dot { display: none; }
-
-/* Detail fill box */
-.detail-fill-box {
-  background: var(--surface-sub); border-radius: var(--r4); padding: 10px 12px;
-  margin: 0 12px 8px; border: 1px solid var(--border); text-align: center;
+/* Confirmation screen */
+.confirm-screen {
+  background: var(--color-surface); min-height: 680px;
+  display: flex; flex-direction: column; align-items: center; justify-content: center;
+  padding: var(--x8) var(--x6);
 }
-.big-fill { font-size: 28px; font-weight: 800; font-variant-numeric: tabular-nums; }
-.big-fill .fn { color: var(--blue); }
-.big-fill .sep { font-size: 14px; color: var(--text-3); margin: 0 3px; }
-.fill-label-sm { font-size: 11px; color: var(--text-3); margin-top: 2px; }
-.fill-bar-big { height: 8px; border-radius: 999px; background: var(--surface-sub); overflow: hidden; margin-top: 8px; }
-.fill-pct-row { display: flex; justify-content: space-between; margin-top: 4px; font-size: 9px; color: var(--text-3); }
-
-/* Cancel-confirm strip */
-.cancel-confirm-strip {
-  background: var(--brand-bg); border-bottom: 1px solid var(--brand);
-  padding: 6px 12px; display: flex; align-items: center; gap: 6px;
-  font-size: 11px; color: var(--brand); font-weight: 600;
+.confirm-icon { font-size: 52px; margin-bottom: var(--x5); }
+.confirm-title { font-size: 20px; font-weight: 800; margin-bottom: var(--x2); text-align: center; }
+.confirm-sub { font-size: 13px; color: var(--color-text-secondary); text-align: center; line-height: 1.6; margin-bottom: var(--x6); }
+.confirm-card {
+  background: var(--color-surface-inset); border-radius: var(--radius-md);
+  border: 1px solid var(--color-border); padding: var(--x4); width: 100%;
+  margin-bottom: var(--x6);
 }
-
-/* Confirm screen (old) */
-.confirm-screen { background: var(--surface); min-height: 640px; display: flex; flex-direction: column; align-items: center; justify-content: center; padding: 20px 16px; }
-.confirm-icon { font-size: 40px; margin-bottom: 12px; }
-.confirm-title { font-size: 16px; font-weight: 700; margin-bottom: 6px; text-align: center; }
-.confirm-sub { font-size: 12px; color: var(--text-2); text-align: center; line-height: 1.5; margin-bottom: 16px; }
-.confirm-card { background: var(--surface-sub); border-radius: var(--r4); border: 1px solid var(--border); padding: 12px; width: 100%; margin-bottom: 16px; }
-.confirm-row { display: flex; justify-content: space-between; padding: 5px 0; border-bottom: 1px solid var(--border); }
+.confirm-row { display: flex; justify-content: space-between; padding: var(--x2) 0; border-bottom: 1px solid var(--color-border); }
 .confirm-row:last-child { border: none; }
-.ck { font-size: 11px; color: var(--text-3); }
+.ck { font-size: 12px; color: var(--color-text-secondary); }
 .cv { font-size: 12px; font-weight: 700; font-variant-numeric: tabular-nums; }
-.cv.brand { color: var(--brand); }
-.cv.warn { color: var(--warn); }
-.btn-port { width: 100%; height: 44px; border-radius: var(--r6); font-size: 14px; font-weight: 700; background: var(--brand); color: #fff; cursor: pointer; border: none; }
-
-/* Switch btn */
-.switch-btn {
-  width: 100%; padding: 7px; border-radius: var(--r4); font-size: 12px; font-weight: 600;
-  margin-top: 6px; background: var(--brand-bg); color: var(--brand);
-  border: 1px solid var(--brand); cursor: pointer;
+.btn-port {
+  width: 100%; height: 46px; border-radius: var(--radius-md); font-size: 14px; font-weight: 700;
+  background: var(--color-brand); color: #fff; cursor: pointer;
 }
 
+/* Detail screen */
+.detail-fill-box {
+  background: var(--color-surface-inset); border-radius: var(--radius-md);
+  padding: var(--x4); text-align: center; border: 1px solid var(--color-border);
+  margin: 0 var(--x4) var(--x3);
+}
+.big-fill { font-size: 32px; font-weight: 800; font-variant-numeric: tabular-nums; }
+.big-fill .fn { color: var(--color-blue); }
+.big-fill .sep { font-size: 16px; color: var(--color-text-muted); margin: 0 4px; }
+.fill-label-sm { font-size: 11px; color: var(--color-text-muted); margin-top: 4px; }
+.fill-bar-big { height: 8px; border-radius: var(--radius-full); background: var(--color-surface-inset) !important; overflow: hidden; margin-top: var(--x3); }
+.fill-pct-row { display: flex; justify-content: space-between; margin-top: 4px; font-size: 9px; color: var(--color-text-muted); }
+
+/* ============================================================
+   CLICK TARGETS (invisible overlay triggers)
+   ============================================================ */
+.tap-zone {
+  cursor: pointer; position: relative;
+  transition: opacity .15s;
+}
+.tap-zone:hover { opacity: .85; }
+.tap-zone::after {
+  content: '';
+  position: absolute; inset: -2px;
+  border-radius: inherit;
+}
+
+/* Tap hint animation */
+.tap-hint {
+  position: absolute; bottom: var(--x3); left: 50%; transform: translateX(-50%);
+  background: rgba(0,0,0,.6); color: #fff; border-radius: var(--radius-full);
+  padding: 5px 12px; font-size: 11px; font-weight: 600; white-space: nowrap;
+  pointer-events: none; z-index: 50;
+  animation: fadeUpHint 2.5s ease-in-out infinite;
+}
+@keyframes fadeUpHint {
+  0%,100% { opacity: 0; transform: translateX(-50%) translateY(4px); }
+  25%,75% { opacity: 1; transform: translateX(-50%) translateY(0); }
+}
+
+@media (max-width: 780px) {
+  .annotation-panel { display: none; }
+  .proto-stage { padding: var(--x4) var(--x3); }
+}
+
+.switch-btn {
+  display: flex; align-items: center; justify-content: center; gap: var(--x2);
+  width: 100%; padding: 10px; border-radius: var(--radius-md);
+  font-size: 13px; font-weight: 600;
+  background: var(--color-brand-bg); color: var(--color-brand);
+  border: 1px solid color-mix(in srgb, var(--color-brand) 25%, transparent);
+  cursor: pointer; transition: background .15s; margin-top: var(--x2);
+}
+.switch-btn:hover { background: var(--color-brand); color: #fff; }
+
+.btn-buy.btn-form-invalid {
+  opacity: 0.4;
+  cursor: not-allowed;
+}
 </style>
 </head>
 <body>
@@ -1145,10 +645,7 @@ input{font-family:inherit;}
     <!-- PHONE -->
     <div class="phone-wrap">
       <div class="phone-frame">
-        <div class="phone-status">
-          <span class="phone-status-time">9:41</span>
-          <span class="phone-status-icons">●●● 𝗟𝗧𝗘 ▮▮▮</span>
-        </div>
+        <div class="phone-notch"><div class="notch-bar"></div><div class="notch-dot"></div></div>
         <div class="phone-screen" id="phoneScreen"></div>
       </div>
 
@@ -1190,58 +687,55 @@ const STEPS = [
     cta: 'Tap "Switch to Limit Order" button',
     html: () => `
       <div class="screen-content">
-        <div class="ticket-header">
-          <button class="back-btn" onclick="showToast('Navigate to asset page')" aria-label="Back">←</button>
-          <div class="header-titles">
-            <span class="header-ticker">AAPL</span>
-            <span class="header-name">Apple Inc.</span>
-          </div>
-          <button class="icon-btn" onclick="showToast('Watchlisted')">♡</button>
+        <div class="app-bar">
+          <button class="back-btn" aria-label="Back" onclick="showToast('Navigate to asset page')">←</button>
+          <div style="flex:1"><div class="bar-title">AAPL</div><div class="bar-sub">Apple Inc.</div></div>
+          <button class="icon-btn" aria-label="Watchlist" onclick="showToast('Added to watchlist ♡')">♡</button>
+          <button class="icon-btn" aria-label="More" onclick="showToast('More options')">⋯</button>
         </div>
-        <div class="instr-row">
-          <div class="instr-icon">AAPL</div>
-          <div style="flex:1">
-            <div class="instr-ticker-label">AAPL</div>
-            <div class="instr-exch-label">NASDAQ · Real Stock</div>
-          </div>
-          <div class="instr-quote">
-            <span class="quote-price">$186.42</span>
-            <span class="quote-chg quote-up">+0.67%</span>
-          </div>
+        <div class="asset-strip">
+          <div class="asset-logo" aria-hidden="true">AAPL</div>
+          <div><div class="asset-name">Apple Inc.</div><div class="asset-sub">NASDAQ · Real Stock</div></div>
+          <div class="asset-price-col"><div class="asset-price">$186.42</div><div class="asset-change up">+1.24 (+0.67%)</div></div>
         </div>
-        <div class="seg-row">
-          <div class="seg-flat" role="group" aria-label="Direction">
-            <button class="f-buy" aria-pressed="true" onclick="toggleDir(this)">BUY</button>
-            <button aria-pressed="false" onclick="toggleDir(this)">SELL</button>
-          </div>
-        </div>
-        <div class="ot-row" role="tablist">
-          <button class="ot-flat-btn ot-active" role="tab" aria-selected="true">Market Order</button>
-        </div>
-        <div class="ticket-body">
-          <div class="field-group">
-            <label class="field-label">Amount</label>
-            <div class="field-wrap">
-              <span class="field-pre">$</span>
-              <input class="field-input" id="mkt-amount-input" value="$1,000.00" inputmode="decimal" aria-label="Amount">
-            </div>
-            <div class="sc-pills" role="group">
-              <button class="sc-pill" data-amount="100">$100</button>
-              <button class="sc-pill sel" data-amount="1000">$1K</button>
-              <button class="sc-pill" data-amount="5000">$5K</button>
-              <button class="sc-pill" data-amount="10000">$10K</button>
+        <div class="seg-wrap"><div class="seg" role="group" aria-label="Direction">
+          <button class="active buy" aria-pressed="true">BUY</button>
+          <button aria-pressed="false">SELL</button>
+        </div></div>
+        <div class="order-tabs-wrap">
+          <div class="order-tabs" role="tablist">
+            <div class="order-tab active" role="tab" aria-selected="true">
+              <div class="order-tab-label">Market Order</div>
+              <div class="order-tab-hint">Best available price</div>
             </div>
           </div>
-          <div class="order-summary">
-            <div class="os-row"><span class="os-k">Est. shares</span><span class="os-v" id="mkt-est-shares">~5 shares</span></div>
-            <div class="os-row"><span class="os-k">Est. price</span><span class="os-v" id="mkt-est-price">~$186.42</span></div>
-            <div class="os-row"><span class="os-k">Ticket fee</span><span class="os-v">$1.99</span></div>
-            <div class="os-row"><span class="os-k">Total</span><span class="os-v brand" id="mkt-total">$934.09</span></div>
-          </div>
-          <button class="switch-btn" style="margin-top:var(--s8);" onclick="goTo(1)">⇄ Switch to True Limit Order</button>
         </div>
-        <div class="ticket-cta">
-          <button class="cta-buy">Buy AAPL</button>
+        <div class="form-sec">
+          <div class="form-row">
+            <div class="form-label" id="lbl-amount">Amount</div>
+            <div class="input-wrap"><span class="input-pre" aria-hidden="true">$</span>
+              <input class="input-f" id="mkt-amount-input" value="$1,000.00" inputmode="decimal" aria-labelledby="lbl-amount">
+            </div>
+            <div class="chips" role="group" aria-label="Quick amounts">
+              <button class="chip" data-amount="100">$100</button>
+              <button class="chip sel" aria-pressed="true" data-amount="1000">$1K</button>
+              <button class="chip" data-amount="5000">$5K</button>
+              <button class="chip" data-amount="10000">$10K</button>
+            </div>
+          </div>
+          <div class="summary" role="region" aria-label="Order summary">
+            <div class="s-row"><span class="s-k">Est. shares</span><span class="s-v" id="mkt-est-shares">~5 shares</span></div>
+            <div class="s-row"><span class="s-k">Est. price</span><span class="s-v" id="mkt-est-price">~$186.42</span></div>
+            <div class="s-row"><span class="s-k">Ticket fee</span><span class="s-v">$1.99</span></div>
+            <div class="s-row"><span class="s-k">Total</span><span class="s-v tlo" id="mkt-total">$934.09</span></div>
+          </div>
+          <button class="switch-btn" onclick="goTo(1)" aria-label="Switch to True Limit Order">
+            🎯 Switch to Limit Order
+          </button>
+        </div>
+        <div class="cta-row">
+          <button class="btn-buy" onclick="goTo(1)" title="Try True Limit Order instead">Buy AAPL</button>
+          <button class="btn-sell" onclick="goTo(1)" title="Try True Limit Order instead">Sell</button>
         </div>
       </div>
     `
@@ -1264,86 +758,89 @@ const STEPS = [
     cta: 'Tap "Place Limit Order" to submit',
     html: () => `
       <div class="screen-content">
-        <div class="ticket-header">
-          <button class="back-btn" onclick="goTo(0)" aria-label="Back">←</button>
-          <div class="header-titles">
-            <span class="header-ticker">AAPL</span>
-            <span class="header-name">Apple Inc.</span>
+        <div class="app-bar">
+          <button class="back-btn" aria-label="Back" onclick="goTo(0)">←</button>
+          <div style="flex:1"><div class="bar-title">AAPL</div><div class="bar-sub">Apple Inc.</div></div>
+          <button class="icon-btn" aria-label="Watchlist">♡</button>
+          <button class="icon-btn" aria-label="More">⋯</button>
+        </div>
+        <div class="asset-strip">
+          <div class="asset-logo" aria-hidden="true">AAPL</div>
+          <div><div class="asset-name">Apple Inc.</div><div class="asset-sub">NASDAQ · Real Stock</div></div>
+          <div class="asset-price-col"><div class="asset-price">$186.42</div><div class="asset-change up">+1.24 (+0.67%)</div></div>
+        </div>
+        <div class="seg-wrap"><div class="seg" role="group" aria-label="Direction">
+          <button class="active buy" aria-pressed="true">BUY</button>
+          <button aria-pressed="false">SELL</button>
+        </div></div>
+        <div class="order-tabs-wrap">
+          <div class="order-tabs" role="tablist">
+            <button class="order-tab" role="tab" aria-selected="false" onclick="goTo(0)">
+              <div class="order-tab-label">Market Order</div>
+              <div class="order-tab-hint">Best available price</div>
+            </button>
+            <button class="order-tab tlo-active" role="tab" aria-selected="true">
+              <div class="order-tab-label">True Limit Order</div>
+              <div class="order-tab-hint">Your price or better</div>
+            </button>
           </div>
-          <button class="icon-btn" onclick="showToast('Watchlisted')">♡</button>
         </div>
-        <div class="instr-row">
-          <div class="instr-icon">AAPL</div>
-          <div style="flex:1">
-            <div class="instr-ticker-label">AAPL</div>
-            <div class="instr-exch-label">NASDAQ · Real Stock</div>
+        <div class="form-sec" style="padding-bottom:0;">
+          <div class="tlo-bar" role="note">
+            <div class="tlo-bar-icon" aria-hidden="true">🎯</div>
+            <div class="tlo-bar-text"><b>True Limit Order</b>Your order rests in the market until filled at your price or better. No slippage. $1.99 ticket fee. Valid today only (DAY).</div>
           </div>
-          <div class="instr-quote">
-            <span class="quote-price">$186.42</span>
-            <span class="quote-chg quote-up">+0.67%</span>
+          <div class="mkt-strip" role="region" aria-label="Live market data">
+            <div class="mkt-i"><div class="mkt-l">Ask</div><div class="mkt-v up">$186.45</div></div>
+            <div class="mkt-i"><div class="mkt-l">Bid</div><div class="mkt-v down">$186.39</div></div>
+            <div class="mkt-i"><div class="mkt-l">Spread</div><div class="mkt-v">$0.06</div></div>
+            <div class="mkt-i"><div class="mkt-l">Tick</div><div class="mkt-v">$0.01</div></div>
           </div>
-        </div>
-        <div class="seg-row">
-          <div class="seg-flat" role="group" aria-label="Direction">
-            <button class="f-buy" aria-pressed="true" onclick="toggleDir(this)">BUY</button>
-            <button aria-pressed="false" onclick="toggleDir(this)">SELL</button>
-          </div>
-        </div>
-        <div class="ot-row" role="tablist">
-          <button class="ot-flat-btn" role="tab" aria-selected="false" onclick="goTo(0)">Market Order</button>
-          <button class="ot-flat-btn ot-active" role="tab" aria-selected="true">True Limit Order</button>
-        </div>
-        <div class="tlo-inline">Executes only at your price or better. DAY expiry. $1.99 ticket fee.</div>
-        <div class="quote-strip">
-          <div class="qs-item"><span class="qs-lbl">Ask</span><span class="qs-val qs-ask">$186.45</span></div>
-          <span class="qs-sep">·</span>
-          <div class="qs-item"><span class="qs-lbl">Bid</span><span class="qs-val qs-bid">$186.39</span></div>
-          <span class="qs-sep">·</span>
-          <div class="qs-item"><span class="qs-lbl">Spread</span><span class="qs-val">$0.06</span></div>
-          <span class="qs-sep">·</span>
-          <div class="qs-item"><span class="qs-lbl">Tick</span><span class="qs-val">$0.01</span></div>
-        </div>
-        <div class="ticket-body">
-          <div class="field-group">
-            <label class="field-label">Limit Price</label>
-            <div class="field-wrap">
-              <span class="field-pre">$</span>
-              <input class="field-input" id="tlo-price-input" value="184.56" inputmode="decimal" aria-label="Limit price">
+          <div class="form-row">
+            <div class="form-label" id="lbl-price">Limit Price <span class="form-hint">Whole cents · aligned to tick size</span></div>
+            <div class="input-wrap">
+              <span class="input-pre" style="font-weight:800;color:var(--color-text-primary);" aria-hidden="true">$</span>
+              <input class="input-f focused" id="tlo-price-input" value="184.56" inputmode="decimal" aria-labelledby="lbl-price">
             </div>
-            <div class="sc-pills" role="group">
-              <button class="sc-pill" data-price="186.45">Ask</button>
-              <button class="sc-pill sel" data-price="184.56">-1%</button>
-              <button class="sc-pill" data-price="182.78">-2%</button>
-              <button class="sc-pill" data-price="177.13">-5%</button>
+            <div class="chips" role="group" aria-label="Price shortcuts">
+              <button class="chip" data-price="186.45">Ask $186.45</button>
+              <button class="chip sel" aria-pressed="true" data-price="184.56">-1% $184.56</button>
+              <button class="chip" data-price="182.78">-2% $182.78</button>
+              <button class="chip" data-price="177.13">-5% $177.13</button>
             </div>
-            <div class="field-error" id="price-inline-err"></div>
-            <div class="field-ok" id="price-validation">✓ $184.56 is 1.01% below Ask</div>
+            <div class="tick-note">· Tick size &amp; tolerance % configurable per instrument</div>
           </div>
-          <div class="field-group">
-            <label class="field-label">Shares <span style="font-size:9px;font-weight:400;text-transform:none;letter-spacing:0;color:var(--text-3);">Whole shares only</span></label>
-            <div class="field-wrap">
-              <input class="field-input f-shares" id="tlo-shares-input" value="5" inputmode="numeric" aria-label="Shares">
-              <span class="field-suf">shares</span>
+          <div class="form-row" style="margin-bottom:var(--x3);">
+            <div class="form-label" id="lbl-shares">Shares <span class="form-hint">Whole shares only — no fractional</span></div>
+            <div class="input-wrap">
+              <input class="input-f shares" id="tlo-shares-input" value="5" inputmode="numeric" aria-labelledby="lbl-shares">
+              <span class="input-suf" aria-hidden="true">shares</span>
             </div>
-            <div class="sc-pills" role="group">
-              <button class="sc-pill" data-shares="1">1</button>
-              <button class="sc-pill sel" data-shares="5">5</button>
-              <button class="sc-pill" data-shares="10">10</button>
-              <button class="sc-pill" data-shares="25">25</button>
+            <div class="chips" role="group" aria-label="Share quantity shortcuts">
+              <button class="chip" data-shares="1">1</button>
+              <button class="chip sel" aria-pressed="true" data-shares="5">5</button>
+              <button class="chip" data-shares="10">10</button>
+              <button class="chip" data-shares="25">25</button>
             </div>
-            <div class="field-error" id="shares-inline-err"></div>
           </div>
-          <div class="order-summary">
-            <div class="os-row"><span class="os-k">Limit price</span><span class="os-v" id="tlo-summary-price">$184.56</span></div>
-            <div class="os-row"><span class="os-k">Quantity</span><span class="os-v" id="tlo-summary-qty">5 shares</span></div>
-            <div class="os-row"><span class="os-k">Reserved</span><span class="os-v" id="tlo-summary-reserved">$922.80</span></div>
-            <div class="os-row"><span class="os-k">Ticket fee</span><span class="os-v">$1.99</span></div>
-            <div class="os-row"><span class="os-k">Expires</span><span class="os-v warn">Today · EOD 16:00 ET</span></div>
+          <div class="val-banner ok" id="price-validation" role="status">
+            <span class="val-icon" aria-hidden="true">✓</span>
+            <div><b>Price valid — below Ask</b>$184.56 is 1.01% below current Ask. Order rests until price hits your level.</div>
+          </div>
+          <div class="val-banner info" id="tlo-reserve-banner" role="note">
+            <span class="val-icon" aria-hidden="true">ℹ</span>
+            <div id="tlo-reserve-text"><b>Balance reserved at limit price</b> $922.80 (5 × $184.56) held until filled or cancelled.</div>
+          </div>
+          <div class="summary" role="region" aria-label="Order summary">
+            <div class="s-row"><span class="s-k">Order type</span><span class="s-v tlo">True Limit Order (DAY)</span></div>
+            <div class="s-row"><span class="s-k">Limit price</span><span class="s-v" id="tlo-summary-price">$184.56</span></div>
+            <div class="s-row"><span class="s-k">Quantity</span><span class="s-v" id="tlo-summary-qty">5 shares</span></div>
+            <div class="s-row"><span class="s-k">Reserved</span><span class="s-v" id="tlo-summary-reserved">$922.80</span></div>
+            <div class="s-row"><span class="s-k">Ticket fee</span><span class="s-v">$1.99</span></div>
           </div>
         </div>
-        <div id="tlo-reserve-text" style="display:none">$922.80 (5 × $184.56)</div>
-        <div class="ticket-cta">
-          <button class="cta-buy" id="place-limit-btn" onclick="validateAndSubmit()">Place Limit Order</button>
+        <div class="cta-row">
+          <button class="btn-buy" id="place-limit-btn" onclick="validateAndSubmit()" aria-label="Place limit order">Place Limit Order</button>
         </div>
       </div>
     `
@@ -1441,28 +938,26 @@ const STEPS = [
     ],
     cta: 'Tap "View in Portfolio" →',
     html: () => `
-      <div class="screen-content confirm-compact">
-        <div class="confirm-top">
-          <span class="confirm-top-title">Order Placed</span>
-          <span class="confirm-top-badge">PENDING</span>
+      <div class="screen-content">
+        <div class="app-bar" style="justify-content:flex-end;">
+          <button class="icon-btn" aria-label="Close" onclick="goTo(4)">✕</button>
         </div>
-        <div class="confirm-asset-row">
-          <div class="instr-icon">AAPL</div>
-          <div style="flex:1">
-            <div class="confirm-asset-label">AAPL · Apple Inc.</div>
-            <div class="confirm-asset-sub">True Limit Order · BUY · DAY</div>
+        <div class="confirm-screen">
+          <div class="confirm-icon" aria-hidden="true">🎯</div>
+          <div class="confirm-title">Limit Order Placed</div>
+          <div class="confirm-sub">Your order is resting in the market.<br>You'll be notified when it fills.</div>
+          <div class="confirm-card" role="region" aria-label="Order details">
+            <div class="confirm-row"><span class="ck">Asset</span><span class="cv">AAPL — Apple Inc.</span></div>
+            <div class="confirm-row"><span class="ck">Order type</span><span class="cv" style="color:var(--color-brand);">True Limit Order</span></div>
+            <div class="confirm-row"><span class="ck">Direction</span><span class="cv" style="color:var(--color-brand);">BUY</span></div>
+            <div class="confirm-row"><span class="ck">Limit price</span><span class="cv">${'$' + orderState.price.toFixed(2)}</span></div>
+            <div class="confirm-row"><span class="ck">Quantity</span><span class="cv">${orderState.shares} shares</span></div>
+            <div class="confirm-row"><span class="ck">Reserved</span><span class="cv">${'$' + parseFloat(orderState.reserved).toLocaleString('en-US',{minimumFractionDigits:2})}</span></div>
+            <div class="confirm-row"><span class="ck">Ticket fee</span><span class="cv">$1.99</span></div>
+            <div class="confirm-row"><span class="ck">Expires</span><span class="cv" style="color:var(--color-warning);">Today · EOD 16:00 ET</span></div>
+            <div class="confirm-row"><span class="ck">Status</span><span class="cv"><span class="status-chip chip-pending" style="font-size:10px;"><span class="chip-dot"></span>PENDING</span></span></div>
           </div>
-        </div>
-        <div class="confirm-kv">
-          <div class="confirm-kv-row"><span class="ckk">Limit price</span><span class="ckv">${'$' + orderState.price.toFixed(2)}</span></div>
-          <div class="confirm-kv-row"><span class="ckk">Quantity</span><span class="ckv">${orderState.shares} shares</span></div>
-          <div class="confirm-kv-row"><span class="ckk">Reserved</span><span class="ckv">${'$' + parseFloat(orderState.reserved).toLocaleString('en-US',{minimumFractionDigits:2})}</span></div>
-          <div class="confirm-kv-row"><span class="ckk">Ticket fee</span><span class="ckv">$1.99</span></div>
-          <div class="confirm-kv-row"><span class="ckk">Status</span><span class="ckv brand">Pending fill</span></div>
-          <div class="confirm-kv-row"><span class="ckk">Expires</span><span class="ckv warn">Today · EOD 16:00 ET</span></div>
-        </div>
-        <div class="ticket-cta" style="position:absolute;bottom:0;left:0;right:0;">
-          <button class="cta-buy" onclick="goTo(4)">View in Portfolio →</button>
+          <button class="btn-port" onclick="goTo(4)" aria-label="View your portfolio">View in Portfolio →</button>
         </div>
       </div>
     `
@@ -1491,83 +986,107 @@ const STEPS = [
           <div class="port-stats">
             <div><div class="ps-k">Invested</div><div class="ps-v">$12,440</div></div>
             <div><div class="ps-k">P&L</div><div class="ps-v pos">+$284.20</div></div>
+            <div><div class="ps-k">Return</div><div class="ps-v pos">+2.28%</div></div>
           </div>
         </div>
-        <div class="filter-bar" role="tablist">
-          <button class="f-chip on" role="tab" aria-selected="true" onclick="selectFChip(this)">All</button>
-          <button class="f-chip" role="tab" aria-selected="false" onclick="selectFChip(this)">Active (2)</button>
-          <button class="f-chip" role="tab" aria-selected="false" onclick="selectFChip(this)">Filled</button>
+        <div class="filter-bar" role="tablist" aria-label="Filter positions">
+          <button class="f-chip on" role="tab" aria-selected="true">All (3)</button>
+          <button class="f-chip" role="tab" aria-selected="false">Active (2)</button>
+          <button class="f-chip" role="tab" aria-selected="false">Filled</button>
         </div>
-        <div class="pos-list-flat" role="list">
+        <div class="pos-list" role="list">
 
-          <!-- AAPL: just placed (pending, 0 fills) -->
-          <div class="pos-row" role="listitem" onclick="goTo(7)">
-            <div class="pos-row-main">
-              <div class="pos-row-logo aapl">AAPL</div>
-              <span class="pos-row-name">AAPL</span>
-              <span class="sc-chip chip-pending">PENDING</span>
-              <span class="tlo-mark">TLO</span>
-              <span class="pos-row-price" style="margin-left:auto;">${'$' + orderState.price.toFixed(2)}</span>
-            </div>
-            <div class="pos-row-meta">
-              <span class="pos-row-exch">Real Stock · 0 / ${orderState.shares} shares filled</span>
-            </div>
-            <div class="pos-row-fill">
-              <div class="pos-row-fill-bar" role="progressbar" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100">
-                <div class="pos-row-fill-bar-inner zero"></div>
+          <!-- AAPL — just placed order from orderState -->
+          <article class="pos-card" role="listitem">
+            <div class="pos-head">
+              <div class="pos-logo aapl" aria-hidden="true">AAPL</div>
+              <div style="flex:1">
+                <div class="pos-name">Apple Inc.</div>
+                <div class="pos-meta">REAL
+                  <span class="status-chip chip-pending"><span class="chip-dot" aria-hidden="true"></span><span>PENDING</span></span>
+                  <span class="tlo-badge"><span class="tlo-dot" aria-hidden="true"></span>TLO</span>
+                </div>
+              </div>
+              <div class="pos-price-col">
+                <div class="pos-price">${'$' + orderState.price.toFixed(2)}</div>
+                <div class="pos-pl" style="color:var(--color-text-muted);">Limit price</div>
               </div>
             </div>
-            <div class="pos-row-actions">
-              <button class="pos-act-cancel" onclick="event.stopPropagation();goTo(9)" aria-label="Cancel AAPL">✕ Cancel</button>
-              <button class="pos-act-detail" onclick="event.stopPropagation();goTo(7)" aria-label="AAPL details">Details</button>
-            </div>
-          </div>
-
-          <!-- TSLA: pending -->
-          <div class="pos-row" role="listitem" onclick="goTo(6)">
-            <div class="pos-row-main">
-              <div class="pos-row-logo tsla">TSLA</div>
-              <span class="pos-row-name">TSLA</span>
-              <span class="sc-chip chip-pending">PENDING</span>
-              <span class="tlo-mark">TLO</span>
-              <span class="pos-row-price" style="margin-left:auto;">$218.00</span>
-            </div>
-            <div class="pos-row-meta">
-              <span class="pos-row-exch">Real Stock · 0 / 5 shares filled</span>
-            </div>
-            <div class="pos-row-fill">
-              <div class="pos-row-fill-bar" role="progressbar" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100">
-                <div class="pos-row-fill-bar-inner zero"></div>
+            <div class="fill-sec">
+              <div class="fill-head">
+                <span class="fill-label">Fill progress</span>
+                <span class="fill-count"><span class="fn">0</span> / ${orderState.shares} shares</span>
+              </div>
+              <div class="fill-track" role="progressbar" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100" aria-label="0% filled — pending">
+                <div class="fill-fill zero"></div>
               </div>
             </div>
-            <div class="pos-row-actions">
-              <button class="pos-act-cancel" onclick="event.stopPropagation();goTo(5)" aria-label="Cancel TSLA" style="position:relative;">
-                ✕ Cancel
+            <div class="card-actions">
+              <button class="act-cancel" onclick="goTo(9)" aria-label="Cancel AAPL limit order">✕ Cancel Order</button>
+              <button class="act-detail" onclick="goTo(7)" aria-label="View AAPL position details">View Details</button>
+            </div>
+          </article>
+
+          <!-- TSLA pending -->
+          <article class="pos-card" role="listitem">
+            <div class="pos-head">
+              <div class="pos-logo tsla" aria-hidden="true">TSLA</div>
+              <div style="flex:1">
+                <div class="pos-name">Tesla Inc.</div>
+                <div class="pos-meta">REAL
+                  <span class="status-chip chip-pending"><span class="chip-dot" aria-hidden="true"></span><span>PENDING</span></span>
+                  <span class="tlo-badge"><span class="tlo-dot" aria-hidden="true"></span>TLO</span>
+                </div>
+              </div>
+              <div class="pos-price-col">
+                <div class="pos-price">$218.00</div>
+                <div class="pos-pl" style="color:var(--color-text-muted);">Limit price</div>
+              </div>
+            </div>
+            <div class="fill-sec">
+              <div class="fill-head">
+                <span class="fill-label">Fill progress</span>
+                <span class="fill-count"><span class="fn">0</span> / 5 shares</span>
+              </div>
+              <div class="fill-track" role="progressbar" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100" aria-label="0% filled">
+                <div class="fill-fill zero"></div>
+              </div>
+            </div>
+            <div class="card-actions" style="position:relative;">
+              <button class="act-cancel" onclick="goTo(5)" aria-label="Cancel TSLA limit order">
+                ✕ Cancel Order
                 <div class="tap-hint">Tap here</div>
               </button>
-              <button class="pos-act-detail" onclick="event.stopPropagation();goTo(6)" aria-label="TSLA details">Details</button>
+              <button class="act-detail" onclick="goTo(6)" aria-label="View TSLA position details">View Details</button>
             </div>
-          </div>
+          </article>
 
-          <!-- NVDA: filled -->
-          <div class="pos-row" role="listitem">
-            <div class="pos-row-main">
-              <div class="pos-row-logo nvda">NVDA</div>
-              <span class="pos-row-name">NVDA</span>
-              <span class="sc-chip chip-filled">FILLED</span>
-              <span class="tlo-mark">TLO</span>
-              <span class="pos-row-price" style="margin-left:auto;">$874.50</span>
-            </div>
-            <div class="pos-row-meta">
-              <span class="pos-row-exch">Real Stock · 5/5 shares · </span>
-              <span style="font-size:10px;color:var(--brand);font-weight:600;">+$68.00</span>
-            </div>
-            <div class="pos-row-fill">
-              <div class="pos-row-fill-bar" role="progressbar" aria-valuenow="100" aria-valuemin="0" aria-valuemax="100">
-                <div class="pos-row-fill-bar-inner" style="width:100%"></div>
+          <!-- NVDA filled -->
+          <article class="pos-card" role="listitem">
+            <div class="pos-head">
+              <div class="pos-logo nvda" aria-hidden="true">NVDA</div>
+              <div style="flex:1">
+                <div class="pos-name">NVIDIA Corp.</div>
+                <div class="pos-meta">REAL
+                  <span class="status-chip chip-filled"><span class="chip-dot" aria-hidden="true"></span><span>FILLED</span></span>
+                  <span class="tlo-badge"><span class="tlo-dot" aria-hidden="true"></span>TLO</span>
+                </div>
+              </div>
+              <div class="pos-price-col">
+                <div class="pos-price">$874.50</div>
+                <div class="pos-pl up">+$68.00</div>
               </div>
             </div>
-          </div>
+            <div class="fill-sec">
+              <div class="fill-head">
+                <span class="fill-label">Filled at limit</span>
+                <span class="fill-count"><span class="fn">5</span> / 5 shares</span>
+              </div>
+              <div class="fill-track" role="progressbar" aria-valuenow="100" aria-valuemin="0" aria-valuemax="100" aria-label="100% filled">
+                <div class="fill-fill" style="width:100%"></div>
+              </div>
+            </div>
+          </article>
 
         </div>
       </div>
@@ -1599,7 +1118,7 @@ const STEPS = [
               <div class="pos-head">
                 <div class="pos-logo tsla">TSLA</div>
                 <div style="flex:1"><div class="pos-name">Tesla Inc.</div>
-                  <div class="pos-meta">REAL <span class="sc-chip chip-pending">PENDING</span></div>
+                  <div class="pos-meta">REAL <span class="status-chip chip-pending"><span class="chip-dot"></span>PENDING</span></div>
                 </div>
                 <div class="pos-price-col"><div class="pos-price">$218.00</div></div>
               </div>
@@ -1660,8 +1179,8 @@ const STEPS = [
               <div style="font-size:11px;color:var(--color-text-secondary);">NASDAQ · Real Stock</div>
             </div>
             <div style="margin-left:auto;">
-              <span class="sc-chip chip-pending" style="font-size:10px;padding:4px 9px;">
-                <span>PENDING</span>
+              <span class="status-chip chip-pending" style="font-size:10px;padding:4px 9px;">
+                <span class="chip-dot" aria-hidden="true"></span><span>PENDING</span>
               </span>
             </div>
           </div>
@@ -1674,7 +1193,7 @@ const STEPS = [
             </div>
             <div class="fill-label-sm">shares filled</div>
             <div class="fill-track fill-bar-big" role="progressbar" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100">
-              <div class="fill-bar zero" style="height:8px;"></div>
+              <div class="fill-fill zero" style="height:8px;"></div>
             </div>
             <div class="fill-pct-row"><span style="color:var(--color-warning);">0% filled</span><span>100% pending</span></div>
           </div>
@@ -1728,8 +1247,8 @@ const STEPS = [
               <div style="font-size:11px;color:var(--color-text-secondary);">NASDAQ · Real Stock</div>
             </div>
             <div style="margin-left:auto;">
-              <span class="sc-chip chip-partial" style="font-size:10px;padding:4px 9px;">
-                <span>PARTIAL</span>
+              <span class="status-chip chip-partial" style="font-size:10px;padding:4px 9px;">
+                <span class="chip-dot" aria-hidden="true"></span><span>PARTIAL</span>
               </span>
             </div>
           </div>
@@ -1740,7 +1259,7 @@ const STEPS = [
             </div>
             <div class="fill-label-sm">shares — pending</div>
             <div class="fill-track fill-bar-big" role="progressbar" aria-valuenow="40" aria-valuemin="0" aria-valuemax="100">
-              <div class="fill-bar partial" style="width:40%;height:8px;"></div>
+              <div class="fill-fill partial" style="width:40%;height:8px;"></div>
             </div>
             <div class="fill-pct-row"><span>40% filled</span><span>60% pending</span></div>
           </div>
@@ -1809,8 +1328,8 @@ const STEPS = [
               <div style="flex:1">
                 <div class="pos-name">Apple Inc.</div>
                 <div class="pos-meta">REAL
-                  <span class="sc-chip chip-partial">PARTIAL</span>
-                  <span class="tlo-mark"><span class="tlo-dot" aria-hidden="true"></span>TLO</span>
+                  <span class="status-chip chip-partial"><span class="chip-dot" aria-hidden="true"></span>PARTIAL</span>
+                  <span class="tlo-badge"><span class="tlo-dot" aria-hidden="true"></span>TLO</span>
                 </div>
               </div>
               <div class="pos-price-col">
@@ -1819,9 +1338,9 @@ const STEPS = [
               </div>
             </div>
             <div class="fill-sec">
-              <div class="fill-head"><span class="fill-lbl">Fill progress</span><span class="fill-cnt"><span class="fn">2</span> / 5 shares</span></div>
+              <div class="fill-head"><span class="fill-label">Fill progress</span><span class="fill-count"><span class="fn">2</span> / 5 shares</span></div>
               <div class="fill-track" role="progressbar" aria-valuenow="40" aria-valuemin="0" aria-valuemax="100">
-                <div class="fill-bar partial" style="width:40%"></div>
+                <div class="fill-fill partial" style="width:40%"></div>
               </div>
             </div>
             <div class="card-actions">
@@ -1837,10 +1356,10 @@ const STEPS = [
               <div style="flex:1">
                 <div class="pos-name">Tesla Inc.</div>
                 <div class="pos-meta">REAL
-                  <span class="sc-chip chip-cancelled" style="background:var(--color-surface-inset);color:var(--color-text-muted);border:1px solid var(--color-border);">
+                  <span class="status-chip" style="background:var(--color-surface-inset);color:var(--color-text-muted);border:1px solid var(--color-border);">
                     <span class="chip-dot" style="background:var(--color-text-muted);" aria-hidden="true"></span>CANCELLED
                   </span>
-                  <span class="tlo-mark"><span class="tlo-dot" aria-hidden="true"></span>TLO</span>
+                  <span class="tlo-badge"><span class="tlo-dot" aria-hidden="true"></span>TLO</span>
                 </div>
               </div>
               <div class="pos-price-col">
@@ -1860,8 +1379,8 @@ const STEPS = [
               <div style="flex:1">
                 <div class="pos-name">NVIDIA Corp.</div>
                 <div class="pos-meta">REAL
-                  <span class="sc-chip chip-filled">FILLED</span>
-                  <span class="tlo-mark"><span class="tlo-dot" aria-hidden="true"></span>TLO</span>
+                  <span class="status-chip chip-filled"><span class="chip-dot" aria-hidden="true"></span>FILLED</span>
+                  <span class="tlo-badge"><span class="tlo-dot" aria-hidden="true"></span>TLO</span>
                 </div>
               </div>
               <div class="pos-price-col">
@@ -1870,9 +1389,9 @@ const STEPS = [
               </div>
             </div>
             <div class="fill-sec">
-              <div class="fill-head"><span class="fill-lbl">Filled at limit</span><span class="fill-cnt"><span class="fn">5</span> / 5 shares</span></div>
+              <div class="fill-head"><span class="fill-label">Filled at limit</span><span class="fill-count"><span class="fn">5</span> / 5 shares</span></div>
               <div class="fill-track" role="progressbar" aria-valuenow="100" aria-valuemin="0" aria-valuemax="100">
-                <div class="fill-bar" style="width:100%"></div>
+                <div class="fill-fill" style="width:100%"></div>
               </div>
             </div>
           </article>
@@ -1908,7 +1427,7 @@ const STEPS = [
               <div class="pos-head">
                 <div class="pos-logo aapl">AAPL</div>
                 <div style="flex:1"><div class="pos-name">Apple Inc.</div>
-                  <div class="pos-meta">REAL <span class="sc-chip chip-partial">PARTIAL</span></div>
+                  <div class="pos-meta">REAL <span class="status-chip chip-partial"><span class="chip-dot"></span>PARTIAL</span></div>
                 </div>
                 <div class="pos-price-col"><div class="pos-price">$185.00</div></div>
               </div>
@@ -2092,8 +1611,8 @@ const STEPS = [
               <div style="flex:1">
                 <div class="pos-name">Apple Inc.</div>
                 <div class="pos-meta">REAL
-                  <span class="sc-chip chip-partial">2 FILLED</span>
-                  <span class="tlo-mark"><span class="tlo-dot" aria-hidden="true"></span>TLO</span>
+                  <span class="status-chip chip-partial"><span class="chip-dot" aria-hidden="true"></span>2 FILLED</span>
+                  <span class="tlo-badge"><span class="tlo-dot" aria-hidden="true"></span>TLO</span>
                 </div>
               </div>
               <div class="pos-price-col">
@@ -2113,8 +1632,8 @@ const STEPS = [
               <div style="flex:1">
                 <div class="pos-name">Tesla Inc.</div>
                 <div class="pos-meta">REAL
-                  <span class="sc-chip chip-pending">PENDING</span>
-                  <span class="tlo-mark"><span class="tlo-dot" aria-hidden="true"></span>TLO</span>
+                  <span class="status-chip chip-pending"><span class="chip-dot" aria-hidden="true"></span>PENDING</span>
+                  <span class="tlo-badge"><span class="tlo-dot" aria-hidden="true"></span>TLO</span>
                 </div>
               </div>
               <div class="pos-price-col">
@@ -2123,9 +1642,9 @@ const STEPS = [
               </div>
             </div>
             <div class="fill-sec">
-              <div class="fill-head"><span class="fill-lbl">Fill progress</span><span class="fill-cnt"><span class="fn">0</span> / 5 shares</span></div>
+              <div class="fill-head"><span class="fill-label">Fill progress</span><span class="fill-count"><span class="fn">0</span> / 5 shares</span></div>
               <div class="fill-track" role="progressbar" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100">
-                <div class="fill-bar zero"></div>
+                <div class="fill-fill zero"></div>
               </div>
             </div>
             <div class="card-actions">
@@ -2141,8 +1660,8 @@ const STEPS = [
               <div style="flex:1">
                 <div class="pos-name">NVIDIA Corp.</div>
                 <div class="pos-meta">REAL
-                  <span class="sc-chip chip-filled">FILLED</span>
-                  <span class="tlo-mark"><span class="tlo-dot" aria-hidden="true"></span>TLO</span>
+                  <span class="status-chip chip-filled"><span class="chip-dot" aria-hidden="true"></span>FILLED</span>
+                  <span class="tlo-badge"><span class="tlo-dot" aria-hidden="true"></span>TLO</span>
                 </div>
               </div>
               <div class="pos-price-col">
@@ -2151,9 +1670,9 @@ const STEPS = [
               </div>
             </div>
             <div class="fill-sec">
-              <div class="fill-head"><span class="fill-lbl">Filled</span><span class="fill-cnt"><span class="fn">5</span> / 5 shares</span></div>
+              <div class="fill-head"><span class="fill-label">Filled</span><span class="fill-count"><span class="fn">5</span> / 5 shares</span></div>
               <div class="fill-track" role="progressbar" aria-valuenow="100" aria-valuemin="0" aria-valuemax="100">
-                <div class="fill-bar" style="width:100%"></div>
+                <div class="fill-fill" style="width:100%"></div>
               </div>
             </div>
           </article>
