@@ -738,7 +738,7 @@ button { font-family:inherit;border:none;cursor:pointer;background:none;color:in
 
 /* Order type dropdown */
 .ot-dropdown {
-  position:fixed;top:0;left:0;right:0;bottom:0;z-index:999;
+  position:absolute;top:0;left:0;right:0;bottom:0;z-index:999;
   display:flex;align-items:flex-end;
 }
 .ot-dropdown-backdrop {
@@ -2702,7 +2702,10 @@ function showOrderTypeDropdown(current) {
       <button class="ot-dropdown-cancel" onclick="document.getElementById('ot-drop').remove()">Cancel</button>
     </div>
   `;
-  document.body.appendChild(overlay);
+  // Append to phoneScreen so it's clipped to the phone frame
+  var phoneScreen = document.getElementById('phoneScreen') || document.body;
+  phoneScreen.style.position = 'relative';
+  phoneScreen.appendChild(overlay);
 }
 
 /* ─── Portfolio filter chips ─── */
