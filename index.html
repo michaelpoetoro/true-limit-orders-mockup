@@ -907,6 +907,15 @@ button { font-family:inherit;border:none;cursor:pointer;background:none;color:in
   }
 }
 /* Scale calculation is done in JS below */
+
+/* ─── Fix phone-screen height so position:relative children resolve correctly ─── */
+.phone-frame {
+  height: 680px;  /* explicit height for the phone frame */
+}
+.phone-screen {
+  height: 100%;  /* inherit the phone-frame height */
+  overflow: hidden;
+}
 </style>
 </head>
 <body>
@@ -1026,26 +1035,31 @@ const STEPS = [
     ],
     cta: 'Tap "Place Limit Order" to submit',
     html: () => `
-      <div style="background:var(--bg);position:relative;display:flex;flex-direction:column;overflow:hidden;height:100%;">
-        <!-- Dimmed market screen behind -->
-        <div class="top-bar" style="opacity:.35;pointer-events:none;">
-          <button class="back-btn">‹</button>
-          <button class="ot-pill">Market Order<span class="ch">▾</span></button>
-        </div>
-        <div style="flex:1;opacity:.35;pointer-events:none;display:flex;flex-direction:column;align-items:center;padding:0 20px 6px;">
-          <div class="asset-strip">
-            <div class="asset-ico">AAPL</div>
-            <span class="a-tick">AAPL</span><span class="a-sep">·</span>
-            <span class="a-price">$186.42</span>
+      <div style="display:flex;flex-direction:column;height:100%;background:var(--exec-bg, #080810);">
+
+        <!-- Dimmed market screen behind (flex:1, shrinks to fill above) -->
+        <div style="flex:1;min-height:0;overflow:hidden;display:flex;flex-direction:column;">
+          <div class="top-bar" style="opacity:.35;pointer-events:none;flex-shrink:0;">
+            <button class="exec-back" style="cursor:default;">‹</button>
+            <button class="exec-type-pill" style="cursor:default;">Market Order<span class="pill-chevron">▾</span></button>
           </div>
-          <div class="amount-row" style="margin-top:8px;">
-            <span class="amt-sym">$</span><span class="amt-num">10.00</span>
+          <div style="opacity:.35;flex:1;display:flex;flex-direction:column;align-items:center;padding:8px 20px 0;">
+            <div class="exec-asset" style="padding:0 0 6px;">
+              <div class="asset-ico">AAPL</div>
+              <span class="a-tick">AAPL</span><span class="a-sep">·</span>
+              <span class="a-price">$186.42</span>
+            </div>
+            <div class="amount-row" style="margin-bottom:8px;">
+              <span class="amt-sym">$</span><span class="amt-num">10.00</span>
+            </div>
+            <button class="qty-pill" style="cursor:default;">~0.05 shares <span class="rf">⟳</span></button>
           </div>
+          <!-- Dim overlay -->
+          <div style="position:absolute;inset:0;background:rgba(0,0,0,.52);pointer-events:none;"></div>
         </div>
-        <!-- Dim overlay -->
-        <div style="position:absolute;inset:0;background:rgba(0,0,0,.52);z-index:1;"></div>
-        <!-- Set Limit sheet -->
-        <div class="lmt-sheet" style="position:absolute;bottom:0;left:0;right:0;z-index:2;background:var(--sht);border-radius:16px 16px 0 0;display:flex;flex-direction:column;box-shadow:0 -8px 40px rgba(0,0,0,.5);">
+
+        <!-- Limit Order sheet — sits naturally at the bottom via flex column -->
+        <div style="flex-shrink:0;background:var(--sht, #1C1C1E);border-radius:16px 16px 0 0;box-shadow:0 -8px 40px rgba(0,0,0,.5);">
           <div class="sht-handle"></div>
           <div class="sht-title">Set Limit order</div>
           <div class="sht-sub">Current Ask: $186.45</div>
@@ -1064,6 +1078,7 @@ const STEPS = [
             <button class="sht-set-btn" id="place-limit-btn" onclick="validateAndSubmit()">Set limit</button>
           </div>
         </div>
+
         <!-- Hidden inputs for JS compatibility -->
         <input id="tlo-price-input" value="184.56" style="display:none">
         <input id="tlo-shares-input" value="5" style="display:none">
@@ -1071,7 +1086,6 @@ const STEPS = [
         <span id="tlo-summary-qty" style="display:none">5 shares</span>
         <span id="tlo-summary-reserved" style="display:none">$922.80</span>
         <div id="tlo-reserve-text" style="display:none">$922.80 (5 × $184.56)</div>
-
       </div>
     `
   },
