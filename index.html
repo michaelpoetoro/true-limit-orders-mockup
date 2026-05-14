@@ -1911,7 +1911,7 @@ const STEPS = [
         <div class="pos-list" role="list">
 
           <!-- AAPL: 2 shares filled, remaining 3 cancelled → show as partial filled/cancelled -->
-          <article class="pos-card" role="listitem">
+          <article class="pos-card" role="listitem" data-status="cancelled">
             <div class="pos-head">
               <div class="pos-logo aapl" aria-hidden="true">AAPL</div>
               <div style="flex:1">
@@ -1932,7 +1932,7 @@ const STEPS = [
           </article>
 
           <!-- TSLA still pending -->
-          <article class="pos-card" role="listitem">
+          <article class="pos-card" role="listitem" data-status="pending active">
             <div class="pos-head">
               <div class="pos-logo tsla" aria-hidden="true">TSLA</div>
               <div style="flex:1">
@@ -1960,7 +1960,7 @@ const STEPS = [
           </article>
 
           <!-- NVDA filled -->
-          <article class="pos-card" role="listitem">
+          <article class="pos-card" role="listitem" data-status="filled">
             <div class="pos-head">
               <div class="pos-logo nvda" aria-hidden="true">NVDA</div>
               <div style="flex:1">
