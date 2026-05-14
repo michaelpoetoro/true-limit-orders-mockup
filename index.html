@@ -930,6 +930,25 @@ button { font-family:inherit;border:none;cursor:pointer;background:none;color:in
   min-height: 0;
   overflow: hidden;
 }
+
+/* ─── Disabled button states — clearly visible ─── */
+button:disabled, .btn-disabled {
+  background: rgba(255,255,255,.12) !important;
+  color: rgba(255,255,255,.4) !important;
+  opacity: 1 !important;
+  cursor: not-allowed !important;
+}
+[data-theme="light"] button:disabled,
+[data-theme="light"] .btn-disabled {
+  background: var(--color-border, #DFE3EE) !important;
+  color: var(--color-text-muted, #9299AE) !important;
+}
+
+/* ─── CTA row dark mode fix ─── */
+[data-theme="dark"] .cta-row {
+  background: var(--surface, #141720) !important;
+  border-top: 1px solid var(--border, #252A36) !important;
+}
 </style>
 </head>
 <body>
