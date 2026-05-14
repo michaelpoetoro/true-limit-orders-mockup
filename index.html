@@ -2432,6 +2432,20 @@ function scalePhone() {
 window.addEventListener('resize', scalePhone);
 
 scalePhone();
+/* ─── BUY/SELL direction toggle (explicit handler) ─── */
+function toggleDir(btn) {
+  var group = btn.closest('[role="group"]') || btn.parentElement;
+  if (!group) return;
+  group.querySelectorAll('button').forEach(function(b) {
+    b.classList.remove('active', 'buy', 'sell', 'f-buy', 'f-sell');
+    b.setAttribute('aria-pressed', 'false');
+  });
+  btn.classList.add('active');
+  btn.setAttribute('aria-pressed', 'true');
+  if (btn.textContent.trim() === 'BUY') { btn.classList.add('buy'); btn.classList.add('f-buy'); }
+  if (btn.textContent.trim() === 'SELL') { btn.classList.add('sell'); btn.classList.add('f-sell'); }
+}
+
 // Init
 goTo(0);
 </script>
