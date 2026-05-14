@@ -465,7 +465,7 @@ button{font-family:inherit;border:none;background:none;cursor:pointer;color:inhe
 }
 .f-chip.on { background: var(--color-blue-bg); border-color: var(--color-blue); color: var(--color-blue); font-weight: 600; }
 
-.pos-list { padding: var(--x2) var(--x4); display: flex; flex-direction: column; gap: var(--x2); background: var(--color-bg); }
+.pos-list { padding: var(--x2) var(--x4) calc(var(--x4) + env(safe-area-inset-bottom)); display: flex; flex-direction: column; gap: var(--x2); background: var(--color-bg); }
 .pos-card {
   background: var(--color-surface); border-radius: var(--radius-md);
   border: 1px solid var(--color-border); overflow: hidden; box-shadow: var(--shadow-1); cursor: pointer;
@@ -538,9 +538,11 @@ button{font-family:inherit;border:none;background:none;cursor:pointer;color:inhe
 
 /* Confirmation screen */
 .confirm-screen {
-  background: var(--color-surface); min-height: 680px;
-  display: flex; flex-direction: column; align-items: center; justify-content: center;
-  padding: var(--x8) var(--x6);
+  background: var(--color-surface);
+  min-height: auto;  /* removed fixed 680px — content determines height */
+  flex: 1;           /* fill available phone-screen space */
+  display: flex; flex-direction: column; align-items: center; justify-content: flex-start;
+  padding: var(--x8) var(--x6) calc(var(--x8) + env(safe-area-inset-bottom));
 }
 .confirm-icon { font-size: 52px; margin-bottom: var(--x5); }
 .confirm-title { font-size: 20px; font-weight: 800; margin-bottom: var(--x2); text-align: center; }
@@ -602,6 +604,13 @@ button{font-family:inherit;border:none;background:none;cursor:pointer;color:inhe
 @media (max-width: 780px) {
   .annotation-panel { display: none; }
   .proto-stage { padding: var(--x4) var(--x3); }
+  /* Stack action buttons vertically on mobile so they're never cut off */
+  .card-actions, .cta-row, .sheet-btns {
+    flex-direction: column;
+  }
+  .card-actions button, .cta-row button, .sheet-btns button {
+    width: 100%;
+  }
 }
 
 .switch-btn {
@@ -929,6 +938,12 @@ button { font-family:inherit;border:none;cursor:pointer;background:none;color:in
   flex: 1;
   min-height: 0;
   overflow: hidden;
+}
+/* Allow tall screens to scroll inside the phone — prevents CTA clip */
+#phoneScreen > .screen-content {
+  height: 100%;
+  overflow-y: auto;
+  -webkit-overflow-scrolling: touch;
 }
 
 /* ─── Disabled button states — clearly visible ─── */
