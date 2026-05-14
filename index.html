@@ -1060,7 +1060,7 @@ const STEPS = [
             <span class="amt-sym">$</span>
             <span class="amt-num" id="mkt-num">10.00</span>
           </div>
-          <button class="qty-pill"><span id="mkt-shares">~0.05 shares</span><span class="rf">⟳</span></button>
+          <button class="qty-pill" onclick="mktToggleUnit()" aria-label="Toggle between dollar and shares input"><span id="mkt-shares">~0.05 shares</span><span class="rf">⟳</span></button>
           <span class="avail">Available: $12,440.00</span>
           <span id="mkt-amount-input" style="display:none">10.00</span>
           <span id="mkt-est-shares" style="display:none">~0.05 shares</span>
@@ -2547,7 +2547,39 @@ function validateForm() {
 
 /* ─── Market order keypad (Screen 1) — first press clears prefill ─── */
 var mktKpVal = '10.00';
-var mktKpFresh = false;  // true once user has started typing
+var mktKpFresh = false;
+var mktUnitMode = 'dollar'; // 'dollar' | 'shares'
+
+function mktToggleUnit() {
+  mktUnitMode = mktUnitMode === 'dollar' ? 'shares' : 'dollar';
+  var sym = document.getElementById('mkt-num') && document.querySelector('.amt-sym');
+  var numEl = document.getElementById('mkt-num');
+  var sharesEl = document.getElementById('mkt-shares');
+  var symEl = document.querySelector('.amt-sym');
+  var price = 186.42;
+  if (mktUnitMode === 'shares') {
+    // Convert current $ value to shares
+    var dollars = parseFloat(mktKpVal) || 0;
+    var sh = (dollars / price).toFixed(2);
+    mktKpVal = sh;
+    mktKpFresh = false;
+    if (symEl) symEl.textContent = '';
+    if (numEl) numEl.textContent = sh;
+    if (sharesEl) sharesEl.textContent = '~$' + (parseFloat(sh) * price).toFixed(2);
+    showToast('• Entering in shares. Pill shows $ equivalent.');
+  } else {
+    // Convert current shares value back to $
+    var shares = parseFloat(mktKpVal) || 0;
+    var d = (shares * price).toFixed(2);
+    mktKpVal = d;
+    mktKpFresh = false;
+    if (symEl) symEl.textContent = '$';
+    if (numEl) numEl.textContent = d;
+    if (sharesEl) sharesEl.textContent = '~' + (parseFloat(d) / price).toFixed(2) + ' shares';
+    showToast('• Entering in dollars.');
+  }
+}
+
 function mKp(k) {
   if (!mktKpFresh) { mktKpVal = ''; mktKpFresh = true; }
   if (k === '.' && mktKpVal.includes('.')) return;
@@ -2556,7 +2588,14 @@ function mKp(k) {
   var d = document.getElementById('mkt-num');
   var s = document.getElementById('mkt-shares');
   if (d) d.textContent = mktKpVal || '0';
-  if (s) { var a = parseFloat(mktKpVal); s.textContent = isNaN(a) ? '— shares' : '~'+(a/186.42).toFixed(2)+' shares'; }
+  if (s) {
+    var a = parseFloat(mktKpVal);
+    if (mktUnitMode === 'shares') {
+      s.textContent = isNaN(a) ? '—' : '~$' + (a * 186.42).toFixed(2);
+    } else {
+      s.textContent = isNaN(a) ? '— shares' : '~' + (a / 186.42).toFixed(2) + ' shares';
+    }
+  }
 }
 function mKpDel() {
   mktKpFresh = true;
