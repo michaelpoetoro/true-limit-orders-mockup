@@ -2070,7 +2070,7 @@ const STEPS = [
     points: [
       { type: 'warn', text: '<strong>Today on platform:</strong> Current "limit order" is effectively an If-Touched / Stop Market order — executes at market when the price is touched, not at your exact price.' },
       { type: 'green', text: '<strong>New:</strong> True resting Limit Order — sits in the exchange until filled at your price or better. Zero slippage.' },
-      { type: 'blue', text: '<strong>Naming proposal:</strong> Old type → "Limit Stop Market". New type → "Limit Order".' },
+      { type: 'blue', text: '<strong>Naming proposal:</strong> Old type → "Stop Market". New type → "Limit Order".' },
       { type: 'default', text: '<strong>Configuration:</strong> Per-asset + per-country. US may not be available on day 1.' },
     ],
     cta: 'Use ← arrow to go back',
@@ -2115,7 +2115,7 @@ const STEPS = [
             <div style="display:flex;align-items:center;gap:var(--x3);padding:var(--x3);background:var(--color-warning-bg);border-radius:var(--x2);border:1px solid color-mix(in srgb,var(--color-warning) 25%,transparent);">
               <div style="font-size:11px;color:var(--color-warning);min-width:48px;">AFTER</div>
               <div style="flex:1">
-                <div style="font-size:13px;font-weight:700;color:var(--color-warning);">Limit Stop Market</div>
+                <div style="font-size:13px;font-weight:700;color:var(--color-warning);">Stop Market</div>
                 <div style="font-size:11px;color:color-mix(in srgb,var(--color-warning) 70%,transparent);margin-top:2px;">Existing behavior preserved, new name</div>
               </div>
               <div style="font-size:9px;font-weight:700;padding:2px 6px;border-radius:3px;background:var(--color-warning);color:#fff;">→</div>
@@ -2163,7 +2163,7 @@ const STEPS = [
           <div style="margin-top:var(--x4);padding:var(--x3);background:var(--color-surface-inset);border-radius:var(--x2);border:1px solid var(--color-border);">
             <div style="font-size:10px;font-weight:700;color:var(--color-text-muted);text-transform:uppercase;letter-spacing:.4px;margin-bottom:var(--x2);">Open Questions</div>
             <div style="font-size:11px;color:var(--color-text-secondary);line-height:1.8;">
-              · Final name for the existing order type ("Limit Stop Market" — confirm with compliance)<br>
+              · Final name for the existing order type ("Stop Market" — confirm with compliance)<br>
               · US: Can we enable Limit Orders on day 1? Needs HBC + compliance sign-off<br>
               · Asset list for initial rollout (real stocks HBC only per PRD)<br>
               · Tolerance % per instrument — who owns configuration?
@@ -2284,7 +2284,7 @@ function chooseOrderType(type) {
   hideOrderTypeDropdown();
   if (type === 'market') return goTo(0);
   if (type === 'limit') return goTo(1);
-  return showToast('Limit Stop Market is the existing behavior, renamed here for clarity');
+  return showToast('Stop Market is the existing behavior, renamed here for clarity');
 }
 
 function showOrderTypeDropdown(event, currentType) {
@@ -2331,7 +2331,7 @@ function showOrderTypeDropdown(event, currentType) {
         <button class="order-picker-item" type="button" onclick="chooseOrderType('limit-stop-market')">
           <span class="order-picker-main">
             <span>
-              <div class="order-picker-name">Limit Stop Market</div>
+              <div class="order-picker-name">Stop Market</div>
               <div class="order-picker-meta">Existing behavior, renamed</div>
             </span>
           </span>
