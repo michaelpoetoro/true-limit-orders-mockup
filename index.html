@@ -465,12 +465,16 @@ button{font-family:inherit;border:none;background:none;cursor:pointer;color:inhe
 }
 .f-chip.on { background: var(--color-blue-bg); border-color: var(--color-blue); color: var(--color-blue); font-weight: 600; }
 
-.pos-list { padding: var(--x2) var(--x4) calc(var(--x4) + env(safe-area-inset-bottom)); display: flex; flex-direction: column; gap: var(--x2); background: var(--color-bg); }
+.pos-list {
+  padding: var(--x2) var(--x4) calc(var(--x4) + env(safe-area-inset-bottom));
+  display: flex; flex-direction: column; gap: var(--x2); background: var(--color-bg);
+}
 .pos-card {
   background: var(--color-surface); border-radius: var(--radius-md);
   border: 1px solid var(--color-border); overflow: hidden; box-shadow: var(--shadow-1); cursor: pointer;
   transition: box-shadow .15s;
 }
+[hidden] { display: none !important; }
 .pos-card:hover { box-shadow: var(--shadow-2); }
 .pos-head { padding: var(--x3) var(--x3) var(--x2); display: flex; align-items: flex-start; gap: var(--x3); }
 .pos-logo {
@@ -538,9 +542,8 @@ button{font-family:inherit;border:none;background:none;cursor:pointer;color:inhe
 
 /* Confirmation screen */
 .confirm-screen {
-  background: var(--color-surface);
-  min-height: auto;  /* removed fixed 680px — content determines height */
-  flex: 1;           /* fill available phone-screen space */
+  background: var(--color-surface); min-height: auto;
+  flex: 1;
   display: flex; flex-direction: column; align-items: center; justify-content: flex-start;
   padding: var(--x8) var(--x6) calc(var(--x8) + env(safe-area-inset-bottom));
 }
@@ -604,13 +607,8 @@ button{font-family:inherit;border:none;background:none;cursor:pointer;color:inhe
 @media (max-width: 780px) {
   .annotation-panel { display: none; }
   .proto-stage { padding: var(--x4) var(--x3); }
-  /* Stack action buttons vertically on mobile so they're never cut off */
-  .card-actions, .cta-row, .sheet-btns {
-    flex-direction: column;
-  }
-  .card-actions button, .cta-row button, .sheet-btns button {
-    width: 100%;
-  }
+  .card-actions, .cta-row, .sheet-btns { flex-direction: column; }
+  .card-actions > *, .cta-row > *, .sheet-btns > * { width: 100%; }
 }
 
 .switch-btn {
@@ -732,46 +730,88 @@ button { font-family:inherit;border:none;cursor:pointer;background:none;color:in
   display:flex;align-items:center;gap:4px;
   padding:8px 14px;border-radius:28px;background:var(--pill);
   font-size:14px;font-weight:600;color:var(--t1);
-  position:relative;
 }
 .ot-pill .ch{font-size:9px;opacity:.55;margin-left:2px;}
-
-/* Order type dropdown */
-.ot-dropdown {
-  position:absolute;top:0;left:0;right:0;bottom:0;z-index:999;
+.order-picker-overlay{
+  position:absolute;inset:0;z-index:60;
+  background:rgba(0,0,0,.42);
+  backdrop-filter:blur(2px);
   display:flex;align-items:flex-end;
 }
-.ot-dropdown-backdrop {
-  position:absolute;inset:0;background:rgba(0,0,0,.55);
+.order-picker-sheet{
+  width:100%;background:var(--color-surface);
+  border-top:1px solid var(--color-border);
+  border-radius:20px 20px 0 0;
+  padding:var(--x4) var(--x4) calc(var(--x6) + env(safe-area-inset-bottom,0px));
+  box-shadow:0 -12px 40px rgba(0,0,0,.42);
 }
-.ot-dropdown-sheet {
-  position:relative;z-index:2;
-  background:#1C1C1E;border-radius:16px 16px 0 0;
-  width:100%;padding:16px 0 24px;
+.order-picker-head{
+  width:36px;height:4px;border-radius:999px;
+  background:var(--color-border-strong);
+  margin:0 auto var(--x4);
 }
-.ot-dropdown-title {
-  font-size:13px;color:rgba(255,255,255,.45);text-align:center;
-  padding:0 20px 12px;letter-spacing:.04em;text-transform:uppercase;
+.order-picker-title{
+  font-size:16px;font-weight:700;color:var(--t1);text-align:center;
 }
-.ot-dropdown-item {
-  display:flex;align-items:center;justify-content:space-between;
-  padding:16px 20px;font-size:16px;font-weight:500;color:#fff;
-  border-top:1px solid rgba(255,255,255,.08);cursor:pointer;
+.order-picker-sub{
+  margin-top:4px;margin-bottom:var(--x4);
+  font-size:12px;line-height:1.45;color:var(--t2);text-align:center;
 }
-.ot-dropdown-item:active { background:rgba(255,255,255,.06); }
-.ot-dropdown-item.active { color:#0EB12E;font-weight:700; }
-.ot-dropdown-item .ot-check { font-size:16px; }
-.ot-dropdown-item .ot-tag {
-  font-size:10px;font-weight:700;letter-spacing:.05em;
-  padding:3px 7px;border-radius:4px;text-transform:uppercase;
-}  
-.ot-dropdown-item .ot-tag.new { background:rgba(14,177,46,.2);color:#0EB12E; }
-.ot-dropdown-item .ot-tag.renamed { background:rgba(255,255,255,.1);color:rgba(255,255,255,.5); }
-.ot-dropdown-cancel {
-  display:block;width:calc(100% - 32px);margin:12px 16px 0;
-  padding:16px;border-radius:12px;background:rgba(255,255,255,.08);
-  font-size:16px;font-weight:600;color:#fff;text-align:center;cursor:pointer;
-  border:none;
+.order-picker-list{display:flex;flex-direction:column;gap:8px;}
+.order-picker-item{
+  width:100%;display:flex;align-items:center;justify-content:space-between;gap:12px;
+  padding:14px 14px;border-radius:16px;background:var(--color-surface-inset);
+  border:1px solid var(--color-border);text-align:left;
+}
+.order-picker-item.active{
+  border-color:color-mix(in srgb, var(--color-brand) 34%, transparent);
+  background:color-mix(in srgb, var(--color-brand) 10%, var(--color-surface-inset));
+}
+.order-picker-main{display:flex;align-items:center;gap:10px;}
+.order-picker-name{font-size:14px;font-weight:700;color:var(--t1);}
+.order-picker-meta{font-size:11px;color:var(--t2);margin-top:2px;}
+.order-picker-check{font-size:14px;font-weight:800;color:var(--ok);}
+.order-picker-badge{
+  font-size:9px;font-weight:800;letter-spacing:.04em;text-transform:uppercase;
+  padding:3px 7px;border-radius:999px;
+}
+.order-picker-badge.new{background:var(--color-brand);color:#fff;}
+.order-picker-badge.renamed{background:rgba(255,184,0,.18);color:#FFD166;border:1px solid rgba(255,184,0,.35);}
+.order-picker-cancel{
+  width:100%;height:48px;margin-top:12px;border-radius:14px;
+  background:rgba(255,255,255,.06);color:var(--t1);font-size:14px;font-weight:700;
+}
+.order-dd{position:relative;}
+.order-dd-menu{
+  position:absolute;top:calc(100% + 8px);right:0;z-index:30;
+  min-width:190px;padding:8px;
+  border-radius:16px;
+  background:#1C1C1E;
+  border:1px solid rgba(255,255,255,.08);
+  box-shadow:0 16px 40px rgba(0,0,0,.45);
+}
+.order-dd-menu[hidden]{display:none !important;}
+.order-dd-item{
+  width:100%;display:flex;align-items:center;justify-content:space-between;
+  gap:12px;padding:11px 12px;border-radius:12px;
+  color:var(--t1);font-size:14px;font-weight:600;text-align:left;
+  background:transparent;
+}
+.order-dd-item + .order-dd-item{margin-top:4px;}
+.order-dd-item:hover{background:rgba(255,255,255,.06);}
+.order-dd-item.on{
+  background:rgba(14,177,46,.14);
+  color:#fff;
+}
+.order-dd-item .dd-meta{
+  font-size:11px;font-weight:500;color:var(--t2);
+}
+.order-dd-item .dd-check{
+  color:var(--ok);font-size:12px;font-weight:800;
+}
+.ot-pill.limit-active{
+  background:rgba(14,177,46,.18);
+  border:1px solid rgba(14,177,46,.45);
 }
 
 /* ── Asset strip ── */
@@ -958,10 +998,10 @@ button { font-family:inherit;border:none;cursor:pointer;background:none;color:in
 
 /* ─── Fix phone-screen height so position:relative children resolve correctly ─── */
 .phone-frame {
-  height: 710px;  /* 680px content + 30px notch = full visible area */
+  height: 710px;  /* 680px content + 30px notch */
 }
 .phone-screen {
-  height: calc(100% - 30px);  /* subtract notch height so visible content = 680px */
+  height: 100%;  /* inherit the phone-frame height */
   overflow: hidden;
 }
 
@@ -969,20 +1009,21 @@ button { font-family:inherit;border:none;cursor:pointer;background:none;color:in
 #phoneScreen {
   display: flex;
   flex-direction: column;
-  height: calc(100% - 30px);  /* phone-frame 710px − 30px notch = 680px visible */
-  min-height: 540px;
+  height: calc(100% - 30px);
+  min-height: 680px;
+  position: relative;
   overflow: hidden;
+}
+#phoneScreen > .screen-content {
+  height: 100%;
+  overflow-y: auto;
+  overflow-x: hidden;
+  -webkit-overflow-scrolling: touch;
 }
 #phoneScreen > * {
   flex: 1;
   min-height: 0;
   overflow: hidden;
-}
-/* Allow tall screens to scroll inside the phone — prevents CTA clip */
-#phoneScreen > .screen-content {
-  height: 100%;
-  overflow-y: auto;
-  -webkit-overflow-scrolling: touch;
 }
 
 /* ─── Disabled button states — clearly visible ─── */
@@ -1080,14 +1121,14 @@ const STEPS = [
       { type: 'default', text: '<strong>Single tab</strong> — only Market Order is visible. No LIMIT option yet.' },
       { type: 'default', text: 'Dollar amount, not shares — familiar entry for retail clients' },
       { type: 'default', text: 'CFD instruments: this tab is the only one. Unchanged.' },
-      { type: 'default', text: 'Tap <strong>"Switch to Limit Order"</strong> to see the new LIMIT flow →' },
+      { type: 'default', text: 'Tap the <strong>order-type dropdown</strong> to switch between Market and Limit flows →' },
     ],
-    cta: 'Tap "Switch to Limit Order" button',
+    cta: 'Open the order-type dropdown',
     html: () => `
       <div class="scr" style="position:relative;top:0;left:0;right:0;bottom:0;display:flex;flex-direction:column;overflow:hidden;background:var(--bg);">
         <div class="top-bar">
           <button class="back-btn" onclick="showToast('Back to asset page')">‹</button>
-          <button class="ot-pill" onclick="showOrderTypeDropdown('market')">Market Order<span class="ch">▾</span></button>
+          <button class="ot-pill" type="button" onclick="showOrderTypeDropdown('market')" aria-haspopup="dialog" aria-expanded="false">Market Order<span class="ch">▾</span></button>
         </div>
         <div class="asset-strip">
           <div class="asset-ico">AAPL</div>
@@ -1099,8 +1140,8 @@ const STEPS = [
             <span class="amt-sym">$</span>
             <span class="amt-num" id="mkt-num">10.00</span>
           </div>
-          <button class="qty-pill" onclick="mktToggleUnit()" aria-label="Toggle between dollar and shares input"><span id="mkt-shares">~0.05 shares</span><span class="rf">⟳</span></button>
-          <span class="avail">Available: $12,440.00</span>
+          <button class="qty-pill" type="button" onclick="toggleMktMode()" aria-label="Switch between dollar amount and share units"><span id="mkt-shares">~0.05 shares</span><span class="rf">⟳</span></button>
+          <span class="avail" id="mkt-avail">Available: $12,440.00</span>
           <span id="mkt-amount-input" style="display:none">10.00</span>
           <span id="mkt-est-shares" style="display:none">~0.05 shares</span>
           <span id="mkt-est-price" style="display:none">~$186.42</span>
@@ -1113,7 +1154,7 @@ const STEPS = [
           <button class="k k-dot" onclick="mKp('.')">.</button><button class="k" onclick="mKp('0')">0</button>
           <button class="k k-del" onclick="mKpDel()"><svg width="20" height="14" viewBox="0 0 20 14" fill="none"><path d="M7 1L1 7L7 13M19 7H1" stroke="white" stroke-width="1.8" stroke-linecap="round"/></svg></button>
         </div>
-        <div class="cta-area"><button class="cta-buy" onclick="showToast('Tap → Market Order ▾ to switch to Limit Order')">Buy AAPL</button></div>
+        <div class="cta-area"><button class="cta-buy" onclick="showToast('Use the Market Order dropdown to switch order type')">Buy AAPL</button></div>
       </div>
     `
   },
@@ -1138,9 +1179,9 @@ const STEPS = [
 
         <!-- Row 1: Dimmed behind (fills all available space above) -->
         <div style="overflow:hidden;display:flex;flex-direction:column;">
-          <div style="opacity:.65;display:flex;align-items:center;justify-content:space-between;padding:10px 20px 4px;">
-            <div style="width:36px;height:36px;"></div>
-            <div onclick="showOrderTypeDropdown('limit')" style="cursor:pointer;display:flex;align-items:center;gap:4px;padding:8px 14px;border-radius:28px;background:rgba(14,177,46,.25);border:1px solid rgba(14,177,46,.4);font-size:14px;font-weight:600;color:#0EB12E;">Limit Order<span style="font-size:9px;opacity:.7;margin-left:2px;">▾</span></div>
+          <div style="display:flex;align-items:center;justify-content:space-between;padding:10px 20px 4px;position:relative;z-index:2;">
+            <button class="exec-back" type="button" onclick="goTo(0)" aria-label="Back to Market Order" style="width:36px;height:36px;border-radius:50%;background:rgba(255,255,255,.14);display:flex;align-items:center;justify-content:center;font-size:20px;color:#fff;">‹</button>
+            <button class="ot-pill limit-active" type="button" onclick="showOrderTypeDropdown('limit')" aria-haspopup="dialog" aria-expanded="false">Limit Order<span class="ch">▾</span></button>
           </div>
           <div style="opacity:.35;pointer-events:none;display:flex;align-items:center;justify-content:center;gap:6px;padding:2px 20px 8px;">
             <div style="width:20px;height:20px;border-radius:5px;background:#18182A;border:1px solid rgba(255,255,255,.15);display:flex;align-items:center;justify-content:center;font-size:6px;font-weight:800;color:#fff;">AAPL</div>
@@ -1161,12 +1202,8 @@ const STEPS = [
 
         <!-- Row 2: Sheet (auto height — natural size, stays at grid bottom) -->
         <div style="background:#1C1C1E;border-radius:16px 16px 0 0;box-shadow:0 -8px 40px rgba(0,0,0,.5);display:flex;flex-direction:column;z-index:2;">
-          <div style="display:flex;align-items:center;justify-content:space-between;padding:12px 16px 0;">
-            <button onclick="goTo(0)" style="cursor:pointer;border:none;background:rgba(255,255,255,.1);color:#fff;border-radius:20px;padding:7px 14px;font-size:13px;font-weight:600;display:flex;align-items:center;gap:5px;">‹ Market Order</button>
-            <div style="width:40px;height:4px;border-radius:2px;background:rgba(255,255,255,.22);margin:0 auto;"></div>
-            <div style="width:100px;"></div>
-          </div>
-          <div style="font-size:18px;font-weight:700;color:#fff;text-align:center;margin:10px 0 2px;font-family:'eToroNum','Inter',sans-serif;">Set Limit order</div>
+          <div style="width:40px;height:4px;border-radius:2px;background:rgba(255,255,255,.22);margin:14px auto 14px;"></div>
+          <div style="font-size:18px;font-weight:700;color:#fff;text-align:center;margin-bottom:2px;font-family:'eToroNum','Inter',sans-serif;">Set Limit order</div>
           <div style="font-size:13px;color:rgba(255,255,255,.5);text-align:center;margin-bottom:12px;">Current Ask: $186.45</div>
           <div id="kp-display" style="font-size:58px;font-weight:400;color:#fff;text-align:center;cursor:text;;font-variant-numeric:tabular-nums;font-feature-settings:'ss06' 1,'lnum' 1,'tnum' 1;letter-spacing:0;line-height:66px;min-height:68px;padding:0 20px;font-family:'eToroNum','Inter',sans-serif;">184.56</div>
           <div id="price-validation" style="font-size:11px;color:#0EB12E;text-align:center;min-height:15px;margin-bottom:8px;">✓ Below Ask · order rests at your price</div>
@@ -1346,7 +1383,7 @@ const STEPS = [
         <div class="pos-list" role="list">
 
           <!-- AAPL — just placed order from orderState -->
-          <article class="pos-card" role="listitem" data-status="pending active">
+          <article class="pos-card" role="listitem" data-status="partial active">
             <div class="pos-head">
               <div class="pos-logo aapl" aria-hidden="true">AAPL</div>
               <div style="flex:1">
@@ -2232,12 +2269,82 @@ function goTo(idx) {
     }, 50);
   }
   if (idx === 0) {
-    mktKpFresh = false; mktKpVal = '10.00';  // reset market keypad
+    mktMode = 'amount';
+    mktAmountValue = 10.00;
+    mktSharesValue = mktAmountValue / mktPrice;
+    mktKpFresh = false;
+    mktBufferDirty = false;
+    mktKpVal = mktAmountValue.toFixed(2);  // reset market keypad
     setTimeout(function(){
-      var d=document.getElementById('mkt-num');
-      if(d)d.textContent=mktKpVal;
+      updateMktDisplay();
     }, 50);
   }
+}
+
+function hideOrderTypeDropdown() {
+  const el = document.getElementById('orderTypePicker');
+  if (el) el.remove();
+}
+
+function chooseOrderType(type) {
+  hideOrderTypeDropdown();
+  if (type === 'market') return goTo(0);
+  if (type === 'limit') return goTo(1);
+  return showToast('Limit Stop Market is the existing behavior, renamed here for clarity');
+}
+
+function showOrderTypeDropdown(currentType) {
+  hideOrderTypeDropdown();
+  const mount = document.getElementById('phoneScreen');
+  if (!mount) return;
+
+  const overlay = document.createElement('div');
+  overlay.id = 'orderTypePicker';
+  overlay.className = 'order-picker-overlay';
+  overlay.innerHTML = `
+    <div class="order-picker-sheet" role="dialog" aria-modal="true" aria-label="Choose order type">
+      <div class="order-picker-head" aria-hidden="true"></div>
+      <div class="order-picker-title">Choose order type</div>
+      <div class="order-picker-sub">Switch between Market, Limit, and Limit Stop Market.</div>
+      <div class="order-picker-list">
+        <button class="order-picker-item ${currentType === 'market' ? 'active' : ''}" type="button" onclick="chooseOrderType('market')">
+          <span class="order-picker-main">
+            <span>
+              <div class="order-picker-name">Market Order</div>
+              <div class="order-picker-meta">Best available price</div>
+            </span>
+          </span>
+          ${currentType === 'market' ? '<span class="order-picker-check">✓</span>' : ''}
+        </button>
+        <button class="order-picker-item ${currentType === 'limit' ? 'active' : ''}" type="button" onclick="chooseOrderType('limit')">
+          <span class="order-picker-main">
+            <span>
+              <div class="order-picker-name">Limit Order</div>
+              <div class="order-picker-meta">Your price or better</div>
+            </span>
+          </span>
+          <span style="display:flex;align-items:center;gap:8px;">
+            <span class="order-picker-badge new">New</span>
+            ${currentType === 'limit' ? '<span class="order-picker-check">✓</span>' : ''}
+          </span>
+        </button>
+        <button class="order-picker-item" type="button" onclick="chooseOrderType('limit-stop-market')">
+          <span class="order-picker-main">
+            <span>
+              <div class="order-picker-name">Limit Stop Market</div>
+              <div class="order-picker-meta">Existing behavior, renamed</div>
+            </span>
+          </span>
+          <span class="order-picker-badge renamed">Renamed</span>
+        </button>
+      </div>
+      <button class="order-picker-cancel" type="button" onclick="hideOrderTypeDropdown()">Cancel</button>
+    </div>
+  `;
+  overlay.addEventListener('click', function(e) {
+    if (e.target === overlay) hideOrderTypeDropdown();
+  });
+  mount.appendChild(overlay);
 }
 
 function toggleTheme() {
@@ -2245,6 +2352,51 @@ function toggleTheme() {
   const isDark = html.getAttribute('data-theme') === 'dark';
   html.setAttribute('data-theme', isDark ? 'light' : 'dark');
   document.querySelector('.theme-btn').textContent = isDark ? '🌙' : '☀️';
+}
+
+function selectFChip(btn) {
+  if (!btn) return;
+  const bar = btn.closest('.filter-bar');
+  if (!bar) return;
+
+  bar.querySelectorAll('.f-chip').forEach(c => {
+    c.classList.remove('on');
+    c.setAttribute('aria-selected', 'false');
+  });
+  btn.classList.add('on');
+  btn.setAttribute('aria-selected', 'true');
+
+  const list = (bar.parentElement && bar.parentElement.querySelector('.pos-list'))
+    || (bar.nextElementSibling && bar.nextElementSibling.classList.contains('pos-list') ? bar.nextElementSibling : null);
+  if (!list) return;
+
+  const filter = btn.textContent.replace(/\s+/g, ' ').trim().toLowerCase();
+  const cards = Array.from(list.querySelectorAll('.pos-card'));
+
+  cards.forEach(card => {
+    const dataStatus = (card.dataset.status || '').toLowerCase();
+    const statusText = ((card.querySelector('.status-chip') || {}).textContent || '')
+      .replace(/\s+/g, ' ')
+      .trim()
+      .toLowerCase();
+    const cardText = card.textContent.replace(/\s+/g, ' ').trim().toLowerCase();
+
+    let show = true;
+    if (filter.startsWith('active')) {
+      show = dataStatus
+        ? (dataStatus.includes('active') || dataStatus.includes('pending'))
+        : (statusText.includes('pending') || statusText.includes('partial'));
+    } else if (filter.startsWith('filled')) {
+      show = dataStatus
+        ? (dataStatus.includes('filled') && !dataStatus.includes('cancelled'))
+        : (statusText.includes('filled') && !cardText.includes('cancelled'));
+    } else if (filter.startsWith('cancelled')) {
+      show = dataStatus ? dataStatus.includes('cancelled') : cardText.includes('cancelled');
+    }
+
+    card.hidden = !show;
+    card.style.display = show ? '' : 'none';
+  });
 }
 
 document.addEventListener('keydown', e => {
@@ -2328,15 +2480,7 @@ document.addEventListener('click', function(e) {
 
   /* Portfolio filter chips */
   if (btn.classList.contains('f-chip')) {
-    const bar = btn.closest('.filter-bar');
-    if (bar) {
-      bar.querySelectorAll('.f-chip').forEach(c => {
-        c.classList.remove('on');
-        c.setAttribute('aria-selected', 'false');
-      });
-      btn.classList.add('on');
-      btn.setAttribute('aria-selected', 'true');
-    }
+    selectFChip(btn);
     return;
   }
 
@@ -2589,38 +2733,70 @@ function validateForm() {
 }
 
 /* ─── Market order keypad (Screen 1) — first press clears prefill ─── */
+var mktPrice = 186.42;
+var mktAvailAmount = 12440.00;
+var mktMode = 'amount';
+var mktAmountValue = 10.00;
+var mktSharesValue = mktAmountValue / mktPrice;
 var mktKpVal = '10.00';
-var mktKpFresh = false;
-var mktUnitMode = 'dollar'; // 'dollar' | 'shares'
+var mktKpFresh = false;  // true once user has started typing
+var mktBufferDirty = false;
 
-function mktToggleUnit() {
-  mktUnitMode = mktUnitMode === 'dollar' ? 'shares' : 'dollar';
-  var sym = document.getElementById('mkt-num') && document.querySelector('.amt-sym');
-  var numEl = document.getElementById('mkt-num');
-  var sharesEl = document.getElementById('mkt-shares');
-  var symEl = document.querySelector('.amt-sym');
-  var price = 186.42;
-  if (mktUnitMode === 'shares') {
-    // Convert current $ value to shares
-    var dollars = parseFloat(mktKpVal) || 0;
-    var sh = (dollars / price).toFixed(2);
-    mktKpVal = sh;
-    mktKpFresh = false;
-    if (symEl) symEl.textContent = '';
-    if (numEl) numEl.textContent = sh;
-    if (sharesEl) sharesEl.textContent = '~$' + (parseFloat(sh) * price).toFixed(2);
-    showToast('• Entering in shares. Pill shows $ equivalent.');
+function syncMktBufferToState() {
+  var n = parseFloat(mktKpVal);
+  if (isNaN(n)) return;
+  if (mktMode === 'amount') {
+    mktAmountValue = n;
+    mktSharesValue = n / mktPrice;
   } else {
-    // Convert current shares value back to $
-    var shares = parseFloat(mktKpVal) || 0;
-    var d = (shares * price).toFixed(2);
-    mktKpVal = d;
-    mktKpFresh = false;
-    if (symEl) symEl.textContent = '$';
-    if (numEl) numEl.textContent = d;
-    if (sharesEl) sharesEl.textContent = '~' + (parseFloat(d) / price).toFixed(2) + ' shares';
-    showToast('• Entering in dollars.');
+    mktSharesValue = n;
+    mktAmountValue = n * mktPrice;
   }
+  mktBufferDirty = false;
+}
+
+function updateMktDisplay() {
+  var numEl = document.getElementById('mkt-num');
+  var symEl = document.querySelector('.amt-sym');
+  var pillEl = document.getElementById('mkt-shares');
+  var availEl = document.getElementById('mkt-avail');
+  var amountEl = document.getElementById('mkt-amount-input');
+  var sharesEl = document.getElementById('mkt-est-shares');
+  var priceEl = document.getElementById('mkt-est-price');
+  var totalEl = document.getElementById('mkt-total');
+
+  if (numEl) numEl.textContent = mktKpVal || '0';
+  if (symEl) {
+    symEl.textContent = '$';
+    symEl.style.opacity = mktMode === 'amount' ? '1' : '0';
+  }
+  if (pillEl) {
+    pillEl.textContent = mktMode === 'amount'
+      ? ('~' + mktSharesValue.toFixed(2) + ' shares')
+      : ('~$' + mktAmountValue.toFixed(2));
+  }
+  if (availEl) {
+    availEl.textContent = mktMode === 'amount'
+      ? ('Available: $' + mktAvailAmount.toLocaleString('en-US', {minimumFractionDigits:2, maximumFractionDigits:2}))
+      : ('Available: ~' + (mktAvailAmount / mktPrice).toFixed(2) + ' shares');
+  }
+  if (amountEl) amountEl.textContent = mktAmountValue.toFixed(2);
+  if (sharesEl) sharesEl.textContent = '~' + mktSharesValue.toFixed(2) + ' shares';
+  if (priceEl) priceEl.textContent = '~$' + mktAmountValue.toFixed(2);
+  if (totalEl) totalEl.textContent = '$' + (mktAmountValue + 1.99).toLocaleString('en-US', {minimumFractionDigits:2, maximumFractionDigits:2});
+}
+
+function toggleMktMode() {
+  if (mktBufferDirty) syncMktBufferToState();
+  if (mktMode === 'amount') {
+    mktMode = 'shares';
+    mktKpVal = mktSharesValue.toFixed(2);
+  } else {
+    mktMode = 'amount';
+    mktKpVal = mktAmountValue.toFixed(2);
+  }
+  mktKpFresh = true;
+  updateMktDisplay();
 }
 
 function mKp(k) {
@@ -2628,23 +2804,16 @@ function mKp(k) {
   if (k === '.' && mktKpVal.includes('.')) return;
   if (mktKpVal.includes('.') && mktKpVal.split('.')[1] && mktKpVal.split('.')[1].length >= 2) return;
   if (mktKpVal === '' || (mktKpVal === '0' && k !== '.')) mktKpVal = k; else mktKpVal += k;
-  var d = document.getElementById('mkt-num');
-  var s = document.getElementById('mkt-shares');
-  if (d) d.textContent = mktKpVal || '0';
-  if (s) {
-    var a = parseFloat(mktKpVal);
-    if (mktUnitMode === 'shares') {
-      s.textContent = isNaN(a) ? '—' : '~$' + (a * 186.42).toFixed(2);
-    } else {
-      s.textContent = isNaN(a) ? '— shares' : '~' + (a / 186.42).toFixed(2) + ' shares';
-    }
-  }
+  mktBufferDirty = true;
+  syncMktBufferToState();
+  updateMktDisplay();
 }
 function mKpDel() {
   mktKpFresh = true;
   if (!mktKpVal || mktKpVal.length <= 1) mktKpVal = '0'; else mktKpVal = mktKpVal.slice(0,-1);
-  var d = document.getElementById('mkt-num');
-  if (d) d.textContent = mktKpVal;
+  mktBufferDirty = true;
+  syncMktBufferToState();
+  updateMktDisplay();
 }
 
 /* ─── LIMIT price keypad (Screen 2) ─── */
@@ -2672,76 +2841,6 @@ function kpBackspace() {
 }
 
 /* ─── Viewport-fit phone scaling ─── */
-/* ─── Order type dropdown ─── */
-function showOrderTypeDropdown(current) {
-  var existing = document.getElementById('ot-drop');
-  if (existing) existing.remove();
-
-  var overlay = document.createElement('div');
-  overlay.id = 'ot-drop';
-  overlay.className = 'ot-dropdown';
-  overlay.innerHTML = `
-    <div class="ot-dropdown-backdrop" onclick="document.getElementById('ot-drop').remove()"></div>
-    <div class="ot-dropdown-sheet">
-      <div class="ot-dropdown-title">Order Type</div>
-      <div class="ot-dropdown-item ${current==='market'?'active':''}" onclick="document.getElementById('ot-drop').remove();goTo(0);">
-        <span>Market Order</span>
-        <span>${current==='market'?'<span class="ot-check">✓</span>':''}</span>
-      </div>
-      <div class="ot-dropdown-item ${current==='limit'?'active':''}" onclick="document.getElementById('ot-drop').remove();goTo(1);">
-        <span>Limit Order</span>
-        <span style="display:flex;align-items:center;gap:6px;">
-          ${current==='limit'?'<span class="ot-check">✓</span>':''}
-          <span class="ot-tag new">NEW</span>
-        </span>
-      </div>
-      <div class="ot-dropdown-item" onclick="document.getElementById('ot-drop').remove();showToast('Limit Stop Market \u2014 existing Stop Market behaviour, renamed');">
-        <span style="color:rgba(255,255,255,.55);">Limit Stop Market</span>
-        <span class="ot-tag renamed">RENAMED</span>
-      </div>
-      <button class="ot-dropdown-cancel" onclick="document.getElementById('ot-drop').remove()">Cancel</button>
-    </div>
-  `;
-  // Append to phoneScreen so it's clipped to the phone frame
-  var phoneScreen = document.getElementById('phoneScreen') || document.body;
-  phoneScreen.style.position = 'relative';
-  phoneScreen.appendChild(overlay);
-}
-
-/* ─── Portfolio filter chips ─── */
-function selectFChip(btn) {
-  // Update active chip
-  const bar = btn.closest('[role="tablist"]') || btn.parentElement;
-  bar.querySelectorAll('.f-chip').forEach(b => {
-    b.classList.remove('on');
-    b.setAttribute('aria-selected', 'false');
-  });
-  btn.classList.add('on');
-  btn.setAttribute('aria-selected', 'true');
-
-  // Determine filter
-  const label = btn.textContent.trim().toLowerCase();
-  const list = btn.closest('[role="tablist"]').nextElementSibling;
-  if (!list) return;
-
-  list.querySelectorAll('[data-status]').forEach(card => {
-    let show = false;
-    if (label.startsWith('all')) {
-      show = true;
-    } else if (label.startsWith('active') || label === 'pending') {
-      show = card.dataset.status.includes('active') || card.dataset.status.includes('pending');
-    } else if (label.startsWith('fill')) {
-      show = card.dataset.status.includes('fill');
-    } else if (label.startsWith('cancel')) {
-      show = card.dataset.status.includes('cancel');
-    } else {
-      // fallback: match any word in the label
-      show = card.dataset.status.split(' ').some(s => label.includes(s));
-    }
-    card.style.display = show ? '' : 'none';
-  });
-}
-
 function scalePhone() {
   var vph = window.innerHeight;
   var targetH = 844; /* phone frame height */
