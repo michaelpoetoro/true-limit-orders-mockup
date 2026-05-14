@@ -910,10 +910,10 @@ button { font-family:inherit;border:none;cursor:pointer;background:none;color:in
 
 /* ─── Fix phone-screen height so position:relative children resolve correctly ─── */
 .phone-frame {
-  height: 680px;  /* explicit height for the phone frame */
+  height: 710px;  /* 680px content + 30px notch = full visible area */
 }
 .phone-screen {
-  height: 100%;  /* inherit the phone-frame height */
+  height: calc(100% - 30px);  /* subtract notch height so visible content = 680px */
   overflow: hidden;
 }
 
@@ -921,7 +921,7 @@ button { font-family:inherit;border:none;cursor:pointer;background:none;color:in
 #phoneScreen {
   display: flex;
   flex-direction: column;
-  height: 100%;
+  height: calc(100% - 30px);  /* phone-frame 710px − 30px notch = 680px visible */
   min-height: 540px;
   overflow: hidden;
 }
