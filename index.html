@@ -2165,7 +2165,21 @@ function goTo(idx) {
   document.getElementById('nextBtn').disabled = currentStep === STEPS.length - 1;
   const activeItem = document.querySelector('.step-item.active');
   if (activeItem) activeItem.scrollIntoView({ behavior: 'smooth', block: 'nearest', inline: 'center' });
-  if (idx === 1) { setTimeout(function(){ var d=document.getElementById('kp-display'); if(d)d.textContent=kpVal; if(typeof validateForm==='function')validateForm(); }, 50); }
+  if (idx === 1) {
+    kpFresh = false; kpVal = '184.56';  // reset to clean state
+    setTimeout(function(){
+      var d=document.getElementById('kp-display');
+      if(d)d.textContent=kpVal;
+      if(typeof validateForm==='function')validateForm();
+    }, 50);
+  }
+  if (idx === 0) {
+    mktKpFresh = false; mktKpVal = '10.00';  // reset market keypad
+    setTimeout(function(){
+      var d=document.getElementById('mkt-num');
+      if(d)d.textContent=mktKpVal;
+    }, 50);
+  }
 }
 
 function toggleTheme() {
@@ -2516,19 +2530,22 @@ function validateForm() {
   }
 }
 
-/* ─── Market order keypad (Screen 1) ─── */
+/* ─── Market order keypad (Screen 1) — first press clears prefill ─── */
 var mktKpVal = '10.00';
+var mktKpFresh = false;  // true once user has started typing
 function mKp(k) {
+  if (!mktKpFresh) { mktKpVal = ''; mktKpFresh = true; }
   if (k === '.' && mktKpVal.includes('.')) return;
-  if (mktKpVal.includes('.') && mktKpVal.split('.')[1].length >= 2) return;
-  if (mktKpVal === '0' && k !== '.') mktKpVal = k; else mktKpVal += k;
+  if (mktKpVal.includes('.') && mktKpVal.split('.')[1] && mktKpVal.split('.')[1].length >= 2) return;
+  if (mktKpVal === '' || (mktKpVal === '0' && k !== '.')) mktKpVal = k; else mktKpVal += k;
   var d = document.getElementById('mkt-num');
   var s = document.getElementById('mkt-shares');
-  if (d) d.textContent = mktKpVal;
+  if (d) d.textContent = mktKpVal || '0';
   if (s) { var a = parseFloat(mktKpVal); s.textContent = isNaN(a) ? '— shares' : '~'+(a/186.42).toFixed(2)+' shares'; }
 }
 function mKpDel() {
-  if (mktKpVal.length <= 1) mktKpVal = '0'; else mktKpVal = mktKpVal.slice(0,-1);
+  mktKpFresh = true;
+  if (!mktKpVal || mktKpVal.length <= 1) mktKpVal = '0'; else mktKpVal = mktKpVal.slice(0,-1);
   var d = document.getElementById('mkt-num');
   if (d) d.textContent = mktKpVal;
 }
