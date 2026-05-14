@@ -2284,6 +2284,8 @@ function goTo(idx) {
 function hideOrderTypeDropdown() {
   const el = document.getElementById('orderTypePicker');
   if (el) el.remove();
+  const bd = document.getElementById('orderTypePickerBackdrop');
+  if (bd) bd.remove();
 }
 
 function chooseOrderType(type) {
@@ -2293,58 +2295,44 @@ function chooseOrderType(type) {
   return showToast('Limit Stop Market is the existing behavior, renamed here for clarity');
 }
 
-function showOrderTypeDropdown(currentType) {
+function showOrderTypeDropdown(currentType, triggerEl) {
   hideOrderTypeDropdown();
   const mount = document.getElementById('phoneScreen');
   if (!mount) return;
 
-  const overlay = document.createElement('div');
-  overlay.id = 'orderTypePicker';
-  overlay.className = 'order-picker-overlay';
-  overlay.innerHTML = `
-    <div class="order-picker-sheet" role="dialog" aria-modal="true" aria-label="Choose order type">
-      <div class="order-picker-head" aria-hidden="true"></div>
-      <div class="order-picker-title">Choose order type</div>
-      <div class="order-picker-sub">Switch between Market, Limit, and Limit Stop Market.</div>
-      <div class="order-picker-list">
-        <button class="order-picker-item ${currentType === 'market' ? 'active' : ''}" type="button" onclick="chooseOrderType('market')">
-          <span class="order-picker-main">
-            <span>
-              <div class="order-picker-name">Market Order</div>
-              <div class="order-picker-meta">Best available price</div>
-            </span>
-          </span>
-          ${currentType === 'market' ? '<span class="order-picker-check">✓</span>' : ''}
-        </button>
-        <button class="order-picker-item ${currentType === 'limit' ? 'active' : ''}" type="button" onclick="chooseOrderType('limit')">
-          <span class="order-picker-main">
-            <span>
-              <div class="order-picker-name">Limit Order</div>
-              <div class="order-picker-meta">Your price or better</div>
-            </span>
-          </span>
-          <span style="display:flex;align-items:center;gap:8px;">
-            <span class="order-picker-badge new">New</span>
-            ${currentType === 'limit' ? '<span class="order-picker-check">✓</span>' : ''}
-          </span>
-        </button>
-        <button class="order-picker-item" type="button" onclick="chooseOrderType('limit-stop-market')">
-          <span class="order-picker-main">
-            <span>
-              <div class="order-picker-name">Limit Stop Market</div>
-              <div class="order-picker-meta">Existing behavior, renamed</div>
-            </span>
-          </span>
-          <span class="order-picker-badge renamed">Renamed</span>
-        </button>
-      </div>
-      <button class="order-picker-cancel" type="button" onclick="hideOrderTypeDropdown()">Cancel</button>
-    </div>
+  // Build a compact dropdown anchored top-right
+  const menu = document.createElement('div');
+  menu.id = 'orderTypePicker';
+  menu.style.cssText = `
+    position:absolute;top:48px;right:10px;z-index:200;
+    min-width:210px;background:#1C1C1E;
+    border-radius:14px;border:1px solid rgba(255,255,255,.1);
+    box-shadow:0 8px 32px rgba(0,0,0,.55);overflow:hidden;
   `;
-  overlay.addEventListener('click', function(e) {
-    if (e.target === overlay) hideOrderTypeDropdown();
-  });
-  mount.appendChild(overlay);
+  menu.innerHTML = `
+    <div style="padding:10px 14px 6px;font-size:10px;font-weight:700;letter-spacing:.08em;text-transform:uppercase;color:rgba(255,255,255,.4);">Order Type</div>
+    <button type="button" onclick="chooseOrderType('market')" style="width:100%;display:flex;align-items:center;justify-content:space-between;padding:12px 14px;border:none;background:${currentType==='market'?'rgba(14,177,46,.12)':'transparent'};color:${currentType==='market'?'#0EB12E':'#fff'};font-size:14px;font-weight:${currentType==='market'?'700':'500'};text-align:left;cursor:pointer;">
+      <span>Market Order</span>
+      ${currentType==='market'?'<span style="color:#0EB12E;font-size:13px;">✓</span>':''}
+    </button>
+    <button type="button" onclick="chooseOrderType('limit')" style="width:100%;display:flex;align-items:center;justify-content:space-between;padding:12px 14px;border:none;border-top:1px solid rgba(255,255,255,.06);background:${currentType==='limit'?'rgba(14,177,46,.12)':'transparent'};color:${currentType==='limit'?'#0EB12E':'#fff'};font-size:14px;font-weight:${currentType==='limit'?'700':'500'};text-align:left;cursor:pointer;">
+      <span style="display:flex;align-items:center;gap:8px;">Limit Order <span style="font-size:9px;font-weight:800;padding:2px 6px;border-radius:4px;background:#0EB12E;color:#fff;text-transform:uppercase;">New</span></span>
+      ${currentType==='limit'?'<span style="color:#0EB12E;font-size:13px;">✓</span>':''}
+    </button>
+    <button type="button" onclick="chooseOrderType('limit-stop-market')" style="width:100%;display:flex;align-items:center;justify-content:space-between;padding:12px 14px;border:none;border-top:1px solid rgba(255,255,255,.06);background:transparent;color:rgba(255,255,255,.5);font-size:14px;font-weight:500;text-align:left;cursor:pointer;">
+      <span>Limit Stop Market</span>
+      <span style="font-size:9px;font-weight:700;padding:2px 6px;border-radius:4px;background:rgba(255,184,0,.15);color:#FFD166;border:1px solid rgba(255,184,0,.3);text-transform:uppercase;">Renamed</span>
+    </button>
+  `;
+
+  // Dismiss on outside click
+  const backdrop = document.createElement('div');
+  backdrop.id = 'orderTypePickerBackdrop';
+  backdrop.style.cssText = 'position:absolute;inset:0;z-index:199;';
+  backdrop.addEventListener('click', hideOrderTypeDropdown);
+
+  mount.appendChild(backdrop);
+  mount.appendChild(menu);
 }
 
 function toggleTheme() {
