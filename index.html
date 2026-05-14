@@ -2552,20 +2552,23 @@ function mKpDel() {
 
 /* ─── LIMIT price keypad (Screen 2) ─── */
 var kpVal = '184.56';
+var kpFresh = false;
 function kpPress(k) {
   var d = document.getElementById('kp-display');
   if (!d) return;
+  if (!kpFresh) { kpVal = ''; kpFresh = true; }
   if (k === '.' && kpVal.includes('.')) return;
-  if (kpVal.includes('.') && kpVal.split('.')[1].length >= 2) return;
-  if (kpVal === '0' && k !== '.') kpVal = k; else kpVal += k;
-  d.textContent = kpVal;
+  if (kpVal.includes('.') && kpVal.split('.')[1] && kpVal.split('.')[1].length >= 2) return;
+  if (kpVal === '' || (kpVal === '0' && k !== '.')) kpVal = k; else kpVal += k;
+  d.textContent = kpVal || '0';
   var inp = document.getElementById('tlo-price-input');
   if (inp) { inp.value = kpVal; inp.dispatchEvent(new Event('input', {bubbles:true})); }
 }
 function kpBackspace() {
   var d = document.getElementById('kp-display');
   if (!d) return;
-  if (kpVal.length <= 1) kpVal = '0'; else kpVal = kpVal.slice(0,-1);
+  kpFresh = true;
+  if (!kpVal || kpVal.length <= 1) kpVal = '0'; else kpVal = kpVal.slice(0,-1);
   d.textContent = kpVal;
   var inp = document.getElementById('tlo-price-input');
   if (inp) { inp.value = kpVal; inp.dispatchEvent(new Event('input', {bubbles:true})); }
