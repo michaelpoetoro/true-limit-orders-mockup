@@ -894,6 +894,19 @@ button { font-family:inherit;border:none;cursor:pointer;background:none;color:in
 .phone-status {
   background: #1A1E24 !important;
 }
+
+/* ─── Responsive phone frame scaling ─── */
+@media (max-height: 960px) {
+  .proto-stage {
+    align-items: flex-start;
+  }
+  .phone-wrap {
+    transform-origin: top center;
+    /* Scale phone to fit viewport height with room for nav/controls */
+    transform: scale(var(--phone-scale, 1));
+  }
+}
+/* Scale calculation is done in JS below */
 </style>
 </head>
 <body>
@@ -2365,6 +2378,30 @@ function kpBackspace() {
   if (inp) { inp.value = kpVal; inp.dispatchEvent(new Event('input', {bubbles:true})); }
 }
 
+/* ─── Viewport-fit phone scaling ─── */
+function scalePhone() {
+  var vph = window.innerHeight;
+  var targetH = 844; /* phone frame height */
+  var navH = 120;    /* header + nav + controls */
+  var available = vph - navH;
+  if (available < targetH) {
+    var scale = available / targetH;
+    document.querySelectorAll('.phone-wrap').forEach(function(el) {
+      el.style.setProperty('--phone-scale', scale.toFixed(3));
+      el.style.transformOrigin = 'top center';
+      el.style.transform = 'scale(' + scale.toFixed(3) + ')';
+      el.style.marginBottom = ((targetH * scale) - targetH) + 'px';
+    });
+  } else {
+    document.querySelectorAll('.phone-wrap').forEach(function(el) {
+      el.style.transform = '';
+      el.style.marginBottom = '';
+    });
+  }
+}
+window.addEventListener('resize', scalePhone);
+
+scalePhone();
 // Init
 goTo(0);
 </script>
