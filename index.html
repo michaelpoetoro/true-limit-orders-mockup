@@ -3,13 +3,13 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>eToro — True Limit Orders · Interactive Prototype</title>
+<title>eToro — Limit Orders · Interactive Prototype</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Inter:ital,opsz,wght@0,14..32,300..900;1,14..32,300..900&display=swap" rel="stylesheet">
 <style>
 /* ============================================================
-   eToro Design System v2 — True Limit Orders Prototype
+   eToro Design System v2 — Limit Orders Prototype
    ============================================================ */
 :root {
   --color-bg:               #F5F7FA;
@@ -421,7 +421,7 @@ button{font-family:inherit;border:none;background:none;cursor:pointer;color:inhe
 .btn-sell { flex: 1; height: 46px; border-radius: var(--radius-md); font-size: 14px; font-weight: 700; background: var(--color-negative); color: #fff; cursor: pointer; }
 .btn-disabled { opacity: .4; cursor: not-allowed !important; }
 
-/* TLO badge */
+/* LIMIT badge */
 .tlo-badge {
   display: inline-flex; align-items: center; gap: 4px;
   padding: 2px 7px; border-radius: var(--radius-full);
@@ -906,7 +906,7 @@ button { font-family:inherit;border:none;cursor:pointer;background:none;color:in
       <div class="proto-logo-mark">eT</div>
       eToro
     </div>
-    <span class="proto-title">True Limit Orders</span>
+    <span class="proto-title">Limit Orders</span>
     <span class="proto-badge">PRD · Discovery</span>
     <div class="proto-bar-right">
       <button class="theme-btn" onclick="toggleTheme()">🌙</button>
@@ -954,12 +954,12 @@ const STEPS = [
     label: 'Market Order',
     tag: 'Execution · Screen 1',
     title: 'Order Entry — Market (Baseline)',
-    desc: 'Default execution state for Real Stocks. Client sees the standard market order form. Only the Market Order tab is visible at this point — True Limit Order is introduced in the next step.',
+    desc: 'Default execution state for Real Stocks. Client sees the standard market order form. Only the Market Order tab is visible at this point — Limit Order is introduced in the next step.',
     points: [
-      { type: 'default', text: '<strong>Single tab</strong> — only Market Order is visible. No TLO option yet.' },
+      { type: 'default', text: '<strong>Single tab</strong> — only Market Order is visible. No LIMIT option yet.' },
       { type: 'default', text: 'Dollar amount, not shares — familiar entry for retail clients' },
       { type: 'default', text: 'CFD instruments: this tab is the only one. Unchanged.' },
-      { type: 'default', text: 'Tap <strong>"Switch to Limit Order"</strong> to see the new TLO flow →' },
+      { type: 'default', text: 'Tap <strong>"Switch to Limit Order"</strong> to see the new LIMIT flow →' },
     ],
     cta: 'Tap "Switch to Limit Order" button',
     html: () => `
@@ -997,15 +997,15 @@ const STEPS = [
     `
   },
 
-  /* ── 2. TLO Entry ────────────────────────────────────────── */
+  /* ── 2. LIMIT Entry ────────────────────────────────────────── */
   {
     id: 'tlo-entry',
     label: 'Limit Order Entry',
     tag: 'Execution · Screen 2',
-    title: 'True Limit Order — Price & Shares',
-    desc: 'Client switches to True Limit Order. The form changes: price input appears, shares replace dollar amount. Live market data is shown inline.',
+    title: 'Limit Order — Price & Shares',
+    desc: 'Client switches to Limit Order. The form changes: price input appears, shares replace dollar amount. Live market data is shown inline.',
     points: [
-      { type: 'green', text: '<strong>TLO tab highlights</strong> in green — clear visual switch from Market' },
+      { type: 'green', text: '<strong>LIMIT tab highlights</strong> in green — clear visual switch from Market' },
       { type: 'green', text: '<strong>Info banner</strong>: rests in market, no slippage, DAY order, ticket fee' },
       { type: 'green', text: '<strong>Live market strip</strong>: Ask / Bid / Spread / Tick size (per instrument)' },
       { type: 'green', text: '<strong>Price shortcuts</strong>: Ask / -1% $184.56 / -2% $182.78 / -5% $177.13' },
@@ -1035,7 +1035,7 @@ const STEPS = [
         <div class="lmt-sheet" style="position:absolute;bottom:0;left:0;right:0;z-index:2;background:var(--sht);border-radius:16px 16px 0 0;display:flex;flex-direction:column;box-shadow:0 -8px 40px rgba(0,0,0,.5);">
           <div class="sht-handle"></div>
           <div class="sht-title">Set Limit order</div>
-          <div class="sht-sub">Current Ask Price: $186.45</div>
+          <div class="sht-sub">Current Ask: $186.45</div>
           <div class="sht-num" id="kp-display">184.56</div>
           <div class="sht-val" id="price-validation">✓ Below Ask · order rests at your price</div>
           <div class="sht-val err" id="price-inline-err" style="display:none;"></div>
@@ -1099,7 +1099,7 @@ const STEPS = [
               <div class="order-tab-hint">Best available price</div>
             </button>
             <button class="order-tab tlo-active" role="tab" aria-selected="true">
-              <div class="order-tab-label">True Limit Order</div>
+              <div class="order-tab-label">Limit Order</div>
               <div class="order-tab-hint">Your price or better</div>
             </button>
           </div>
@@ -1129,7 +1129,7 @@ const STEPS = [
             </div>
           </div>
           <div class="summary" style="opacity:.45;" aria-hidden="true">
-            <div class="s-row"><span class="s-k">Order type</span><span class="s-v tlo">True Limit Order (DAY)</span></div>
+            <div class="s-row"><span class="s-k">Order type</span><span class="s-v tlo">Limit Order (DAY)</span></div>
             <div class="s-row"><span class="s-k">Limit price</span><span class="s-v" style="color:var(--color-negative);">$191.00 ✕</span></div>
             <div class="s-row"><span class="s-k">Quantity</span><span class="s-v">5 shares</span></div>
           </div>
@@ -1165,7 +1165,7 @@ const STEPS = [
           <div class="confirm-sub">Your order is resting in the market.<br>You'll be notified when it fills.</div>
           <div class="confirm-card" role="region" aria-label="Order details">
             <div class="confirm-row"><span class="ck">Asset</span><span class="cv">AAPL — Apple Inc.</span></div>
-            <div class="confirm-row"><span class="ck">Order type</span><span class="cv" style="color:var(--color-brand);">True Limit Order</span></div>
+            <div class="confirm-row"><span class="ck">Order type</span><span class="cv" style="color:var(--color-brand);">Limit Order</span></div>
             <div class="confirm-row"><span class="ck">Direction</span><span class="cv" style="color:var(--color-brand);">BUY</span></div>
             <div class="confirm-row"><span class="ck">Limit price</span><span class="cv">${'$' + orderState.price.toFixed(2)}</span></div>
             <div class="confirm-row"><span class="ck">Quantity</span><span class="cv">${orderState.shares} shares</span></div>
@@ -1221,7 +1221,7 @@ const STEPS = [
                 <div class="pos-name">Apple Inc.</div>
                 <div class="pos-meta">REAL
                   <span class="status-chip chip-pending"><span class="chip-dot" aria-hidden="true"></span><span>PENDING</span></span>
-                  <span class="tlo-badge"><span class="tlo-dot" aria-hidden="true"></span>TLO</span>
+                  <span class="tlo-badge"><span class="tlo-dot" aria-hidden="true"></span>LIMIT</span>
                 </div>
               </div>
               <div class="pos-price-col">
@@ -1252,7 +1252,7 @@ const STEPS = [
                 <div class="pos-name">Tesla Inc.</div>
                 <div class="pos-meta">REAL
                   <span class="status-chip chip-pending"><span class="chip-dot" aria-hidden="true"></span><span>PENDING</span></span>
-                  <span class="tlo-badge"><span class="tlo-dot" aria-hidden="true"></span>TLO</span>
+                  <span class="tlo-badge"><span class="tlo-dot" aria-hidden="true"></span>LIMIT</span>
                 </div>
               </div>
               <div class="pos-price-col">
@@ -1286,7 +1286,7 @@ const STEPS = [
                 <div class="pos-name">NVIDIA Corp.</div>
                 <div class="pos-meta">REAL
                   <span class="status-chip chip-filled"><span class="chip-dot" aria-hidden="true"></span><span>FILLED</span></span>
-                  <span class="tlo-badge"><span class="tlo-dot" aria-hidden="true"></span>TLO</span>
+                  <span class="tlo-badge"><span class="tlo-dot" aria-hidden="true"></span>LIMIT</span>
                 </div>
               </div>
               <div class="pos-price-col">
@@ -1349,7 +1349,7 @@ const STEPS = [
           <p class="sheet-desc">An Order Cancel Request (OCR) will be sent to the exchange. Any shares already filled remain in your account.</p>
           <div class="sheet-card" role="region" aria-label="Order being cancelled">
             <div class="sheet-row"><span class="sr-k">Asset</span><span class="sr-v">TSLA — Tesla Inc.</span></div>
-            <div class="sheet-row"><span class="sr-k">Order type</span><span class="sr-v" style="color:var(--color-brand);">True Limit Order</span></div>
+            <div class="sheet-row"><span class="sr-k">Order type</span><span class="sr-v" style="color:var(--color-brand);">Limit Order</span></div>
             <div class="sheet-row"><span class="sr-k">Limit price</span><span class="sr-v">$218.00</span></div>
             <div class="sheet-row"><span class="sr-k">Requested</span><span class="sr-v">5 shares</span></div>
             <div class="sheet-row"><span class="sr-k">Filled so far</span><span class="sr-v" style="color:var(--color-brand);">0 shares</span></div>
@@ -1386,7 +1386,7 @@ const STEPS = [
       <div class="screen-content">
         <div class="app-bar">
           <button class="back-btn" aria-label="Back to portfolio" onclick="goTo(4)">←</button>
-          <div style="flex:1"><div class="bar-title">TSLA Position</div><div class="bar-sub">True Limit Order · Pending</div></div>
+          <div style="flex:1"><div class="bar-title">TSLA Position</div><div class="bar-sub">Limit Order · Pending</div></div>
         </div>
         <div style="background:var(--color-surface);padding:var(--x4);border-bottom:1px solid var(--color-border);">
           <div style="display:flex;align-items:center;gap:var(--x3);margin-bottom:var(--x3);">
@@ -1417,7 +1417,7 @@ const STEPS = [
         </div>
         <div style="background:var(--color-surface);">
           <div class="summary" style="margin:0;border-radius:0;border:none;">
-            <div class="s-row"><span class="s-k">Order type</span><span class="s-v tlo" style="display:flex;align-items:center;gap:4px;"><span class="tlo-dot"></span>True Limit Order</span></div>
+            <div class="s-row"><span class="s-k">Order type</span><span class="s-v tlo" style="display:flex;align-items:center;gap:4px;"><span class="tlo-dot"></span>Limit Order</span></div>
             <div class="s-row"><span class="s-k">Limit price</span><span class="s-v">$218.00</span></div>
             <div class="s-row"><span class="s-k">Requested</span><span class="s-v">5 shares</span></div>
             <div class="s-row"><span class="s-k">Fills received</span><span class="s-v" style="color:var(--color-text-muted);">None yet</span></div>
@@ -1454,7 +1454,7 @@ const STEPS = [
       <div class="screen-content">
         <div class="app-bar">
           <button class="back-btn" aria-label="Back to portfolio" onclick="goTo(4)">←</button>
-          <div style="flex:1"><div class="bar-title">AAPL Position</div><div class="bar-sub">True Limit Order · Pending</div></div>
+          <div style="flex:1"><div class="bar-title">AAPL Position</div><div class="bar-sub">Limit Order · Pending</div></div>
         </div>
         <div style="background:var(--color-surface);padding:var(--x4);border-bottom:1px solid var(--color-border);">
           <div style="display:flex;align-items:center;gap:var(--x3);margin-bottom:var(--x3);">
@@ -1483,7 +1483,7 @@ const STEPS = [
         </div>
         <div style="background:var(--color-surface);">
           <div class="summary" style="margin:0;border-radius:0;border:none;">
-            <div class="s-row"><span class="s-k">Order type</span><span class="s-v brand" style="display:flex;align-items:center;gap:4px;"><span class="tlo-dot"></span>True Limit Order</span></div>
+            <div class="s-row"><span class="s-k">Order type</span><span class="s-v brand" style="display:flex;align-items:center;gap:4px;"><span class="tlo-dot"></span>Limit Order</span></div>
             <div class="s-row"><span class="s-k">Limit price</span><span class="s-v">${'$'+orderState.price.toFixed(2)}</span></div>
             <div class="s-row"><span class="s-k">Requested</span><span class="s-v">${orderState.shares} shares</span></div>
             <div class="s-row"><span class="s-k">Fills received</span><span class="s-v" style="color:var(--color-text-muted);">None yet</span></div>
@@ -1546,7 +1546,7 @@ const STEPS = [
                 <div class="pos-name">Apple Inc.</div>
                 <div class="pos-meta">REAL
                   <span class="status-chip chip-partial"><span class="chip-dot" aria-hidden="true"></span>PARTIAL</span>
-                  <span class="tlo-badge"><span class="tlo-dot" aria-hidden="true"></span>TLO</span>
+                  <span class="tlo-badge"><span class="tlo-dot" aria-hidden="true"></span>LIMIT</span>
                 </div>
               </div>
               <div class="pos-price-col">
@@ -1576,7 +1576,7 @@ const STEPS = [
                   <span class="status-chip" style="background:var(--color-surface-inset);color:var(--color-text-muted);border:1px solid var(--color-border);">
                     <span class="chip-dot" style="background:var(--color-text-muted);" aria-hidden="true"></span>CANCELLED
                   </span>
-                  <span class="tlo-badge"><span class="tlo-dot" aria-hidden="true"></span>TLO</span>
+                  <span class="tlo-badge"><span class="tlo-dot" aria-hidden="true"></span>LIMIT</span>
                 </div>
               </div>
               <div class="pos-price-col">
@@ -1597,7 +1597,7 @@ const STEPS = [
                 <div class="pos-name">NVIDIA Corp.</div>
                 <div class="pos-meta">REAL
                   <span class="status-chip chip-filled"><span class="chip-dot" aria-hidden="true"></span>FILLED</span>
-                  <span class="tlo-badge"><span class="tlo-dot" aria-hidden="true"></span>TLO</span>
+                  <span class="tlo-badge"><span class="tlo-dot" aria-hidden="true"></span>LIMIT</span>
                 </div>
               </div>
               <div class="pos-price-col">
@@ -1658,7 +1658,7 @@ const STEPS = [
           <p class="sheet-desc">An Order Cancel Request (OCR) will be sent for the <strong>3 unfilled shares</strong>. Your 2 already-filled shares remain in your account.</p>
           <div class="sheet-card" role="region" aria-label="Order being cancelled">
             <div class="sheet-row"><span class="sr-k">Asset</span><span class="sr-v">AAPL — Apple Inc.</span></div>
-            <div class="sheet-row"><span class="sr-k">Order type</span><span class="sr-v" style="color:var(--color-brand);">True Limit Order</span></div>
+            <div class="sheet-row"><span class="sr-k">Order type</span><span class="sr-v" style="color:var(--color-brand);">Limit Order</span></div>
             <div class="sheet-row"><span class="sr-k">Limit price</span><span class="sr-v">$185.00</span></div>
             <div class="sheet-row"><span class="sr-k">Already filled</span><span class="sr-v" style="color:var(--color-brand);">2 shares — kept</span></div>
             <div class="sheet-row"><span class="sr-k">Cancelling</span><span class="sr-v">3 unfilled shares</span></div>
@@ -1678,12 +1678,12 @@ const STEPS = [
   }
 ,
 
-  /* ── 12. SELL-Side TLO — Asymmetric Validation Mirror ──── */
+  /* ── 12. SELL-Side LIMIT — Asymmetric Validation Mirror ──── */
   {
     id: 'sell-validation',
     label: 'SELL Validation',
     tag: 'Execution · Screen 12',
-    title: 'SELL True Limit Order — Asymmetric Validation',
+    title: 'SELL Limit Order — Asymmetric Validation',
     desc: 'Mirror of the BUY validation flow. For SELL: price too far BELOW Bid is blocked. Price above Bid (limit sell higher than market) is valid and rests.',
     points: [
       { type: 'warn', text: '<strong>SELL limit far below Bid → blocked</strong>: selling too cheap vs. market. Configurable % tolerance per instrument.' },
@@ -1716,7 +1716,7 @@ const STEPS = [
               <div class="order-tab-hint">Best available price</div>
             </button>
             <button class="order-tab tlo-active" role="tab" aria-selected="true">
-              <div class="order-tab-label">True Limit Order</div>
+              <div class="order-tab-label">Limit Order</div>
               <div class="order-tab-hint">Your price or better</div>
             </button>
           </div>
@@ -1724,7 +1724,7 @@ const STEPS = [
 
         <!-- TWO-STATE COMPARISON PANEL -->
         <div style="background:var(--color-surface);padding:var(--x3) var(--x4) var(--x2);border-bottom:1px solid var(--color-border);">
-          <div style="font-size:10px;font-weight:700;color:var(--color-text-muted);text-transform:uppercase;letter-spacing:.5px;margin-bottom:var(--x3);">Asymmetric Validation — SELL TLO</div>
+          <div style="font-size:10px;font-weight:700;color:var(--color-text-muted);text-transform:uppercase;letter-spacing:.5px;margin-bottom:var(--x3);">Asymmetric Validation — SELL LIMIT</div>
 
           <!-- VALID STATE: price above bid -->
           <div style="background:var(--color-brand-bg);border:1px solid color-mix(in srgb,var(--color-brand) 22%,transparent);border-radius:var(--radius-sm);padding:var(--x3);margin-bottom:var(--x3);">
@@ -1829,7 +1829,7 @@ const STEPS = [
                 <div class="pos-name">Apple Inc.</div>
                 <div class="pos-meta">REAL
                   <span class="status-chip chip-partial"><span class="chip-dot" aria-hidden="true"></span>2 FILLED</span>
-                  <span class="tlo-badge"><span class="tlo-dot" aria-hidden="true"></span>TLO</span>
+                  <span class="tlo-badge"><span class="tlo-dot" aria-hidden="true"></span>LIMIT</span>
                 </div>
               </div>
               <div class="pos-price-col">
@@ -1850,7 +1850,7 @@ const STEPS = [
                 <div class="pos-name">Tesla Inc.</div>
                 <div class="pos-meta">REAL
                   <span class="status-chip chip-pending"><span class="chip-dot" aria-hidden="true"></span>PENDING</span>
-                  <span class="tlo-badge"><span class="tlo-dot" aria-hidden="true"></span>TLO</span>
+                  <span class="tlo-badge"><span class="tlo-dot" aria-hidden="true"></span>LIMIT</span>
                 </div>
               </div>
               <div class="pos-price-col">
@@ -1878,7 +1878,7 @@ const STEPS = [
                 <div class="pos-name">NVIDIA Corp.</div>
                 <div class="pos-meta">REAL
                   <span class="status-chip chip-filled"><span class="chip-dot" aria-hidden="true"></span>FILLED</span>
-                  <span class="tlo-badge"><span class="tlo-dot" aria-hidden="true"></span>TLO</span>
+                  <span class="tlo-badge"><span class="tlo-dot" aria-hidden="true"></span>LIMIT</span>
                 </div>
               </div>
               <div class="pos-price-col">
@@ -1970,7 +1970,7 @@ function goTo(idx) {
   buildStepNav();
   buildDots();
   buildAnnotation();
-  if (idx === 1) setTimeout(validateForm, 10); // TLO entry screen
+  if (idx === 1) setTimeout(validateForm, 10); // LIMIT entry screen
   document.getElementById('stepCounter').textContent = `${currentStep + 1} / ${STEPS.length}`;
   document.getElementById('prevBtn').disabled = currentStep === 0;
   document.getElementById('nextBtn').disabled = currentStep === STEPS.length - 1;
@@ -2026,7 +2026,7 @@ document.addEventListener('click', function(e) {
       return;
     }
 
-    /* Price chips (Screen 2 — TLO Entry) */
+    /* Price chips (Screen 2 — LIMIT Entry) */
     if (btn.dataset.price) {
       const price = parseFloat(btn.dataset.price);
       const ask = 186.45;
@@ -2045,7 +2045,7 @@ document.addEventListener('click', function(e) {
       return;
     }
 
-    /* Share chips (Screen 2 — TLO Entry) */
+    /* Share chips (Screen 2 — LIMIT Entry) */
     if (btn.dataset.shares) {
       const shares = parseInt(btn.dataset.shares);
       const sharesInp = document.querySelector('.input-f.shares');
@@ -2099,7 +2099,7 @@ document.addEventListener('click', function(e) {
 document.addEventListener('input', function(e) {
   const inp = e.target;
 
-  /* Manual price entry — Screen 2 TLO */
+  /* Manual price entry — Screen 2 LIMIT */
   if (inp.id === 'tlo-price-input') {
     const price = parseFloat(inp.value);
     const ask = 186.45;
@@ -2150,7 +2150,7 @@ document.addEventListener('input', function(e) {
     return;
   }
 
-  /* Manual shares entry — Screen 2 TLO */
+  /* Manual shares entry — Screen 2 LIMIT */
   if (inp.id === 'tlo-shares-input' || (inp.classList.contains('input-f') && inp.classList.contains('shares') && !inp.id)) {
     validateForm();  // always validate first — catches fractional, empty, zero
     const shares = parseInt(inp.value);
@@ -2205,7 +2205,7 @@ function showToast(msg) {
   setTimeout(() => t.remove(), 2000);
 }
 
-/* ─── Order state — shared between TLO entry and Confirmation ─── */
+/* ─── Order state — shared between LIMIT entry and Confirmation ─── */
 let orderState = { price: 184.56, shares: 5 };
 
 function validateAndSubmit() {
@@ -2344,7 +2344,7 @@ function mKpDel() {
   if (d) d.textContent = mktKpVal;
 }
 
-/* ─── TLO price keypad (Screen 2) ─── */
+/* ─── LIMIT price keypad (Screen 2) ─── */
 var kpVal = '184.56';
 function kpPress(k) {
   var d = document.getElementById('kp-display');
