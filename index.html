@@ -732,8 +732,47 @@ button { font-family:inherit;border:none;cursor:pointer;background:none;color:in
   display:flex;align-items:center;gap:4px;
   padding:8px 14px;border-radius:28px;background:var(--pill);
   font-size:14px;font-weight:600;color:var(--t1);
+  position:relative;
 }
 .ot-pill .ch{font-size:9px;opacity:.55;margin-left:2px;}
+
+/* Order type dropdown */
+.ot-dropdown {
+  position:fixed;top:0;left:0;right:0;bottom:0;z-index:999;
+  display:flex;align-items:flex-end;
+}
+.ot-dropdown-backdrop {
+  position:absolute;inset:0;background:rgba(0,0,0,.55);
+}
+.ot-dropdown-sheet {
+  position:relative;z-index:2;
+  background:#1C1C1E;border-radius:16px 16px 0 0;
+  width:100%;padding:16px 0 24px;
+}
+.ot-dropdown-title {
+  font-size:13px;color:rgba(255,255,255,.45);text-align:center;
+  padding:0 20px 12px;letter-spacing:.04em;text-transform:uppercase;
+}
+.ot-dropdown-item {
+  display:flex;align-items:center;justify-content:space-between;
+  padding:16px 20px;font-size:16px;font-weight:500;color:#fff;
+  border-top:1px solid rgba(255,255,255,.08);cursor:pointer;
+}
+.ot-dropdown-item:active { background:rgba(255,255,255,.06); }
+.ot-dropdown-item.active { color:#0EB12E;font-weight:700; }
+.ot-dropdown-item .ot-check { font-size:16px; }
+.ot-dropdown-item .ot-tag {
+  font-size:10px;font-weight:700;letter-spacing:.05em;
+  padding:3px 7px;border-radius:4px;text-transform:uppercase;
+}  
+.ot-dropdown-item .ot-tag.new { background:rgba(14,177,46,.2);color:#0EB12E; }
+.ot-dropdown-item .ot-tag.renamed { background:rgba(255,255,255,.1);color:rgba(255,255,255,.5); }
+.ot-dropdown-cancel {
+  display:block;width:calc(100% - 32px);margin:12px 16px 0;
+  padding:16px;border-radius:12px;background:rgba(255,255,255,.08);
+  font-size:16px;font-weight:600;color:#fff;text-align:center;cursor:pointer;
+  border:none;
+}
 
 /* ── Asset strip ── */
 .asset-strip {
@@ -1048,7 +1087,7 @@ const STEPS = [
       <div class="scr" style="position:relative;top:0;left:0;right:0;bottom:0;display:flex;flex-direction:column;overflow:hidden;background:var(--bg);">
         <div class="top-bar">
           <button class="back-btn" onclick="showToast('Back to asset page')">‹</button>
-          <button class="ot-pill" onclick="goTo(1)">Market Order<span class="ch">▾</span></button>
+          <button class="ot-pill" onclick="showOrderTypeDropdown('market')">Market Order<span class="ch">▾</span></button>
         </div>
         <div class="asset-strip">
           <div class="asset-ico">AAPL</div>
@@ -1101,7 +1140,7 @@ const STEPS = [
         <div style="overflow:hidden;display:flex;flex-direction:column;">
           <div style="opacity:.65;display:flex;align-items:center;justify-content:space-between;padding:10px 20px 4px;">
             <div style="width:36px;height:36px;"></div>
-            <div style="display:flex;align-items:center;gap:4px;padding:8px 14px;border-radius:28px;background:rgba(14,177,46,.25);border:1px solid rgba(14,177,46,.4);font-size:14px;font-weight:600;color:#0EB12E;">Limit Order<span style="font-size:9px;opacity:.7;margin-left:2px;">▾</span></div>
+            <div onclick="showOrderTypeDropdown('limit')" style="cursor:pointer;display:flex;align-items:center;gap:4px;padding:8px 14px;border-radius:28px;background:rgba(14,177,46,.25);border:1px solid rgba(14,177,46,.4);font-size:14px;font-weight:600;color:#0EB12E;">Limit Order<span style="font-size:9px;opacity:.7;margin-left:2px;">▾</span></div>
           </div>
           <div style="opacity:.35;pointer-events:none;display:flex;align-items:center;justify-content:center;gap:6px;padding:2px 20px 8px;">
             <div style="width:20px;height:20px;border-radius:5px;background:#18182A;border:1px solid rgba(255,255,255,.15);display:flex;align-items:center;justify-content:center;font-size:6px;font-weight:800;color:#fff;">AAPL</div>
@@ -2633,6 +2672,39 @@ function kpBackspace() {
 }
 
 /* ─── Viewport-fit phone scaling ─── */
+/* ─── Order type dropdown ─── */
+function showOrderTypeDropdown(current) {
+  var existing = document.getElementById('ot-drop');
+  if (existing) existing.remove();
+
+  var overlay = document.createElement('div');
+  overlay.id = 'ot-drop';
+  overlay.className = 'ot-dropdown';
+  overlay.innerHTML = `
+    <div class="ot-dropdown-backdrop" onclick="document.getElementById('ot-drop').remove()"></div>
+    <div class="ot-dropdown-sheet">
+      <div class="ot-dropdown-title">Order Type</div>
+      <div class="ot-dropdown-item ${current==='market'?'active':''}" onclick="document.getElementById('ot-drop').remove();goTo(0);">
+        <span>Market Order</span>
+        <span>${current==='market'?'<span class="ot-check">✓</span>':''}</span>
+      </div>
+      <div class="ot-dropdown-item ${current==='limit'?'active':''}" onclick="document.getElementById('ot-drop').remove();goTo(1);">
+        <span>Limit Order</span>
+        <span style="display:flex;align-items:center;gap:6px;">
+          ${current==='limit'?'<span class="ot-check">✓</span>':''}
+          <span class="ot-tag new">NEW</span>
+        </span>
+      </div>
+      <div class="ot-dropdown-item" onclick="document.getElementById('ot-drop').remove();showToast('Limit Stop Market \u2014 existing Stop Market behaviour, renamed');">
+        <span style="color:rgba(255,255,255,.55);">Limit Stop Market</span>
+        <span class="ot-tag renamed">RENAMED</span>
+      </div>
+      <button class="ot-dropdown-cancel" onclick="document.getElementById('ot-drop').remove()">Cancel</button>
+    </div>
+  `;
+  document.body.appendChild(overlay);
+}
+
 /* ─── Portfolio filter chips ─── */
 function selectFChip(btn) {
   // Update active chip
