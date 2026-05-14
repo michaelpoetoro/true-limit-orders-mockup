@@ -536,7 +536,7 @@ button{font-family:inherit;border:none;background:none;cursor:pointer;color:inhe
 .sr-v { font-weight: 700; font-variant-numeric: tabular-nums; }
 .sheet-warn { background: var(--color-warning-bg); border: 1px solid color-mix(in srgb, var(--color-warning) 22%, transparent); border-radius: var(--radius-sm); padding: var(--x2) var(--x3); font-size: 10px; color: var(--color-warning); line-height: 1.5; display: flex; gap: var(--x2); margin-bottom: var(--x4); }
 .sheet-btns { display: flex; gap: var(--x2); }
-.s-btn { flex: 1; height: 52px; border-radius: var(--radius-md); font-size: 15px; font-weight: 700; cursor: pointer; border: none; transition: background .15s; }
+.s-btn { flex: 1; height: 44px; border-radius: var(--radius-md); font-size: 13px; font-weight: 700; cursor: pointer; border: none; transition: background .15s; }
 .s-btn.confirm { background: var(--color-negative); color: #fff; }
 .s-btn.keep { background: var(--color-surface-inset); color: var(--color-text-primary); border: 1.5px solid var(--color-border); }
 
@@ -609,6 +609,13 @@ button{font-family:inherit;border:none;background:none;cursor:pointer;color:inhe
   .proto-stage { padding: var(--x4) var(--x3); }
   .card-actions, .cta-row, .sheet-btns { flex-direction: column; }
   .card-actions > *, .cta-row > *, .sheet-btns > * { width: 100%; }
+  .sheet-btns { gap: 12px; margin-top: 4px; }
+  .s-btn {
+    min-height: 56px;
+    padding: 0 18px;
+    border-radius: 14px;
+    font-size: 15px;
+  }
 }
 
 .switch-btn {
