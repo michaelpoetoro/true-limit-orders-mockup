@@ -869,31 +869,30 @@ button { font-family:inherit;border:none;cursor:pointer;background:none;color:in
 .sht-set-btn:disabled{background:rgba(255,255,255,.11);color:rgba(255,255,255,.33);}
 
 
-/* ─── Titanium phone frame (ProductClaw spec) ─── */
+/* ─── Titanium phone frame (ProductClaw spec — no-layout approach) ─── */
 .phone-frame, .phone {
   border: none !important;
   border-radius: 38px !important;
-  background: linear-gradient(180deg, #6F757D 0%, #434850 35%, #1F2329 100%) !important;
-  padding: 5px !important;
+  /* Use outline for the metallic ring — doesn't affect layout */
+  outline: 5px solid transparent !important;
+  outline-offset: 0 !important;
+  /* Multi-layer box-shadow creates the titanium gradient ring */
   box-shadow:
+    0 0 0 2px #6F757D,
+    0 0 0 4px #434850,
+    0 0 0 5px #2A2F35,
     inset 0 1px 0 rgba(255,255,255,.18),
-    0 0 0 1px rgba(255,255,255,.06),
-    0 24px 60px rgba(0,0,0,.7) !important;
+    0 0 0 6px rgba(255,255,255,.06),
+    0 24px 60px rgba(0,0,0,.75) !important;
 }
-/* Inner screen background */
-.phone-frame > .phone-screen,
-.phone > .phone-screen,
-.phone-frame > .phone-status,
-.phone > .sb,
-.phone-frame > .phone-notch,
-.phone-frame > .phone-inner {
-  border-radius: 33px !important;
-  overflow: hidden;
-}
-/* Notch same material as frame */
+/* Notch same material */
 .phone-notch {
-  background: linear-gradient(180deg, #6F757D 0%, #3A3F47 100%) !important;
+  background: linear-gradient(180deg, #5A6068 0%, #3A3F47 100%) !important;
   border-radius: 0 0 14px 14px !important;
+}
+/* Status bar matches frame base */
+.phone-status {
+  background: #1A1E24 !important;
 }
 </style>
 </head>
