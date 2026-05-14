@@ -734,53 +734,44 @@ button { font-family:inherit;border:none;cursor:pointer;background:none;color:in
 .ot-pill .ch{font-size:9px;opacity:.55;margin-left:2px;}
 .order-picker-overlay{
   position:absolute;inset:0;z-index:60;
-  background:rgba(0,0,0,.42);
-  backdrop-filter:blur(2px);
-  display:flex;align-items:flex-end;
+  background:transparent;
 }
 .order-picker-sheet{
-  width:100%;background:var(--color-surface);
-  border-top:1px solid var(--color-border);
-  border-radius:20px 20px 0 0;
-  padding:var(--x4) var(--x4) calc(var(--x6) + env(safe-area-inset-bottom,0px));
-  box-shadow:0 -12px 40px rgba(0,0,0,.42);
+  position:absolute;
+  background:#1C1C1E;
+  border:1px solid rgba(255,255,255,.08);
+  border-radius:16px;
+  padding:8px;
+  box-shadow:0 16px 40px rgba(0,0,0,.45);
 }
-.order-picker-head{
-  width:36px;height:4px;border-radius:999px;
-  background:var(--color-border-strong);
-  margin:0 auto var(--x4);
-}
-.order-picker-title{
-  font-size:16px;font-weight:700;color:var(--t1);text-align:center;
-}
-.order-picker-sub{
-  margin-top:4px;margin-bottom:var(--x4);
-  font-size:12px;line-height:1.45;color:var(--t2);text-align:center;
-}
-.order-picker-list{display:flex;flex-direction:column;gap:8px;}
+.order-picker-head,
+.order-picker-title,
+.order-picker-sub,
+.order-picker-cancel{display:none;}
+.order-picker-list{display:flex;flex-direction:column;gap:4px;}
 .order-picker-item{
   width:100%;display:flex;align-items:center;justify-content:space-between;gap:12px;
-  padding:14px 14px;border-radius:16px;background:var(--color-surface-inset);
-  border:1px solid var(--color-border);text-align:left;
+  padding:12px 12px;border-radius:12px;background:transparent;
+  border:1px solid transparent;text-align:left;
+}
+.order-picker-item:hover{
+  background:rgba(255,255,255,.06);
 }
 .order-picker-item.active{
-  border-color:color-mix(in srgb, var(--color-brand) 34%, transparent);
-  background:color-mix(in srgb, var(--color-brand) 10%, var(--color-surface-inset));
+  border-color:rgba(14,177,46,.34);
+  background:rgba(14,177,46,.14);
 }
 .order-picker-main{display:flex;align-items:center;gap:10px;}
 .order-picker-name{font-size:14px;font-weight:700;color:var(--t1);}
 .order-picker-meta{font-size:11px;color:var(--t2);margin-top:2px;}
 .order-picker-check{font-size:14px;font-weight:800;color:var(--ok);}
+.order-picker-trail{display:flex;align-items:center;gap:8px;}
 .order-picker-badge{
   font-size:9px;font-weight:800;letter-spacing:.04em;text-transform:uppercase;
   padding:3px 7px;border-radius:999px;
 }
 .order-picker-badge.new{background:var(--color-brand);color:#fff;}
 .order-picker-badge.renamed{background:rgba(255,184,0,.18);color:#FFD166;border:1px solid rgba(255,184,0,.35);}
-.order-picker-cancel{
-  width:100%;height:48px;margin-top:12px;border-radius:14px;
-  background:rgba(255,255,255,.06);color:var(--t1);font-size:14px;font-weight:700;
-}
 .order-dd{position:relative;}
 .order-dd-menu{
   position:absolute;top:calc(100% + 8px);right:0;z-index:30;
@@ -1128,7 +1119,7 @@ const STEPS = [
       <div class="scr" style="position:relative;top:0;left:0;right:0;bottom:0;display:flex;flex-direction:column;overflow:hidden;background:var(--bg);">
         <div class="top-bar">
           <button class="back-btn" onclick="showToast('Back to asset page')">‹</button>
-          <button class="ot-pill" type="button" onclick="showOrderTypeDropdown('market')" aria-haspopup="dialog" aria-expanded="false">Market Order<span class="ch">▾</span></button>
+          <button class="ot-pill" type="button" onclick="showOrderTypeDropdown(event,'market')" aria-haspopup="menu" aria-expanded="false">Market Order<span class="ch">▾</span></button>
         </div>
         <div class="asset-strip">
           <div class="asset-ico">AAPL</div>
@@ -1181,7 +1172,7 @@ const STEPS = [
         <div style="overflow:hidden;display:flex;flex-direction:column;">
           <div style="display:flex;align-items:center;justify-content:space-between;padding:10px 20px 4px;position:relative;z-index:2;">
             <button class="exec-back" type="button" onclick="goTo(0)" aria-label="Back to Market Order" style="width:36px;height:36px;border-radius:50%;background:rgba(255,255,255,.14);display:flex;align-items:center;justify-content:center;font-size:20px;color:#fff;">‹</button>
-            <button class="ot-pill limit-active" type="button" onclick="showOrderTypeDropdown('limit')" aria-haspopup="dialog" aria-expanded="false">Limit Order<span class="ch">▾</span></button>
+            <button class="ot-pill limit-active" type="button" onclick="showOrderTypeDropdown(event,'limit')" aria-haspopup="menu" aria-expanded="false">Limit Order<span class="ch">▾</span></button>
           </div>
           <div style="opacity:.35;pointer-events:none;display:flex;align-items:center;justify-content:center;gap:6px;padding:2px 20px 8px;">
             <div style="width:20px;height:20px;border-radius:5px;background:#18182A;border:1px solid rgba(255,255,255,.15);display:flex;align-items:center;justify-content:center;font-size:6px;font-weight:800;color:#fff;">AAPL</div>
@@ -2284,8 +2275,9 @@ function goTo(idx) {
 function hideOrderTypeDropdown() {
   const el = document.getElementById('orderTypePicker');
   if (el) el.remove();
-  const bd = document.getElementById('orderTypePickerBackdrop');
-  if (bd) bd.remove();
+  document.querySelectorAll('.ot-pill').forEach(function(btn){
+    btn.setAttribute('aria-expanded', 'false');
+  });
 }
 
 function chooseOrderType(type) {
@@ -2295,44 +2287,63 @@ function chooseOrderType(type) {
   return showToast('Limit Stop Market is the existing behavior, renamed here for clarity');
 }
 
-function showOrderTypeDropdown(currentType, triggerEl) {
+function showOrderTypeDropdown(event, currentType) {
+  if (event) event.stopPropagation();
   hideOrderTypeDropdown();
   const mount = document.getElementById('phoneScreen');
   if (!mount) return;
+  const trigger = event && (event.currentTarget || (event.target && event.target.closest('.ot-pill')));
+  if (trigger) trigger.setAttribute('aria-expanded', 'true');
+  const mountRect = mount.getBoundingClientRect();
+  const triggerRect = trigger ? trigger.getBoundingClientRect() : { right: mountRect.right - 12, bottom: mountRect.top + 44 };
+  const menuWidth = Math.min(228, Math.max(200, mount.clientWidth - 24));
+  let left = triggerRect.right - mountRect.left - menuWidth;
+  left = Math.max(12, Math.min(left, mount.clientWidth - menuWidth - 12));
+  const top = Math.max(12, triggerRect.bottom - mountRect.top + 8);
 
-  // Build a compact dropdown anchored top-right
-  const menu = document.createElement('div');
-  menu.id = 'orderTypePicker';
-  menu.style.cssText = `
-    position:absolute;top:48px;right:10px;z-index:200;
-    min-width:210px;background:#1C1C1E;
-    border-radius:14px;border:1px solid rgba(255,255,255,.1);
-    box-shadow:0 8px 32px rgba(0,0,0,.55);overflow:hidden;
+  const overlay = document.createElement('div');
+  overlay.id = 'orderTypePicker';
+  overlay.className = 'order-picker-overlay';
+  overlay.innerHTML = `
+    <div class="order-picker-sheet" role="menu" aria-label="Order type" style="top:${top}px;left:${left}px;width:${menuWidth}px;">
+      <div class="order-picker-list">
+        <button class="order-picker-item ${currentType === 'market' ? 'active' : ''}" type="button" onclick="chooseOrderType('market')">
+          <span class="order-picker-main">
+            <span>
+              <div class="order-picker-name">Market Order</div>
+              <div class="order-picker-meta">Best available price</div>
+            </span>
+          </span>
+          <span class="order-picker-trail">${currentType === 'market' ? '<span class="order-picker-check">✓</span>' : ''}</span>
+        </button>
+        <button class="order-picker-item ${currentType === 'limit' ? 'active' : ''}" type="button" onclick="chooseOrderType('limit')">
+          <span class="order-picker-main">
+            <span>
+              <div class="order-picker-name">Limit Order</div>
+              <div class="order-picker-meta">Your price or better</div>
+            </span>
+          </span>
+          <span class="order-picker-trail">
+            <span class="order-picker-badge new">New</span>
+            ${currentType === 'limit' ? '<span class="order-picker-check">✓</span>' : ''}
+          </span>
+        </button>
+        <button class="order-picker-item" type="button" onclick="chooseOrderType('limit-stop-market')">
+          <span class="order-picker-main">
+            <span>
+              <div class="order-picker-name">Limit Stop Market</div>
+              <div class="order-picker-meta">Existing behavior, renamed</div>
+            </span>
+          </span>
+          <span class="order-picker-badge renamed">Renamed</span>
+        </button>
+      </div>
+    </div>
   `;
-  menu.innerHTML = `
-    <div style="padding:10px 14px 6px;font-size:10px;font-weight:700;letter-spacing:.08em;text-transform:uppercase;color:rgba(255,255,255,.4);">Order Type</div>
-    <button type="button" onclick="chooseOrderType('market')" style="width:100%;display:flex;align-items:center;justify-content:space-between;padding:12px 14px;border:none;background:${currentType==='market'?'rgba(14,177,46,.12)':'transparent'};color:${currentType==='market'?'#0EB12E':'#fff'};font-size:14px;font-weight:${currentType==='market'?'700':'500'};text-align:left;cursor:pointer;">
-      <span>Market Order</span>
-      ${currentType==='market'?'<span style="color:#0EB12E;font-size:13px;">✓</span>':''}
-    </button>
-    <button type="button" onclick="chooseOrderType('limit')" style="width:100%;display:flex;align-items:center;justify-content:space-between;padding:12px 14px;border:none;border-top:1px solid rgba(255,255,255,.06);background:${currentType==='limit'?'rgba(14,177,46,.12)':'transparent'};color:${currentType==='limit'?'#0EB12E':'#fff'};font-size:14px;font-weight:${currentType==='limit'?'700':'500'};text-align:left;cursor:pointer;">
-      <span style="display:flex;align-items:center;gap:8px;">Limit Order <span style="font-size:9px;font-weight:800;padding:2px 6px;border-radius:4px;background:#0EB12E;color:#fff;text-transform:uppercase;">New</span></span>
-      ${currentType==='limit'?'<span style="color:#0EB12E;font-size:13px;">✓</span>':''}
-    </button>
-    <button type="button" onclick="chooseOrderType('limit-stop-market')" style="width:100%;display:flex;align-items:center;justify-content:space-between;padding:12px 14px;border:none;border-top:1px solid rgba(255,255,255,.06);background:transparent;color:rgba(255,255,255,.5);font-size:14px;font-weight:500;text-align:left;cursor:pointer;">
-      <span>Limit Stop Market</span>
-      <span style="font-size:9px;font-weight:700;padding:2px 6px;border-radius:4px;background:rgba(255,184,0,.15);color:#FFD166;border:1px solid rgba(255,184,0,.3);text-transform:uppercase;">Renamed</span>
-    </button>
-  `;
-
-  // Dismiss on outside click
-  const backdrop = document.createElement('div');
-  backdrop.id = 'orderTypePickerBackdrop';
-  backdrop.style.cssText = 'position:absolute;inset:0;z-index:199;';
-  backdrop.addEventListener('click', hideOrderTypeDropdown);
-
-  mount.appendChild(backdrop);
-  mount.appendChild(menu);
+  overlay.addEventListener('click', function(e) {
+    if (e.target === overlay) hideOrderTypeDropdown();
+  });
+  mount.appendChild(overlay);
 }
 
 function toggleTheme() {
