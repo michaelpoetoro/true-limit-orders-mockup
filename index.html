@@ -1960,6 +1960,121 @@ const STEPS = [
       </div>
     `
   }
+,
+
+  /* ── 13. Product Context & Configuration ─────────────────── */
+  {
+    id: 'product-context',
+    label: 'Context & Config',
+    tag: 'Product Brief',
+    title: 'Order Types: Today vs. New',
+    desc: 'Current eToro offering, naming proposal, and per-asset/per-country configuration requirements for the new Limit Order rollout.',
+    points: [
+      { type: 'warn', text: '<strong>Today on platform:</strong> Current "limit order" is effectively an If-Touched / Stop Market order — executes at market when the price is touched, not at your exact price.' },
+      { type: 'green', text: '<strong>New:</strong> True resting Limit Order — sits in the exchange until filled at your price or better. Zero slippage.' },
+      { type: 'blue', text: '<strong>Naming proposal:</strong> Old type → "Limit Stop Market". New type → "Limit Order".' },
+      { type: 'default', text: '<strong>Configuration:</strong> Per-asset + per-country. US may not be available on day 1.' },
+    ],
+    cta: 'Use ← arrow to go back',
+    html: () => `
+      <div class="screen-content" style="background:var(--color-surface);overflow-y:auto;">
+        <div class="app-bar">
+          <button class="back-btn" onclick="goTo(11)" aria-label="Back">←</button>
+          <div style="flex:1"><div class="bar-title">Product Context</div><div class="bar-sub">Order Types & Configuration</div></div>
+        </div>
+
+        <!-- Section 1: Today's offering -->
+        <div style="padding:var(--x4);border-bottom:1px solid var(--color-border);">
+          <div style="font-size:10px;font-weight:700;color:var(--color-text-muted);text-transform:uppercase;letter-spacing:.5px;margin-bottom:var(--x3);">TODAY'S OFFERING ON PLATFORM</div>
+          <div style="background:var(--color-warning-bg);border-left:3px solid var(--color-warning);padding:var(--x3) var(--x3);border-radius:0 var(--x1) var(--x1) 0;margin-bottom:var(--x3);">
+            <div style="font-size:13px;font-weight:700;color:var(--color-warning);margin-bottom:4px;">Current "Limit Order" ≠ True Limit</div>
+            <div style="font-size:12px;color:var(--color-warning);line-height:1.6;">Today's platform limit order is effectively an <strong>If-Touched</strong> or <strong>Stop Market</strong> order. It executes at market price when the price level is reached — not at your specified price. There is no guarantee of execution at the exact price.</div>
+          </div>
+          <div style="display:flex;gap:var(--x2);align-items:flex-start;">
+            <div style="flex:1;background:var(--color-surface-inset);border-radius:var(--x2);padding:var(--x3);border:1px solid var(--color-border);">
+              <div style="font-size:11px;font-weight:700;color:var(--color-text-secondary);margin-bottom:4px;">Current behavior</div>
+              <div style="font-size:12px;color:var(--color-text-secondary);line-height:1.5;">Price reaches level → <em>market order fires</em> → fills at current market price (potential slippage)</div>
+            </div>
+            <div style="flex:1;background:var(--color-brand-bg);border-radius:var(--x2);padding:var(--x3);border:1px solid color-mix(in srgb,var(--color-brand) 25%,transparent);">
+              <div style="font-size:11px;font-weight:700;color:var(--color-brand);margin-bottom:4px;">New Limit Order</div>
+              <div style="font-size:12px;color:var(--color-brand);line-height:1.5;">Order rests in exchange → fills <em>only at your price or better</em> → zero slippage by design</div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Section 2: Naming proposal -->
+        <div style="padding:var(--x4);border-bottom:1px solid var(--color-border);">
+          <div style="font-size:10px;font-weight:700;color:var(--color-text-muted);text-transform:uppercase;letter-spacing:.5px;margin-bottom:var(--x3);">NAMING PROPOSAL</div>
+          <div style="display:flex;flex-direction:column;gap:var(--x2);">
+            <div style="display:flex;align-items:center;gap:var(--x3);padding:var(--x3);background:var(--color-surface-inset);border-radius:var(--x2);border:1px solid var(--color-border);">
+              <div style="font-size:11px;color:var(--color-text-muted);min-width:48px;">TODAY</div>
+              <div style="flex:1">
+                <div style="font-size:13px;font-weight:600;text-decoration:line-through;color:var(--color-text-secondary);">Limit Order</div>
+                <div style="font-size:11px;color:var(--color-text-muted);margin-top:2px;">If-Touched / Stop Market behavior</div>
+              </div>
+              <div style="font-size:9px;font-weight:700;padding:2px 6px;border-radius:3px;background:var(--color-warning-bg);color:var(--color-warning);">RENAME</div>
+            </div>
+            <div style="display:flex;align-items:center;gap:var(--x3);padding:var(--x3);background:var(--color-warning-bg);border-radius:var(--x2);border:1px solid color-mix(in srgb,var(--color-warning) 25%,transparent);">
+              <div style="font-size:11px;color:var(--color-warning);min-width:48px;">AFTER</div>
+              <div style="flex:1">
+                <div style="font-size:13px;font-weight:700;color:var(--color-warning);">Limit Stop Market</div>
+                <div style="font-size:11px;color:color-mix(in srgb,var(--color-warning) 70%,transparent);margin-top:2px;">Existing behavior preserved, new name</div>
+              </div>
+              <div style="font-size:9px;font-weight:700;padding:2px 6px;border-radius:3px;background:var(--color-warning);color:#fff;">→</div>
+            </div>
+            <div style="display:flex;align-items:center;gap:var(--x3);padding:var(--x3);background:var(--color-brand-bg);border-radius:var(--x2);border:1px solid color-mix(in srgb,var(--color-brand) 25%,transparent);">
+              <div style="font-size:11px;color:var(--color-brand);min-width:48px;">NEW</div>
+              <div style="flex:1">
+                <div style="font-size:13px;font-weight:700;color:var(--color-brand);">Limit Order</div>
+                <div style="font-size:11px;color:color-mix(in srgb,var(--color-brand) 70%,transparent);margin-top:2px;">New type — rests at your price, fills at exact price</div>
+              </div>
+              <div style="font-size:9px;font-weight:700;padding:2px 6px;border-radius:3px;background:var(--color-brand);color:#fff;">NEW</div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Section 3: Configuration requirements -->
+        <div style="padding:var(--x4);">
+          <div style="font-size:10px;font-weight:700;color:var(--color-text-muted);text-transform:uppercase;letter-spacing:.5px;margin-bottom:var(--x3);">CONFIGURATION REQUIREMENTS</div>
+          <div style="font-size:12px;color:var(--color-text-secondary);line-height:1.6;margin-bottom:var(--x3);">The new Limit Order requires explicit enablement per asset and per jurisdiction. Default is <strong>off</strong> unless configured.</div>
+
+          <div style="display:flex;flex-direction:column;gap:var(--x2);">
+            <div style="display:flex;gap:var(--x3);align-items:flex-start;padding:var(--x3);background:var(--color-surface-inset);border-radius:var(--x2);border:1px solid var(--color-border);">
+              <div style="font-size:18px;flex-shrink:0;">📊</div>
+              <div>
+                <div style="font-size:12px;font-weight:700;margin-bottom:2px;">Per-Asset Configuration</div>
+                <div style="font-size:11px;color:var(--color-text-secondary);line-height:1.5;">Enable/disable Limit Orders per individual instrument. Configured via admin panel per ISIN/ticker. Order type selector adapts based on asset config.</div>
+              </div>
+            </div>
+            <div style="display:flex;gap:var(--x3);align-items:flex-start;padding:var(--x3);background:var(--color-surface-inset);border-radius:var(--x2);border:1px solid var(--color-border);">
+              <div style="font-size:18px;flex-shrink:0;">🌍</div>
+              <div>
+                <div style="font-size:12px;font-weight:700;margin-bottom:2px;">Per-Country Configuration</div>
+                <div style="font-size:11px;color:var(--color-text-secondary);line-height:1.5;">Limit Orders can be enabled/disabled by regulatory jurisdiction. Supports phased rollout by country/region before global availability.</div>
+              </div>
+            </div>
+            <div style="display:flex;gap:var(--x3);align-items:flex-start;padding:var(--x3);background:var(--color-warning-bg);border-radius:var(--x2);border:1px solid color-mix(in srgb,var(--color-warning) 25%,transparent);">
+              <div style="font-size:18px;flex-shrink:0;">🇺🇸</div>
+              <div>
+                <div style="font-size:12px;font-weight:700;color:var(--color-warning);margin-bottom:2px;">US — Day 1 Availability TBD</div>
+                <div style="font-size:11px;color:color-mix(in srgb,var(--color-warning) 75%,transparent);line-height:1.5;">US regulatory/execution requirements may prevent Limit Order availability on launch day. Country flag will be off for US until cleared. Needs confirmation from compliance + HBC execution team.</div>
+              </div>
+            </div>
+          </div>
+
+          <div style="margin-top:var(--x4);padding:var(--x3);background:var(--color-surface-inset);border-radius:var(--x2);border:1px solid var(--color-border);">
+            <div style="font-size:10px;font-weight:700;color:var(--color-text-muted);text-transform:uppercase;letter-spacing:.4px;margin-bottom:var(--x2);">Open Questions</div>
+            <div style="font-size:11px;color:var(--color-text-secondary);line-height:1.8;">
+              · Final name for the existing order type ("Limit Stop Market" — confirm with compliance)<br>
+              · US: Can we enable Limit Orders on day 1? Needs HBC + compliance sign-off<br>
+              · Asset list for initial rollout (real stocks HBC only per PRD)<br>
+              · Tolerance % per instrument — who owns configuration?
+            </div>
+          </div>
+        </div>
+      </div>
+    `
+  }
 ];
 
 /* ============================================================
