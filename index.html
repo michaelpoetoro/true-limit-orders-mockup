@@ -1303,7 +1303,7 @@ const STEPS = [
         <div class="pos-list" role="list">
 
           <!-- AAPL — just placed order from orderState -->
-          <article class="pos-card" role="listitem">
+          <article class="pos-card" role="listitem" data-status="pending active">
             <div class="pos-head">
               <div class="pos-logo aapl" aria-hidden="true">AAPL</div>
               <div style="flex:1">
@@ -1334,7 +1334,7 @@ const STEPS = [
           </article>
 
           <!-- TSLA pending -->
-          <article class="pos-card" role="listitem">
+          <article class="pos-card" role="listitem" data-status="pending active">
             <div class="pos-head">
               <div class="pos-logo tsla" aria-hidden="true">TSLA</div>
               <div style="flex:1">
@@ -1368,7 +1368,7 @@ const STEPS = [
           </article>
 
           <!-- NVDA filled -->
-          <article class="pos-card" role="listitem">
+          <article class="pos-card" role="listitem" data-status="filled">
             <div class="pos-head">
               <div class="pos-logo nvda" aria-hidden="true">NVDA</div>
               <div style="flex:1">
@@ -1628,7 +1628,7 @@ const STEPS = [
         <div class="pos-list" role="list">
 
           <!-- AAPL still partial -->
-          <article class="pos-card" role="listitem">
+          <article class="pos-card" role="listitem" data-status="partial active">
             <div class="pos-head">
               <div class="pos-logo aapl" aria-hidden="true">AAPL</div>
               <div style="flex:1">
@@ -1656,7 +1656,7 @@ const STEPS = [
           </article>
 
           <!-- TSLA cancelled -->
-          <article class="pos-card" role="listitem" style="opacity:.7;">
+          <article class="pos-card" role="listitem" data-status="cancelled" style="opacity:.7;">
             <div class="pos-head">
               <div class="pos-logo tsla" aria-hidden="true" style="filter:grayscale(1);opacity:.5;">TSLA</div>
               <div style="flex:1">
@@ -1679,7 +1679,7 @@ const STEPS = [
           </article>
 
           <!-- NVDA filled -->
-          <article class="pos-card" role="listitem">
+          <article class="pos-card" role="listitem" data-status="filled">
             <div class="pos-head">
               <div class="pos-logo nvda" aria-hidden="true">NVDA</div>
               <div style="flex:1">
@@ -2590,6 +2590,40 @@ function kpBackspace() {
 }
 
 /* ─── Viewport-fit phone scaling ─── */
+/* ─── Portfolio filter chips ─── */
+function selectFChip(btn) {
+  // Update active chip
+  const bar = btn.closest('[role="tablist"]') || btn.parentElement;
+  bar.querySelectorAll('.f-chip').forEach(b => {
+    b.classList.remove('on');
+    b.setAttribute('aria-selected', 'false');
+  });
+  btn.classList.add('on');
+  btn.setAttribute('aria-selected', 'true');
+
+  // Determine filter
+  const label = btn.textContent.trim().toLowerCase();
+  const list = btn.closest('[role="tablist"]').nextElementSibling;
+  if (!list) return;
+
+  list.querySelectorAll('[data-status]').forEach(card => {
+    let show = false;
+    if (label.startsWith('all')) {
+      show = true;
+    } else if (label.startsWith('active') || label === 'pending') {
+      show = card.dataset.status.includes('active') || card.dataset.status.includes('pending');
+    } else if (label.startsWith('fill')) {
+      show = card.dataset.status.includes('fill');
+    } else if (label.startsWith('cancel')) {
+      show = card.dataset.status.includes('cancel');
+    } else {
+      // fallback: match any word in the label
+      show = card.dataset.status.split(' ').some(s => label.includes(s));
+    }
+    card.style.display = show ? '' : 'none';
+  });
+}
+
 function scalePhone() {
   var vph = window.innerHeight;
   var targetH = 844; /* phone frame height */
